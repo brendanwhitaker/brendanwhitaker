@@ -30,6 +30,12 @@ ul { list-style: none; padding: 0; }
   --col-gap: clamp(1rem, 2.5vw, 2.5rem);
   --sec-y: clamp(4rem, 9vw, 8.5rem);
 
+  /* vertical rhythm for copy stacks */
+  --flow-label: 1.4rem;   /* kicker label → heading   */
+  --flow-head:  1.55rem;  /* heading → lead/body      */
+  --flow-lead:  1.3rem;   /* lead → body              */
+  --flow-cta:   2.25rem;  /* body → button            */
+
   --serif: 'Instrument Serif', Georgia, 'Times New Roman', serif;
   --sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   --display: 'Overpass', var(--sans);
@@ -62,10 +68,11 @@ body {
 .serif-display {
   font-family: var(--serif);
   font-weight: 400;
-  line-height: 1.1;
-  letter-spacing: 0.01em;
+  line-height: 1.07;
+  letter-spacing: -0.005em;
   color: var(--ink-soft);
   font-size: clamp(2.4rem, 5vw, 4rem);
+  text-wrap: balance;
 }
 .serif-display em { font-style: italic; }
 
@@ -219,40 +226,46 @@ body {
 .hero-media { grid-column: 2 / 5; }
 .hero-media img { width: 100%; }
 .hero-copy { grid-column: 1 / 5; }
-.hero-copy .label { margin-bottom: 1.6rem; }
+.hero-copy .label { margin-bottom: var(--flow-label); }
 .hero .serif-display {
   font-size: clamp(2.6rem, 5.6vw, 4.6rem);
-  line-height: 1.14;
-  margin-bottom: 1.8rem;
+  line-height: 1.1;
+  margin-bottom: var(--flow-head);
 }
-.hero-copy .body { margin-bottom: 2.2rem; max-width: 52ch; }
+.hero-copy .body { margin-bottom: var(--flow-cta); max-width: 50ch; }
 
 /* ---------- Mission ---------- */
 .mission { padding-block: var(--sec-y); column-gap: clamp(1.5rem, 4vw, 4rem); }
 .mission-media { grid-column: 1 / 4; }
 .mission-media img { width: 100%; }
 .mission-copy { grid-column: 4 / 6; }
-.mission-copy .label { margin-bottom: 1.4rem; }
-.mission-copy .red-display { margin-bottom: 1.6rem; }
-.mission-copy .serif-lead { margin-bottom: 1.4rem; }
-.mission-copy .body { margin-bottom: 2rem; }
+.mission-copy .label { margin-bottom: var(--flow-label); }
+.mission-copy .red-display { margin-bottom: var(--flow-head); }
+.mission-copy .serif-lead { margin-bottom: var(--flow-lead); }
+.mission-copy .body { margin-bottom: var(--flow-cta); }
 
-/* ---------- Shared section head (flex row, not grid) ----------
-   Three flex boxes share one responsive row: the label and heading hug their
-   content, and the divider flex-grows to fill whatever space is left — no fixed
-   column widths. Wraps to a stacked column on small screens. */
+/* ---------- Shared section head ----------
+   The label sits in the grid's first column; the heading + divider start at the
+   grid's second column so the heading optically aligns with the section content
+   below it. Within that band the heading hugs its content and the divider
+   flex-grows to fill the rest — flexible widths, not fixed columns. */
 .section-head {
   grid-column: 1 / -1; grid-row: 1;
-  display: flex;
-  flex-wrap: wrap;
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  column-gap: var(--col-gap);
   align-items: center;
-  column-gap: clamp(2rem, 5vw, 5rem);
-  row-gap: 1rem;
 }
-.sh-label { flex: 0 0 auto; }
-.sh-main  { flex: 0 1 auto; }
-.sh-main .caption { margin-top: 0.9rem; }
-.sh-rule  { flex: 1 1 auto; display: flex; align-items: center; min-width: 4rem; }
+.sh-label { grid-column: 1 / 2; }
+.sh-body {
+  grid-column: 2 / -1;
+  display: flex;
+  align-items: center;
+  gap: var(--col-gap);
+}
+.sh-main { flex: 0 1 auto; }
+.sh-main .caption { margin-top: 0.85rem; }
+.sh-rule { flex: 1 1 auto; display: flex; align-items: center; min-width: 4rem; }
 .sh-rule .rule { width: 100%; height: 1px; background: var(--hair); }
 
 /* ---------- Testimonials ---------- */
@@ -265,12 +278,14 @@ body {
 }
 .testi img { width: 100%; aspect-ratio: 1 / 1; object-fit: cover; }
 .testi figcaption { margin-top: 1.5rem; }
-.testi .serif-name { margin-bottom: 0.4rem; }
-.testi-icons { display: flex; gap: 0.9rem; margin-top: 1rem; }
+.testi .serif-name { margin-bottom: 0.35rem; }
+.testi-icons { display: flex; gap: 0.95rem; margin-top: 0.9rem; }
 .testi blockquote {
-  margin-top: 1.4rem;
+  margin-top: 1.35rem;
   font-family: var(--sans); font-weight: 300;
-  font-size: 0.92rem; line-height: 1.6; color: var(--ink);
+  font-size: 0.94rem; line-height: 1.62; color: var(--ink);
+  text-indent: -0.41em;            /* hang the opening quotation mark (Inter “ advance ≈ 0.407em) */
+  max-width: 42ch;
 }
 
 /* ---------- Work ---------- */
@@ -296,8 +311,8 @@ body {
 /* ---------- Contact ---------- */
 .contact { padding-block: var(--sec-y); column-gap: clamp(1.5rem, 4vw, 4rem); }
 .contact-copy { grid-column: 1 / 4; }
-.contact-copy .serif-display { font-size: clamp(2.8rem, 6vw, 4.6rem); margin-bottom: 1.6rem; }
-.contact-copy .body { margin-bottom: 2.5rem; max-width: 60ch; }
+.contact-copy .serif-display { font-size: clamp(2.8rem, 6vw, 4.6rem); margin-bottom: var(--flow-head); }
+.contact-copy .body { margin-bottom: var(--flow-cta); max-width: 52ch; }
 .contact-media { grid-column: 4 / 6; }
 .contact-media img { width: 100%; }
 
@@ -390,8 +405,9 @@ body {
   }
   .hero-media { max-width: 100%; }
   /* Section header stacks: label, then heading + caption; divider hidden */
-  .section-head { flex-direction: column; align-items: flex-start; row-gap: 0.5rem; }
-  .sh-label, .sh-main { flex: 0 0 auto; width: 100%; }
+  .section-head { display: block; }
+  .sh-label { margin-bottom: 0.5rem; }
+  .sh-body { display: block; }
   .sh-rule { display: none; }
   .testi-grid { grid-template-columns: 1fr; row-gap: 3.5rem; margin-top: 2rem; }
   .work-left, .work-orgs { margin-top: 2rem; }
