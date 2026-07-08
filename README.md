@@ -17,20 +17,26 @@ no framework, no runtime dependencies — just static files you can host anywher
 │   ├── css/styles.css    # All styling (design tokens, layout, responsive, motion)
 │   ├── js/main.js        # Nav toggle, scroll reveal, contact form
 │   └── images/           # Photography + brand mark + favicons
-├── CNAME                 # Custom domain for GitHub Pages (brendanwhitaker.com)
 ├── robots.txt
 ├── sitemap.xml
-├── .nojekyll             # Serve files as-is (skip Jekyll processing)
-└── .github/workflows/deploy.yml  # GitHub Pages deploy on push to main
+└── .nojekyll             # Serve files as-is (skip Jekyll processing)
 ```
 
 ## Design
 
-- **Type:** Instrument Serif (display), Inter (body), Overpass (labels) via Google Fonts.
-- **Palette:** ink `#141210`, warm paper `#FBF9F5`, bronze accent `#A17C5A`.
+A faithful reproduction of the live site's visual system: an ultra-minimal,
+magazine-style layout on a fixed 5-column grid.
+
+- **Type:** Instrument Serif (display), Inter 300 (body), Overpass 800 (the red
+  "Build What Matters" heading), Inter uppercase-letterspaced (labels).
+- **Palette:** black `#0a0a0a` on white `#ffffff`, one red `#ED0C0C` display
+  heading, blue `#1666C4` for the venture links, black footer.
+- **Grid:** 5-column modular layout — small uppercase labels sit in the far-left
+  column, content is indented, and hairline rules extend across section heads.
+  Sharp-cornered, borderless images; no cards, shadows, or rounded corners.
 - **Sections:** hero → mission ("Build What Matters") → testimonials → work
   (the ecosystem: The Upskilling Labs, Levy, Folkmark) → contact.
-- Responsive down to small phones, keyboard-accessible, respects
+- Collapses to a single column on mobile, keyboard-accessible, respects
   `prefers-reduced-motion`, and uses semantic landmarks with a skip link.
 
 ## Run locally
@@ -48,23 +54,17 @@ Then open <http://localhost:8000>.
 
 ## Deploy to GitHub Pages
 
-Two supported paths — pick one:
-
-**A. GitHub Actions (recommended, already configured)**
-1. Push to the `main` branch.
-2. In the repo: **Settings → Pages → Build and deployment → Source: GitHub Actions**.
-3. The workflow in `.github/workflows/deploy.yml` publishes the site on every push to `main`.
-
-**B. Deploy from a branch (no workflow)**
-1. **Settings → Pages → Source: Deploy from a branch**.
-2. Choose the branch and the `/ (root)` folder.
+The site is published with GitHub Pages' built-in **"Deploy from a branch"**
+build — no custom workflow needed. Under **Settings → Pages → Build and
+deployment**, set **Source: Deploy from a branch**, then choose the branch and
+the `/ (root)` folder. Every push to that branch rebuilds the site.
 
 ### Custom domain
 
-The `CNAME` file points Pages at `brendanwhitaker.com`. To use it, add the DNS
-records GitHub lists under **Settings → Pages → Custom domain** (an `ALIAS`/`A`
-records for the apex plus a `CNAME` for `www`). If you'd rather serve at the
-default `*.github.io` URL, delete the `CNAME` file.
+To serve at `brendanwhitaker.com`, add a `CNAME` file containing the domain (or
+set it under **Settings → Pages → Custom domain**) and add the DNS records
+GitHub lists — `A`/`ALIAS` records for the apex plus a `CNAME` for `www`.
+Without it, the site serves at the default `*.github.io` URL.
 
 ## Notes
 
