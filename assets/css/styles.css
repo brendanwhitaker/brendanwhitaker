@@ -182,35 +182,47 @@ body {
 }
 .skip-link:focus { top: 0; }
 
-/* ---------- Header ---------- */
+/* ---------- Header (transparent; each zone inverts over dark backgrounds) ----------
+   The nav has no background. A small script measures the content directly behind
+   each zone (logo / links / icons / toggle) and adds .on-dark to invert just that
+   zone to white — so a half-dark row (e.g. photo left, copy right) stays legible. */
 .site-header {
   position: sticky; top: 0; z-index: 60;
-  background: var(--paper);
+  background: transparent;
 }
+.on-dark { --nav-fg: #fff; }             /* a zone sitting over a dark background */
 .header-inner {
   position: relative;
   display: flex; align-items: center; justify-content: space-between;
   height: 78px;
 }
-.brand img { width: 40px; height: 40px; }
+.brand img {
+  width: 40px; height: 40px;
+  filter: invert(1);                     /* white monogram → black over light bg */
+  transition: filter .35s var(--ease);
+}
+.brand.on-dark img { filter: invert(0); } /* → white over dark bg */
 .nav-center {
   position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%);
   display: flex; align-items: center; gap: 0.7rem;
 }
 .nav-center a {
   text-transform: uppercase; letter-spacing: 0.14rem;
-  font-size: 0.72rem; font-weight: 500; text-decoration: none; color: var(--ink);
+  font-size: 0.72rem; font-weight: 500; text-decoration: none;
+  color: var(--nav-fg, var(--ink));
+  transition: color .35s var(--ease);
 }
 .nav-center a:hover { color: var(--red); }
-.nav-center .dot { color: var(--muted); }
+.nav-center .dot { color: var(--nav-fg, var(--muted)); opacity: 0.55; }
 .nav-social { display: flex; align-items: center; gap: 1.1rem; }
+.nav-social a { color: var(--nav-fg, var(--ink)); transition: color .35s var(--ease); }
 
 .nav-toggle {
   display: none; flex-direction: column; gap: 6px;
   width: 40px; height: 40px; align-items: center; justify-content: center;
   background: none; border: none; cursor: pointer;
 }
-.nav-toggle span { display: block; width: 24px; height: 1.5px; background: var(--ink); transition: transform .3s var(--ease), opacity .3s var(--ease); }
+.nav-toggle span { display: block; width: 24px; height: 1.5px; background: var(--nav-fg, var(--ink)); transition: transform .3s var(--ease), opacity .3s var(--ease), background .35s var(--ease); }
 .mobile-nav { display: none; }
 
 /* ---------- Section grid (5 columns) ---------- */
