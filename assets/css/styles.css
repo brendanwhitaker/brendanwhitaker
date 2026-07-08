@@ -259,6 +259,7 @@ body {
   letter-spacing: -0.015em;
   margin-left: -12vw;                         /* shift left, ~½ column over the image */
   position: relative;                        /* paint over the photo */
+  mix-blend-mode: multiply;                  /* ink the type into the photo */
 }
 .mission-copy .serif-lead { margin-bottom: var(--flow-lead); }
 .mission-copy .body { margin-bottom: var(--flow-cta); }
