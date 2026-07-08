@@ -25,8 +25,8 @@ ul { list-style: none; padding: 0; }
   --hair-soft: rgba(0,0,0,0.16);
   --muted: rgba(0,0,0,0.55);
 
-  --shell: 1280px;
-  --pad-x: clamp(1.5rem, 5vw, 4rem);
+  --shell: 2400px;            /* full-width until truly extreme screens */
+  --pad-x: clamp(1.25rem, 3vw, 4rem);
   --col-gap: clamp(1rem, 2.5vw, 2.5rem);
   --sec-y: clamp(4rem, 9vw, 8.5rem);
 
