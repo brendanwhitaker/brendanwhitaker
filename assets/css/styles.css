@@ -237,23 +237,28 @@ body {
 .mission-copy .serif-lead { margin-bottom: 1.4rem; }
 .mission-copy .body { margin-bottom: 2rem; }
 
-/* ---------- Shared section head + hairline ---------- */
-.col-label { grid-column: 1 / 2; grid-row: 1; padding-top: 0.35rem; }
+/* ---------- Shared section head (flex row, not grid) ----------
+   Three flex boxes share one responsive row: the label and heading hug their
+   content, and the divider flex-grows to fill whatever space is left — no fixed
+   column widths. Wraps to a stacked column on small screens. */
 .section-head {
-  grid-column: 2 / 6; grid-row: 1;
-  display: flex; align-items: flex-start; gap: clamp(1.5rem, 4vw, 3rem);
+  grid-column: 1 / -1; grid-row: 1;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  column-gap: clamp(2rem, 5vw, 5rem);
+  row-gap: 1rem;
 }
-.section-head .serif-display { flex: 0 1 auto; max-width: 30rem; }
-.section-head .rule {
-  flex: 1 1 auto; height: 1px; background: var(--hair);
-  margin-top: 1.4rem; min-width: 3rem;
-}
+.sh-label { flex: 0 0 auto; }
+.sh-main  { flex: 0 1 auto; }
+.sh-main .caption { margin-top: 0.9rem; }
+.sh-rule  { flex: 1 1 auto; display: flex; align-items: center; min-width: 4rem; }
+.sh-rule .rule { width: 100%; height: 1px; background: var(--hair); }
 
 /* ---------- Testimonials ---------- */
 .testimonials { padding-block: var(--sec-y); row-gap: 0.9rem; }
-.testimonials .caption { grid-column: 2 / 6; grid-row: 2; }
 .testi-grid {
-  grid-column: 2 / 6; grid-row: 3;
+  grid-column: 2 / 6; grid-row: 2;
   margin-top: clamp(1.5rem, 4vw, 3rem);
   display: grid; grid-template-columns: repeat(2, 1fr);
   column-gap: var(--col-gap); row-gap: 3rem;
@@ -270,11 +275,10 @@ body {
 
 /* ---------- Work ---------- */
 .work { padding-block: var(--sec-y); row-gap: 0.9rem; }
-.work .caption { grid-column: 2 / 6; grid-row: 2; }
-.work-left { grid-column: 2 / 4; grid-row: 3; margin-top: clamp(2rem, 4vw, 3.5rem); }
+.work-left { grid-column: 2 / 4; grid-row: 2; margin-top: clamp(2rem, 4vw, 3.5rem); }
 .work-left .body + .body { margin-top: 1.1rem; }
 .work-left .btn { margin-top: 2rem; }
-.work-orgs { grid-column: 4 / 6; grid-row: 3; margin-top: clamp(2rem, 4vw, 3.5rem); }
+.work-orgs { grid-column: 4 / 6; grid-row: 2; margin-top: clamp(2rem, 4vw, 3.5rem); }
 .org { padding-block: 1.6rem; border-bottom: 1px solid var(--hair-soft); }
 .org:first-child { padding-top: 0; }
 .org .serif-name { margin-bottom: 0.35rem; }
@@ -379,16 +383,16 @@ body {
   .hero, .mission, .testimonials, .work, .contact { grid-template-columns: 1fr; }
   .hero-media, .hero-copy,
   .mission-media, .mission-copy,
-  .col-label, .section-head, .caption,
-  .testimonials .caption, .work .caption,
+  .section-head,
   .testi-grid, .work-left, .work-orgs,
   .contact-copy, .contact-media {
     grid-column: 1 / -1; grid-row: auto;
   }
   .hero-media { max-width: 100%; }
-  .col-label { padding-top: 0; margin-bottom: 0.4rem; }
-  .section-head { align-items: baseline; }
-  .section-head .rule { display: none; }
+  /* Section header stacks: label, then heading + caption; divider hidden */
+  .section-head { flex-direction: column; align-items: flex-start; row-gap: 0.5rem; }
+  .sh-label, .sh-main { flex: 0 0 auto; width: 100%; }
+  .sh-rule { display: none; }
   .testi-grid { grid-template-columns: 1fr; row-gap: 3.5rem; margin-top: 2rem; }
   .work-left, .work-orgs { margin-top: 2rem; }
   .contact-media { margin-top: 3rem; max-width: 520px; }
