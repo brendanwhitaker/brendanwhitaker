@@ -17,6 +17,7 @@ no framework, no runtime dependencies — just static files you can host anywher
 │   ├── css/styles.css    # All styling (design tokens, layout, responsive, motion)
 │   ├── js/main.js        # Nav toggle, scroll reveal, contact form
 │   └── images/           # Photography + brand mark + favicons
+├── CNAME                 # Custom domain for GitHub Pages
 ├── robots.txt
 ├── sitemap.xml
 └── .nojekyll             # Serve files as-is (skip Jekyll processing)
@@ -56,15 +57,27 @@ Then open <http://localhost:8000>.
 
 The site is published with GitHub Pages' built-in **"Deploy from a branch"**
 build — no custom workflow needed. Under **Settings → Pages → Build and
-deployment**, set **Source: Deploy from a branch**, then choose the branch and
-the `/ (root)` folder. Every push to that branch rebuilds the site.
+deployment**, set **Source: Deploy from a branch**, then choose `main` and the
+`/ (root)` folder. Every push to that branch rebuilds the site.
+
+Until a custom domain resolves, the site serves from the project URL:
+<https://brendanwhitaker.github.io/brendanwhitaker/>.
 
 ### Custom domain
 
-To serve at `brendanwhitaker.com`, add a `CNAME` file containing the domain (or
-set it under **Settings → Pages → Custom domain**) and add the DNS records
-GitHub lists — `A`/`ALIAS` records for the apex plus a `CNAME` for `www`.
-Without it, the site serves at the default `*.github.io` URL.
+The `CNAME` file pins the site to `www.brendanwhitaker.com`, which GitHub reads
+at build time and mirrors into **Settings → Pages → Custom domain**. It only
+takes effect once DNS points at GitHub Pages:
+
+| Host  | Type    | Value                                                                  |
+| ----- | ------- | ---------------------------------------------------------------------- |
+| `@`   | `A`     | `185.199.108.153`, `185.199.109.153`, `185.199.110.153`, `185.199.111.153` |
+| `@`   | `AAAA`  | `2606:50c0:8000::153`, `2606:50c0:8001::153`, `2606:50c0:8002::153`, `2606:50c0:8003::153` |
+| `www` | `CNAME` | `brendanwhitaker.github.io.`                                            |
+
+GitHub then redirects the apex to `www` and issues the TLS certificate (tick
+**Enforce HTTPS** once it's provisioned). Set DNS *before* the custom domain
+goes live, or both hostnames 404 in the gap.
 
 ## Notes
 
