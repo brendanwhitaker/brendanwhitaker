@@ -1,6 +1,6 @@
 # Hi, I'm Brendan 👋
 
-I build the infrastructure for people building what the future depends on — founders, institutions, and coalitions working through complexity. Based in Washington, DC, with Appalachian roots and a family of quilters.
+I build the infrastructure for people building what the future depends on — founders, institutions, and coalitions working through complexity. Based in Washington, DC.
 
 ## What I'm working on
 
@@ -15,7 +15,7 @@ I build the infrastructure for people building what the future depends on — fo
 - 📅 [Events on Luma](https://lu.ma/brendanwhitaker)
 - ✉️ [hello@brendanwhitaker.com](mailto:hello@brendanwhitaker.com)
 
-If you're building something that matters and think it might intersect with my work, reach out.
+If you're building something you believe matters and think it might intersect with my work, reach out.
 
 ---
 
