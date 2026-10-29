@@ -335,8 +335,8 @@ html:not(.compact) .idea{margin-left:calc(-1 * (var(--rail) + var(--gap)))}
 /* the answer waits a beat: the hero line is read first, then BUILD WHAT MATTERS prints itself, word by word. The red pass slides
    in from the left out of focus, the blue from the right; they meet in register, then the blue lifts off and the red stays. */
 .idea .w{opacity:0}
-.idea.in .w{animation:bwm-r 1s cubic-bezier(.2,.7,.2,1) both;animation-delay:calc(var(--i) * 110ms)}
-.idea.in .w::after{animation:bwm-b 1.5s cubic-bezier(.2,.7,.2,1) both;animation-delay:calc(var(--i) * 110ms)}
+.idea.in .w{animation:bwm-r 2.2s cubic-bezier(.25,.6,.25,1) both;animation-delay:calc(var(--i) * 320ms)}
+.idea.in .w::after{animation:bwm-b 3.2s cubic-bezier(.25,.6,.25,1) both;animation-delay:calc(var(--i) * 320ms)}
 @keyframes bwm-r{0%{opacity:0;transform:translateX(-48px);filter:blur(10px)}25%{opacity:1}100%{opacity:1;transform:none;filter:blur(0)}}
 @keyframes bwm-b{0%{opacity:0;transform:translateX(48px);filter:blur(10px)}15%{opacity:1}55%{opacity:1;transform:none;filter:blur(0)}100%{opacity:0;transform:none;filter:blur(0)}}
 
