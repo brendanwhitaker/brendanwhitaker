@@ -69,14 +69,28 @@ a:focus-visible,button:focus-visible,input:focus-visible{outline:2px solid var(-
 .actions{display:flex;flex-wrap:wrap;align-items:center;gap:18px 27px}
 
 /* header sits at the top of the first plate */
-.hd{position:relative;z-index:4;height:72px;padding-top:18px;align-items:start}
+.hd{position:relative;z-index:4;height:var(--hdh);padding-top:18px;align-items:start}
+.hd>*{grid-row:1}
+:root{--hdh:126px}
 .mark{display:block;width:28px;height:28px;grid-column:1}
 /* 28px: the waffle is drawn on a 14-unit grid, so at 28 every bar and gap lands on whole pixels (2px a unit, 4 on retina) */
 .mark svg{display:block;width:28px;height:28px;fill:var(--ink)}
 nav{display:flex;gap:0 27px;flex-wrap:wrap;align-items:flex-start}
 .hd .meta{display:grid;align-content:start}
-/* the header is one row on one baseline: mark, four places, where and when, and the two controls */
-.h-nav{grid-column:2/4}.h-loc{grid-column:4}.h-end{grid-column:5;display:flex;justify-content:flex-end;align-items:flex-start;gap:18px}
+/* the header, after huyml.co: the places stack right beside the mark, under a "Menu" label that shares the top row's baseline
+   with where and when and the controls. The current place is pushed in and pointed at; the arrow travels to the next one. */
+.h-nav{grid-column:1/4;padding-left:54px;position:relative;display:grid;justify-items:start;align-content:start}
+.h-list{--lh:18px;font-weight:400;text-transform:uppercase;letter-spacing:.01em;margin:0}
+.h-a{position:relative;display:inline-block;color:transparent;text-decoration:none;white-space:nowrap;
+  transition:transform .55s cubic-bezier(.7,0,.2,1)}
+/* each place prints in two passes; hovering one puts the others out of focus, their passes drifting apart */
+.h-a::before,.h-a::after{content:attr(data-t);position:absolute;left:0;top:0;mix-blend-mode:multiply;transition:transform .4s cubic-bezier(.2,.7,.2,1),filter .4s}
+.h-a::before{color:var(--red)}.h-a::after{color:var(--blue)}
+.h-list:hover .h-a:not(:hover)::before,.h-list:focus-within .h-a:not(:focus-visible):not(:hover)::before{transform:translateX(-2px);filter:blur(1.6px)}
+.h-list:hover .h-a:not(:hover)::after,.h-list:focus-within .h-a:not(:focus-visible):not(:hover)::after{transform:translateX(2px);filter:blur(1.6px)}
+.h-a[aria-current="page"]{transform:translateX(27px)}
+.h-arw{position:absolute;left:54px;top:0;width:18px;height:18px;color:var(--ink);opacity:0;transition:transform .55s cubic-bezier(.7,0,.2,1),opacity .3s}
+.h-nav.on .h-arw{opacity:1}.h-loc{grid-column:4}.h-end{grid-column:5;display:flex;justify-content:flex-end;align-items:flex-start;gap:18px}
 /* the menu: when the header row gets crowded, at whatever width that is, the places fold into a button.
    Its two bars are each printed in two passes; they separate as they move and land back in register as ink. */
 .menu{all:unset;box-sizing:border-box;cursor:pointer;display:none;align-items:flex-start;gap:12px;position:relative;z-index:96}
@@ -97,6 +111,12 @@ html.menu-open .b2{top:9px;transform:rotate(-45deg)}
 html.menu-open{overflow:hidden}
 html.menu-open .hd{z-index:95}
 
+/* the page curtain: ink, rising from the foot of the page; it carries the next page's name, which comes into focus */
+.curtain{position:fixed;inset:0;z-index:98;background:var(--ink);transform:translateY(100%);visibility:hidden;pointer-events:none;display:grid;place-items:center}
+.curtain.cover{visibility:visible;transform:none;transition:transform .65s cubic-bezier(.7,0,.2,1)}
+.curtain.lift{visibility:visible;transform:translateY(-100%);transition:transform .8s cubic-bezier(.7,0,.2,1)}
+.ct-t{--x:clamp(calc(4 * var(--u)), round(down, 4.4vw, var(--u)), calc(8 * var(--u)));color:var(--paper);margin:0;filter:blur(10px);opacity:0;transition:filter .5s cubic-bezier(.2,.7,.2,1) .25s,opacity .3s .25s}
+.curtain.cover .ct-t,.curtain.lift .ct-t{filter:blur(0);opacity:1}
 /* the takeover: a sheet laid down from the top; each place prints in two passes that slide into register */
 @property --tls{syntax:'<number>';inherits:true;initial-value:0}
 @property --tlb{syntax:'<number>';inherits:true;initial-value:0}
@@ -266,7 +286,7 @@ html.pre .hero-print .print{transform:perspective(1400px) translateZ(-280px) rot
 .idea .w1{grid-column:1/-1}.idea .w2{grid-column:2/-1;--sb:.005}.idea .w3{grid-column:3/-1}
 
 .hero-print{grid-column:2/5;align-self:start;position:relative;z-index:2}
-#home{min-height:calc(round(down, 100svh, var(--u)) - 72px)}
+#home{min-height:calc(round(down, 100svh, var(--u)) - var(--hdh))}
 #home .hero-print .print{height:round(down, calc(((100cqw - 4 * var(--gap)) / 5 * 3 + 2 * var(--gap)) * .36), var(--u))}
 @media (max-width:720px){.cue{display:none!important}}
 .hero-print .print{height:round(down, calc(((100cqw - 4 * var(--gap)) / 5 * 3 + 2 * var(--gap)) * .5), var(--u));object-position:50% 25%}
@@ -356,7 +376,7 @@ body.show-grid .ov{display:block}
 <div class="page">
 <header class="hd g">
   <a class="mark" data-base="bottom" href="#home" aria-label="Brendan Whitaker, home"><svg aria-hidden="true"><use href="#waffle"/></svg></a>
-  <nav class="h-nav" data-cells aria-label="Main"><a class="t sans" href="#thesis">Thesis</a><a class="t sans" href="#colloquia">Colloquia</a><a class="t sans" href="#writing">Writing</a><a class="t sans" href="#work">Work with me</a></nav>
+  <nav class="h-nav" aria-label="Main"><p class="t label h-nl">Menu</p><p class="t sans h-list"><a class="h-a" data-t="Thesis" href="#thesis">Thesis</a><br><a class="h-a" data-t="Colloquia" href="#colloquia">Colloquia</a><br><a class="h-a" data-t="Writing" href="#writing">Writing</a><br><a class="h-a" data-t="Work with me" href="#work">Work with me</a></p><svg class="h-arw" viewBox="0 0 18 18" aria-hidden="true"><path d="M1 9h15M11 4l5 5-5 5" fill="none" stroke="currentColor" stroke-width="1.25"/></svg></nav>
   <p class="t label h-loc" id="time">Washington, DC</p>
   <div class="h-end" data-cells><a class="t sans h-sub" href="#join">Subscribe</a><button class="menu" id="menubtn" type="button" aria-expanded="false" aria-controls="takeover"><span class="t label mb-l" id="mb-l">Menu</span><span class="mb-i" data-base="x" aria-hidden="true"><span class="bar b1"></span><span class="bar b2"></span></span></button></div>
 </header>
@@ -696,13 +716,40 @@ function route(){
   var h=location.hash.slice(1),el=h?document.getElementById(h):null,root=document.documentElement;
   var v=VIEWS.indexOf(h)>=0?h:(el&&el.closest('[data-view]')?el.closest('[data-view]').dataset.view:'home');
   root.dataset.view=v;viewSecs.forEach(function(s){s.hidden=s.dataset.view!==v;});foot.hidden=false;
-  [].forEach.call(document.querySelectorAll('.h-nav a,.tk-l'),function(a){a.setAttribute('aria-current',a.getAttribute('href')==='#'+h?'page':'false');});
+  markNav();
   later();
   requestAnimationFrame(function(){requestAnimationFrame(function(){
     if(v==='home'&&el&&h!=='home')el.scrollIntoView({behavior:'auto'});else scrollTo(0,0);cueCheck();
   });});
 }
-addEventListener('hashchange',route);
+function markNav(){
+  var h=location.hash.slice(1),nav=document.querySelector('.h-nav'),cur=null;
+  [].forEach.call(document.querySelectorAll('.h-a,.tk-l'),function(a){var on=a.getAttribute('href')==='#'+h;a.setAttribute('aria-current',on?'page':'false');if(on&&a.classList.contains('h-a'))cur=a;});
+  nav.classList.toggle('on',!!cur);
+  if(cur){var arw=nav.querySelector('.h-arw'),nb=nav.getBoundingClientRect().top,cr=cur.getBoundingClientRect(),b=probe(document.querySelector('.h-list')).getBoundingClientRect().top+Math.round((cr.top-document.querySelector('.h-a').getBoundingClientRect().top)/18)*18-nb;
+    arw.style.transform='translateY('+(b-4.5-9).toFixed(1)+'px)';}
+}
+/* moving between pages, after huyml.co: the arrow travels first, then an ink sheet rises over the page, the next page's name
+   comes into focus on it, the page changes underneath, and the sheet carries on up and off. Scrolling within home is left alone. */
+var curtain=document.createElement('div');curtain.className='curtain';curtain.setAttribute('aria-hidden','true');
+curtain.innerHTML='<p class="t serif ct-t"></p>';document.body.appendChild(curtain);
+var NAMES={home:'Home',thesis:'Thesis',writing:'Writing',work:'Work with me',colloquia:'Colloquia',join:'Join the colloquia',ecosystem:'My ecosystem',idea:'Build what matters'};
+function viewOf(h){var el=h?document.getElementById(h):null;return VIEWS.indexOf(h)>=0?h:(el&&el.closest('[data-view]')?el.closest('[data-view]').dataset.view:'home');}
+var going=0;
+function go(){
+  var h=location.hash.slice(1),root=document.documentElement;
+  if(reduce||root.classList.contains('intro')||viewOf(h)===root.dataset.view){route();return;}
+  var my=++going;markNav();
+  setText2(curtain.querySelector('.ct-t'),NAMES[h]||NAMES[viewOf(h)]||'');
+  curtain.className='curtain';void curtain.offsetWidth;
+  setTimeout(function(){if(my!==going)return;curtain.classList.add('cover');},220);
+  setTimeout(function(){if(my!==going)return;route();},220+650);
+  setTimeout(function(){if(my!==going)return;curtain.classList.add('lift');},220+650+450);
+  setTimeout(function(){if(my!==going)return;curtain.className='curtain';},220+650+450+800);
+}
+addEventListener('hashchange',go);
+if('scrollRestoration' in history)history.scrollRestoration='manual';
+addEventListener('load',function(){if(document.documentElement.dataset.view!=='home')scrollTo(0,0);});
 
 /* ---------- hero orbit ---------- */
 var CARDS=[['A place','A public library'],['Work','A first job in a new field'],['Ownership','A business the neighborhood owns'],['Infrastructure','A bus that comes on time'],['A practice','A group that keeps meeting'],['Home','Housing people can afford'],['A commons','A park someone looks after'],['Knowledge','A map a community drew itself']];
@@ -769,9 +816,8 @@ function lines(el){var tops={};[].forEach.call(el.childNodes,function(n){if(n.no
 function fitNav(){
   var root=document.documentElement;root.classList.remove('compact');
   var nav=document.querySelector('.h-nav'),loc=document.querySelector('.h-loc'),sub=document.querySelector('.h-sub');
-  var a=[].slice.call(nav.children),wrap=a.some(function(x){return x.offsetTop!==a[0].offsetTop;});
-  var nr=a[a.length-1].getBoundingClientRect().right,lr=loc.getBoundingClientRect(),sr=sub.getBoundingClientRect();
-  var crowded=wrap||nr+27>lr.left||lines(loc)>1||lr.right+27>sr.left||innerWidth<=720;
+  var nr=Math.max.apply(null,[].map.call(nav.querySelectorAll('.h-a'),function(x){return x.getBoundingClientRect().right+27;})),lr=loc.getBoundingClientRect(),sr=sub.getBoundingClientRect();
+  var crowded=nr+27>lr.left||lines(loc)>1||lr.right+27>sr.left||innerWidth<=720;
   root.classList.toggle('compact',crowded);
 }
 /* rows: everything meant to sit in one row shares one baseline. For each row, the first line of every cell is
@@ -820,7 +866,7 @@ function snap(){
   for(var k=0;k<2;k++){for(var p=0;p<3;p++)snapPass(els);pins();}
   for(var p2=0;p2<2;p2++)snapPass(els);
   for(var r2=0;r2<2;r2++){rowAlign();snapPass(els);snapPass(els);}
-  placeCards();figScroll();rack();hmCur=-1;hmRender();
+  placeCards();figScroll();rack();hmCur=-1;hmRender();markNav();
 }
 var queued;function later(){cancelAnimationFrame(queued);queued=requestAnimationFrame(snap);}
 var lastW=innerWidth,lastH=innerHeight;
