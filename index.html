@@ -70,7 +70,7 @@ a:focus-visible,button:focus-visible,input:focus-visible{outline:2px solid var(-
 
 /* header sits at the top of the first plate */
 /* the header stays on screen. On wide screens the waffle and the places live in a rail of their own on the left that content
-   never enters (only the overprint moments run under it); the five content columns start to its right. The top row (where
+   never enters, BUILD WHAT MATTERS included (only the loading screen and the page curtain cover it); the five content columns start to its right. The top row (where
    and when, Subscribe) sits on a band of paper over those columns. On phones the rail folds away into the menu button. */
 :root{--hdh:0px;--rail:234px;--band:63px}
 html:not(.compact) .page{padding-left:calc(max(var(--m),env(safe-area-inset-left,0px)) + var(--rail) + var(--gap))}
@@ -79,7 +79,7 @@ html:not(.compact) .page{padding-left:calc(max(var(--m),env(safe-area-inset-left
 .hd>*{grid-row:1}
 /* absolutely placed in the header's first row, so top is measured from the row (already 18px down) */
 .mark{display:block;width:28px;height:28px;position:absolute;left:max(var(--m),env(safe-area-inset-left,0px));top:0}
-html:not(.compact) #idea{margin-left:calc(-1 * (var(--rail) + var(--gap)))}
+
 /* 28px: the waffle is drawn on a 14-unit grid, so at 28 every bar and gap lands on whole pixels (2px a unit, 4 on retina) */
 .mark svg{display:block;width:28px;height:28px;fill:var(--ink)}
 nav{display:flex;gap:0 27px;flex-wrap:wrap;align-items:flex-start}
@@ -317,7 +317,11 @@ html.pre .hero-print .print{transform:perspective(1400px) translateZ(-280px) rot
   --fs:calc(var(--cap) / .7275);--lh:round(up, calc(var(--cap) * 4 / 3), var(--u));--k:.36377;--sb:.054;--step:0px;
   margin-left:calc(var(--step) - var(--sb) * 1em);
 }
-.idea .w1{grid-column:1/-1}.idea .w2{grid-column:2/-1;--sb:.005}.idea .w3{grid-column:3/-1}
+/* one line, as wide as the five content columns: the script sets the capital height so the line fills them */
+.idea{display:block;white-space:nowrap}
+.idea .w{display:inline-block}
+.idea .w+.w{margin-left:calc(.24em - var(--sb) * 1em)}
+.idea .w2{--sb:.005}
 
 .hero-print{grid-column:2/5;align-self:start;position:relative;z-index:2}
 #home{min-height:calc(round(down, 100svh, var(--u)) - var(--hdh))}
@@ -377,9 +381,6 @@ body.show-grid .ov{display:block}
   .low>.sub,.top>.sub{grid-column:1/-1}
   .top>*{grid-column:1/-1!important}
   .idx li>*{grid-column:1/-1!important}
-  .idea .w1,.idea .w2,.idea .w3{grid-column:1/-1}
-  .idea .w{--cap:max(calc(3 * var(--u)), round(down, calc((100cqw - 54px) / 4.7 * .7275), var(--u)))}
-  .idea .w2{--step:27px}.idea .w3{--step:54px}
   .fig{height:216px}
   .figbox,.figcap{grid-column:1/-1!important;grid-row:auto!important}
   .print{height:216px}
@@ -428,7 +429,7 @@ body.show-grid .ov{display:block}
 
 <!-- 2 · The one idea: the only bold, the only red type, the only capitals larger than a label. It climbs one column per word. -->
 <section class="plate g" id="idea" data-view="home" aria-labelledby="h-idea">
-  <div class="orbit" id="orbit" role="img" aria-label="Things that matter: a public library, a first job in a new field, a business the neighborhood owns, a bus that comes on time, a group that keeps meeting, housing people can afford, a park someone looks after, a map a community drew itself"></div>
+  <div class="orbit" id="orbit" hidden role="img" aria-label="Things that matter: a public library, a first job in a new field, a business the neighborhood owns, a bus that comes on time, a group that keeps meeting, housing people can afford, a park someone looks after, a map a community drew itself"></div>
   <div class="low sub">
     <div class="st sub" style="row-gap:0">
       <p class="t label" style="--c:1">One thesis</p>
@@ -812,10 +813,12 @@ var cards=[].slice.call(orbit.children),theta=0,paused=false,last=0;
 cards.forEach(function(el,i){el._lens=makeLens('lens-c'+i,false);});
 cards.forEach(function(el){el.addEventListener('mouseenter',function(){paused=true;});el.addEventListener('mouseleave',function(){paused=false;});el.addEventListener('focus',function(){paused=true;});el.addEventListener('blur',function(){paused=false;});});
 function placeCards(){
+  if(orbit.hidden)return;
   /* cards float in real 3D: they turn, tilt and come toward you, but the whole card transforms as one,
      so the 9px grid inside it stays uniform. Perspective lives on each card, so cards still pass behind and in front of the words. */
   var W=orbit.clientWidth,H=orbit.clientHeight,phone=W<720,n=phone?5:cards.length;
-  var cx=W*.5,Rx=W*(phone?.42:.44),top0=Math.round(H*.16/U)*U,span=Math.round(H*.56/U)*U;
+  /* the swing stays inside the content columns, so no card is cut off at the rail or the right margin */
+  var cw=Math.max.apply(null,cards.map(function(c){return c.offsetWidth;})),cx=W*.5,Rx=phone?W*.42:Math.max(0,(W-cw)/2-27),top0=Math.round(H*.16/U)*U,span=Math.round(H*.56/U)*U;
   cards.forEach(function(el,i){
     el.hidden=i>=n;if(i>=n)return;
     var a=theta+i*2*Math.PI/n,z=Math.sin(a),lane=top0+Math.round(span*((i*3)%n)/n/U)*U-z*(phone?27:54);
@@ -830,7 +833,7 @@ function placeCards(){
     else setLens(el,el._lens,LENS.blur*.8*f*f,LENS.sep*.45*f,LENS.mix*Math.min(1,f*3));
   });
 }
-function spin(t){if(!last)last=t;var dt=Math.min(64,t-last);last=t;if(!paused&&!reduce&&!document.hidden)theta+=dt*2*Math.PI/120000;placeCards();requestAnimationFrame(spin);}
+function spin(t){if(orbit.hidden)return;if(!last)last=t;var dt=Math.min(64,t-last);last=t;if(!paused&&!reduce&&!document.hidden)theta+=dt*2*Math.PI/120000;placeCards();requestAnimationFrame(spin);}
 requestAnimationFrame(spin);
 
 /* ---------- the baseline lock ----------
@@ -910,8 +913,17 @@ function hmPlaceMeta(){
   var top=m.getBoundingClientRect().top,st=hmStack.getBoundingClientRect(),cy=st.top+st.height/2;
   m.style.marginTop=Math.max(0,Math.round((cy-top-m.offsetHeight/2)/U)*U)+'px';
 }
+/* BUILD WHAT MATTERS on one line across the content columns: measure it at a known size, then scale */
+function fitIdea(){
+  var h=document.getElementById('h-idea'),ws=[].slice.call(h.querySelectorAll('.w'));if(!h.getClientRects().length)return;
+  ws.forEach(function(w){w.style.setProperty('--cap','90px');});
+  var tw=ws[ws.length-1].getBoundingClientRect().right-ws[0].getBoundingClientRect().left,avail=h.getBoundingClientRect().width;
+  var cap=90;for(var k=0;k<3&&tw>0;k++){cap=Math.floor(cap*avail/tw*100)/100;ws.forEach(function(w){w.style.setProperty('--cap',cap+'px');});
+    tw=ws[ws.length-1].getBoundingClientRect().right-ws[0].getBoundingClientRect().left;}
+  if(tw>avail){cap=Math.floor(cap*avail/tw*100)/100-.5;ws.forEach(function(w){w.style.setProperty('--cap',cap+'px');});}
+}
 function snap(){
-  fitNav();resetRows();hmPlaceMeta();
+  fitNav();resetRows();hmPlaceMeta();fitIdea();
   /* floating cards are measured flat, in their own space; their 3D transform goes back on after */
   cards.forEach(function(c){c.style.transform='none';});
   hmCards.forEach(function(e){e.style.transform='none';});hmTrack.style.transform='none';
