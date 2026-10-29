@@ -212,7 +212,9 @@ html.intro .loader{display:block;position:fixed;inset:0;z-index:100;cursor:point
 /* the waffle is the one pushing: it prints itself in a strip of paper, woven blue then red, slides into register,
    then leans on the panel's edge and walks it to the centre, where it lets go above the name. At the end it flies home to the header. */
 html.intro .hd .mark{visibility:hidden}
-.ld-w{position:absolute;left:0;top:0;overflow:visible;z-index:3;transform-origin:0 0;will-change:transform}
+.ld-w{position:absolute;left:0;top:0;overflow:visible;z-index:3;transform-origin:0 0}
+/* in register the two passes are one ink; for the flight they become one fill, the same as the header mark */
+.ld-w.flat .pr{display:none}.ld-w.flat .pb{fill:var(--ink);mix-blend-mode:normal}
 .ld-w .pb{fill:var(--blue);mix-blend-mode:multiply;animation:pb 1.25s cubic-bezier(.3,.6,.2,1) both}
 .ld-w .pr{fill:var(--red);mix-blend-mode:multiply;animation:pr 1.25s cubic-bezier(.3,.6,.2,1) both}
 @keyframes pb{0%,58%{transform:translate(-240px,-150px)}100%{transform:none}}
@@ -927,16 +929,22 @@ function runIntro(replay){
   function exit(){
     if(state>=3)return;state=3;name(0,0);setText2(n,'100');
     if(!w)waffle();w.classList.add('flat');
-    var tg=document.querySelector('.hd .mark').getBoundingClientRect(),r=w.getBoundingClientRect(),sc=tg.width/ws;
-    w.style.transform='translate('+r.left.toFixed(1)+'px,'+r.top.toFixed(1)+'px)';
-    requestAnimationFrame(function(){requestAnimationFrame(function(){
-      w.style.transition='transform .9s cubic-bezier(.7,0,.2,1)';
-      w.style.transform='translate('+tg.left.toFixed(1)+'px,'+tg.top.toFixed(1)+'px) scale('+sc.toFixed(4)+')';
-    });});
-    var t1=performance.now();
-    (function defocus(now){var q=Math.min(1,(now-t1)/X);name(S0*.6*q,B0*.8*q);if(q<1)requestAnimationFrame(defocus);})(t1);
     ld.classList.add('out');root.classList.remove('loading','pre');
-    setTimeout(function(){root.classList.remove('intro');ld.innerHTML='';ld.className='loader';ld.removeAttribute('style');},980);
+    /* the flight home: the waffle is redrawn at its true size every frame (never a scaled bitmap), and its stroke
+       thickens back from the name's stem weight to its own, so the last frame is the header mark, pixel for pixel. */
+    var mk=document.querySelector('.hd .mark svg'),fe=w.querySelector('feMorphology'),
+        r=w.getBoundingClientRect(),x1=r.left,y1=r.top,s1=ws,t1=performance.now(),D=900;
+    function bz(x){var a=0,b=1,m;for(var i=0;i<24;i++){m=(a+b)/2;var u=1-m,bx=3*u*u*m*.7+3*u*m*m*.2+m*m*m;if(bx<x)a=m;else b=m;}m=(a+b)/2;var v=1-m;return 3*v*m*m+m*m*m;}
+    (function fly(now){
+      var q=Math.min(1,(now-t1)/D),e=bz(q),tg=mk.getBoundingClientRect(),s=s1+(tg.width-s1)*e;
+      w.setAttribute('width',s.toFixed(2));w.setAttribute('height',s.toFixed(2));
+      w.style.transform='translate('+(x1+(tg.left-x1)*e).toFixed(2)+'px,'+(y1+(tg.top-y1)*e).toFixed(2)+'px)';
+      if(fe)fe.setAttribute('radius',(thin*(1-e)).toFixed(2));
+      name(S0*.6*Math.min(1,(now-t1)/X),B0*.8*Math.min(1,(now-t1)/X));
+      if(q<1){requestAnimationFrame(fly);return;}
+      /* land: the header mark takes over in the same frame the flying one goes */
+      root.classList.remove('intro');ld.innerHTML='';ld.className='loader';ld.removeAttribute('style');
+    })(t1);
   }
   function skip(){if(state<3)exit();}
   ld.onclick=skip;addEventListener('keydown',skip,{once:true});
