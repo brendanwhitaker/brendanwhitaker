@@ -71,7 +71,7 @@ a:focus-visible,button:focus-visible,input:focus-visible{outline:2px solid var(-
 /* header sits at the top of the first plate */
 .hd{position:relative;z-index:4;height:var(--hdh);padding-top:18px;align-items:start}
 .hd>*{grid-row:1}
-:root{--hdh:198px}
+:root{--hdh:225px}
 .mark{display:block;width:28px;height:28px;grid-column:1}
 /* 28px: the waffle is drawn on a 14-unit grid, so at 28 every bar and gap lands on whole pixels (2px a unit, 4 on retina) */
 .mark svg{display:block;width:28px;height:28px;fill:var(--ink)}
@@ -379,7 +379,7 @@ body.show-grid .ov{display:block}
 <div class="page">
 <header class="hd g">
   <a class="mark" data-base="bottom" href="#home" aria-label="Brendan Whitaker, home"><svg aria-hidden="true"><use href="#waffle"/></svg></a>
-  <nav class="h-nav" aria-label="Main"><p class="t label h-nl">Menu</p><p class="t serif h-list"><a class="h-a" data-t="Thesis" href="#thesis">Thesis</a><br><a class="h-a" data-t="Colloquia" href="#colloquia">Colloquia</a><br><a class="h-a" data-t="Writing" href="#writing">Writing</a><br><a class="h-a" data-t="Work with me" href="#work">Work with me</a></p><svg class="h-arw" viewBox="0 0 27 18" aria-hidden="true"><path d="M1 9h24M20 4l5 5-5 5" fill="none" stroke="currentColor" stroke-width="1.25"/></svg></nav>
+  <nav class="h-nav" aria-label="Main"><p class="t label h-nl">Menu</p><p class="t serif h-list"><a class="h-a" data-t="Ecosystem" href="#home">Ecosystem</a><br><a class="h-a" data-t="Thesis" href="#thesis">Thesis</a><br><a class="h-a" data-t="Colloquia" href="#colloquia">Colloquia</a><br><a class="h-a" data-t="Writing" href="#writing">Writing</a><br><a class="h-a" data-t="Work with me" href="#work">Work with me</a></p><svg class="h-arw" viewBox="0 0 27 18" aria-hidden="true"><path d="M1 9h24M20 4l5 5-5 5" fill="none" stroke="currentColor" stroke-width="1.25"/></svg></nav>
   <p class="t label h-loc" id="time">Washington, DC</p>
   <div class="h-end" data-cells><a class="t sans h-sub" href="#join">Subscribe</a><button class="menu" id="menubtn" type="button" aria-expanded="false" aria-controls="takeover"><span class="t label mb-l" id="mb-l">Menu</span><span class="mb-i" data-base="x" aria-hidden="true"><span class="bar b1"></span><span class="bar b2"></span></span></button></div>
 </header>
@@ -537,11 +537,12 @@ body.show-grid .ov{display:block}
   <div class="page tk-page">
     <nav class="g" aria-label="Main">
       <ol class="sub tk-list">
-        <li class="sub"><p class="t label tk-n">01</p><a class="t serif tk-l" style="--i:0" data-t="Thesis" href="#thesis">Thesis</a></li>
-        <li class="sub"><p class="t label tk-n">02</p><a class="t serif tk-l" style="--i:1" data-t="Colloquia" href="#colloquia">Colloquia</a></li>
-        <li class="sub"><p class="t label tk-n">03</p><a class="t serif tk-l" style="--i:2" data-t="Writing" href="#writing">Writing</a></li>
-        <li class="sub"><p class="t label tk-n">04</p><a class="t serif tk-l" style="--i:3" data-t="Work with me" href="#work">Work with me</a></li>
-        <li class="sub"><p class="t label tk-n">05</p><a class="t serif tk-l" style="--i:4" data-t="Join the colloquia" href="#join">Join the colloquia</a></li>
+        <li class="sub"><p class="t label tk-n">01</p><a class="t serif tk-l" style="--i:0" data-t="Ecosystem" href="#home">Ecosystem</a></li>
+        <li class="sub"><p class="t label tk-n">02</p><a class="t serif tk-l" style="--i:1" data-t="Thesis" href="#thesis">Thesis</a></li>
+        <li class="sub"><p class="t label tk-n">03</p><a class="t serif tk-l" style="--i:2" data-t="Colloquia" href="#colloquia">Colloquia</a></li>
+        <li class="sub"><p class="t label tk-n">04</p><a class="t serif tk-l" style="--i:3" data-t="Writing" href="#writing">Writing</a></li>
+        <li class="sub"><p class="t label tk-n">05</p><a class="t serif tk-l" style="--i:4" data-t="Work with me" href="#work">Work with me</a></li>
+        <li class="sub"><p class="t label tk-n">06</p><a class="t serif tk-l" style="--i:5" data-t="Join the colloquia" href="#join">Join the colloquia</a></li>
       </ol>
     </nav>
     <div class="g tk-foot">
@@ -726,8 +727,9 @@ function route(){
   });});
 }
 function markNav(){
-  var h=location.hash.slice(1),nav=document.querySelector('.h-nav'),cur=null;
-  [].forEach.call(document.querySelectorAll('.h-a,.tk-l'),function(a){var on=a.getAttribute('href')==='#'+h;a.setAttribute('aria-current',on?'page':'false');if(on&&a.classList.contains('h-a'))cur=a;});
+  /* the place you're in: Colloquia and Join by their own address; anywhere else on the home page is Ecosystem; the other pages by their view */
+  var h=location.hash.slice(1),nav=document.querySelector('.h-nav'),cur=null,v=viewOf(h),want=(h==='colloquia'||h==='join')?h:v;
+  [].forEach.call(document.querySelectorAll('.h-a,.tk-l'),function(a){var on=a.getAttribute('href')==='#'+want;a.setAttribute('aria-current',on?'page':'false');if(on&&a.classList.contains('h-a'))cur=a;});
   nav.classList.toggle('on',!!cur);
   if(cur){var arw=nav.querySelector('.h-arw'),nb=nav.getBoundingClientRect().top,cr=cur.getBoundingClientRect(),hl=document.querySelector('.h-list'),lh=parseFloat(getComputedStyle(hl).lineHeight),xh=parseFloat(getComputedStyle(hl).fontSize)*.72,
       b=probe(hl).getBoundingClientRect().top+Math.round((cr.top-document.querySelector('.h-a').getBoundingClientRect().top)/lh)*lh-nb;
@@ -737,7 +739,7 @@ function markNav(){
    comes into focus on it, the page changes underneath, and the sheet carries on up and off. Scrolling within home is left alone. */
 var curtain=document.createElement('div');curtain.className='curtain';curtain.setAttribute('aria-hidden','true');
 curtain.innerHTML='<p class="t serif ct-t"></p>';document.body.appendChild(curtain);
-var NAMES={home:'Home',thesis:'Thesis',writing:'Writing',work:'Work with me',colloquia:'Colloquia',join:'Join the colloquia',ecosystem:'My ecosystem',idea:'Build what matters'};
+var NAMES={home:'Ecosystem',thesis:'Thesis',writing:'Writing',work:'Work with me',colloquia:'Colloquia',join:'Join the colloquia',ecosystem:'My ecosystem',idea:'Build what matters'};
 function viewOf(h){var el=h?document.getElementById(h):null;return VIEWS.indexOf(h)>=0?h:(el&&el.closest('[data-view]')?el.closest('[data-view]').dataset.view:'home');}
 var going=0;
 function go(){
