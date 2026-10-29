@@ -886,7 +886,7 @@ function runIntro(replay){
   root.classList.add('intro','loading','pre');
   var n=ld.querySelector('.ld-n'),pn=ld.querySelector('.push'),w=null;
   var S0=Math.max(12,LENS.sep*4),B0=Math.max(2,LENS.blur*2),R=350,WV=1300,T=1500,H=600,X=650,state=0,t0=0;
-  var W=innerWidth,VH=innerHeight,ws=W<720?90:144,gap=W<720?9:18,m=W<720?18:27,x0=m+ws+gap,wy=Math.round((VH-ws)/2);
+  var W=innerWidth,VH=innerHeight,ws=W<720?90:144,gap=W<720?9:18,m=W<720?18:27,x0=m+ws+gap,wy=Math.round((VH-ws)/2),thin=0;
   function ease(x){return 1-Math.pow(1-x,3);}
   function inout(x){return x<.5?4*x*x*x:1-Math.pow(-2*x+2,3)/2;}
   function name(s,b){ld.style.setProperty('--ls',s.toFixed(2));ld.style.setProperty('--lb',b.toFixed(2));}
@@ -900,9 +900,10 @@ function runIntro(replay){
     for(var i=0;i<8;i++){sh+='<rect class="sh" style="--i:'+i+'" x="16" y="'+(16+i*146)+'" width="1168" height="147" fill="#fff"/>';sv+='<rect class="sv" style="--i:'+i+'" x="'+(16+i*146)+'" y="16" width="147" height="1168" fill="#fff"/>';}
     var s='<svg class="ld-w" width="'+ws+'" height="'+ws+'" viewBox="'+V+'" aria-hidden="true"><defs>'
       +'<mask id="ld-mh" maskUnits="userSpaceOnUse" x="-600" y="-600" width="2400" height="2400">'+sh+'</mask>'
-      +'<mask id="ld-mv" maskUnits="userSpaceOnUse" x="-600" y="-600" width="2400" height="2400">'+sv+'</mask></defs>'
-      +'<g class="pb"><g mask="url(#ld-mh)"><use href="#waffle" x="16" y="16" width="1168" height="1168"/></g></g>'
-      +'<g class="pr"><g mask="url(#ld-mv)"><use href="#waffle" x="16" y="16" width="1168" height="1168"/></g></g></svg>';
+      +'<mask id="ld-mv" maskUnits="userSpaceOnUse" x="-600" y="-600" width="2400" height="2400">'+sv+'</mask>'
+      +'<filter id="ld-thin" x="-5%" y="-5%" width="110%" height="110%"><feMorphology operator="erode" radius="'+thin.toFixed(2)+'"/></filter></defs>'
+      +'<g filter="url(#ld-thin)"><g class="pb"><g mask="url(#ld-mh)"><use href="#waffle" x="16" y="16" width="1168" height="1168"/></g></g>'
+      +'<g class="pr"><g mask="url(#ld-mv)"><use href="#waffle" x="16" y="16" width="1168" height="1168"/></g></g></g></svg>';
     ld.insertAdjacentHTML('beforeend',s);w=ld.querySelector('.ld-w');
   }
   /* 1 · the panel steps back to leave a strip of paper, and the waffle prints itself there */
@@ -939,8 +940,16 @@ function runIntro(replay){
     var nm=ld.querySelector('.nm'),rg=document.createRange();nm.style.setProperty('--x','90px');rg.selectNodeContents(nm);
     var tw=0;[].forEach.call(rg.getClientRects(),function(r){tw+=r.width;});
     if(tw)nm.style.setProperty('--x',(90*(W-2*m)/tw).toFixed(2)+'px');
+    /* the lockup, measured from the name's capitals: the waffle is two cap heights tall, a three-quarter cap height above
+       the name, centred on the axis. Its stroke is thinned to the width of the name's stems, so the two print at one weight. */
+    var cap=parseFloat(getComputedStyle(nm).fontSize)*.72,lg=Math.round(cap*.75/U)*U;
+    ws=Math.round(cap*2/U)*U;x0=m+ws+gap;cx=Math.round((W-ws)/2);
+    thin=Math.max(0,(.072-.0986*cap/ws)*1168/2);
     var nb=ld.querySelector('.ld-name'),nh=0;[].forEach.call(nb.children,function(c){c.style.paddingTop='0px';c.style.paddingBottom='0px';nh+=c.offsetHeight;});
-    var nt=Math.round((VH-nh)/2/U)*U;nb.style.paddingTop=nt+'px';wy=Math.max(U*2,nt-ws-(W<720?18:27));pn.style.paddingTop=Math.round((VH/2-13.5)/U)*U+'px';
+    var nt=Math.round((VH-nh)/2/U)*U;nb.style.paddingTop=nt+'px';snap();
+    var pr=document.createElement('span');pr.style.cssText='display:inline-block;width:0;height:0;vertical-align:baseline';nm.appendChild(pr);
+    var B=pr.getBoundingClientRect().top;pr.remove();
+    var d=Math.round(((VH+ws+lg+cap)/2-B)/U)*U;nb.style.paddingTop=(nt+d)+'px';B+=d;wy=Math.round(B-cap-lg-ws);pn.style.paddingTop=Math.round((VH/2-13.5)/U)*U+'px';
     snap();waffle();panel(0);t0=performance.now();state=0;requestAnimationFrame(room);
     setTimeout(function(){if(state!==0)return;state=1;t0=performance.now();requestAnimationFrame(push);},WV);
   }
