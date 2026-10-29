@@ -309,7 +309,7 @@ html.pre .hero-print .print{transform:perspective(1400px) translateZ(-280px) rot
 .tune .actions{margin-top:9px}
 
 /* the one idea */
-.idea{grid-column:1/-1;row-gap:0;align-content:end}
+.idea{grid-column:1/-1;grid-row:2;row-gap:0;align-content:end;margin-top:27px}
 .idea .w{
   font-family:var(--sans);font-weight:700;color:var(--red);text-transform:uppercase;letter-spacing:-.045em;white-space:nowrap;
   --cap:max(calc(4 * var(--u)), round(down, calc((100cqw * 3 - 2 * var(--gap)) / 5 / 4.7 * .7275), var(--u)));
@@ -425,23 +425,17 @@ body.show-grid .ov{display:block}
       <span class="t serif ln" style="--c:1">Currently building ecosystems to</span>
       <span class="t serif ln step" style="--c:2" id="hero-last"><svg class="hk" aria-hidden="true"><use href="#hook"/></svg>help folks:</span>
     </h1>
+    <!-- the answer to the cliffhanger, on the same screen: one line, the full width of the page, overprinted -->
+    <h2 class="idea sub" id="h-idea" aria-label="Build what matters">
+      <span class="t w w1" data-t="Build" aria-hidden="true">Build</span>
+      <span class="t w w2" data-t="what" aria-hidden="true">what</span>
+      <span class="t w w3" data-t="matters" aria-hidden="true">matters</span>
+    </h2>
   </div>
+  <div class="orbit" id="orbit" hidden role="img" aria-label="Things that matter: a public library, a first job in a new field, a business the neighborhood owns, a bus that comes on time, a group that keeps meeting, housing people can afford, a park someone looks after, a map a community drew itself"></div>
 </section>
 
-<!-- 2 · The one idea: the only bold, the only red type, the only capitals larger than a label. It climbs one column per word. -->
-<section class="plate g" id="idea" data-view="home" aria-labelledby="h-idea">
-  <div class="orbit" id="orbit" hidden role="img" aria-label="Things that matter: a public library, a first job in a new field, a business the neighborhood owns, a bus that comes on time, a group that keeps meeting, housing people can afford, a park someone looks after, a map a community drew itself"></div>
-  <div class="low sub">
-    <div class="st sub" style="row-gap:0">
-      <p class="t label" style="--c:1">One thesis</p>
-      <h2 class="idea sub" id="h-idea" aria-label="Build what matters.">
-        <span class="t w w1" data-t="Build" aria-hidden="true">Build</span>
-        <span class="t w w2" data-t="what" aria-hidden="true">what</span>
-        <span class="t w w3" data-t="matters." aria-hidden="true">matters.</span>
-      </h2>
-    </div>
-  </div>
-</section>
+
 
 <!-- 3 · The ecosystem. Pinned while you scroll through the four organizations, one move of the thesis each. -->
 <section class="eco" id="ecosystem" data-view="home" aria-labelledby="hm-h">
