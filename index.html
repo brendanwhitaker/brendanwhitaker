@@ -73,18 +73,6 @@ a:focus-visible,button:focus-visible,input:focus-visible{outline:2px solid var(-
    never enters, BUILD WHAT MATTERS included (only the loading screen and the page curtain cover it); the five content columns start to its right. The header has no
    background: content scrolls under it. On phones the rail folds away into the menu button. */
 :root{--hdh:0px;--rail:234px;--band:63px}
-/* the vertical logotype under the waffle: BRENDAN (left) turned a quarter clockwise, reading down, its B at the top; WHITAKER
-   (right) turned three quarters, reading up, its W at the foot. Two columns as wide as the waffle, the same length, tops facing in. */
-/* after huyml.co, the lockup fills one row of the layout: from the top of the Menu label's capitals (36px down) to the baseline of
-   the last place in the menu (207px). The waffle takes the top 28px; a unit below it, the names run the remaining 134px.
-   The sizes and nudges below were measured from the letters' ink so both names start at 73px and end at 207px. */
-.hd .mark{top:18px}
-.logo-v{position:absolute;left:calc(max(var(--m),env(safe-area-inset-left,0px)) + 14px);top:55px;transform:translateX(-50%);display:flex;gap:var(--lv-gap,2.5px);text-decoration:none;color:var(--ink)}
-.lv{font-family:var(--sans);font-weight:500;font-size:var(--lv-fs,23.29px);line-height:var(--lv-lh,17px);letter-spacing:.1em;text-transform:uppercase;writing-mode:vertical-rl;white-space:nowrap}
-/* measured from the letters' ink: Brendan is spaced out to Whitaker's length, and Whitaker is nudged so the two start and end level */
-.lv-b{letter-spacing:var(--lv-lsb,4.62px);transform:translateY(var(--lv-by,-1.75px))}
-.lv-w{transform:rotate(180deg) translateY(var(--lv-dy,7.75px))}
-html.compact .logo-v,html.intro .logo-v{visibility:hidden}
 html:not(.compact) .page{padding-left:calc(max(var(--m),env(safe-area-inset-left,0px)) + var(--rail) + var(--gap))}
 .hd{position:fixed;top:0;left:0;right:0;z-index:4;height:var(--band);padding-top:18px;padding-left:inherit;padding-right:inherit;align-items:start}
 .hd>*{grid-row:1}
@@ -434,8 +422,7 @@ body.show-grid .ov{display:block}
 
 <div class="page">
 <header class="hd g">
-  <a class="mark" href="#home" aria-label="Brendan Whitaker, home"><svg aria-hidden="true"><use href="#waffle"/></svg></a>
-  <a class="logo-v" href="#home" tabindex="-1" aria-hidden="true"><span class="lv lv-b">Brendan</span><span class="lv lv-w">Whitaker</span></a>
+  <a class="mark" data-base="bottom" href="#home" aria-label="Brendan Whitaker, home"><svg aria-hidden="true"><use href="#waffle"/></svg></a>
   <nav class="h-nav" aria-label="Main"><p class="t label h-nl">Menu</p><p class="t serif h-list"><a class="h-a" data-t="Ecosystem" href="#home">Ecosystem</a><br><a class="h-a" data-t="Thesis" href="#thesis">Thesis</a><br><a class="h-a" data-t="Colloquia" href="#colloquia">Colloquia</a><br><a class="h-a" data-t="Work" href="#work">Work</a><br><a class="h-a" data-t="Contact" href="#contact">Contact</a></p><svg class="h-arw" viewBox="0 0 27 18" aria-hidden="true"><path d="M1 9h24M20 4l5 5-5 5" fill="none" stroke="currentColor" stroke-width="1.25"/></svg></nav>
   <button class="d3" id="stereo" type="button" aria-pressed="false" aria-label="3D mode"><span class="t label d3-t">3D<span class="d3-o d3-off">Off</span><span class="d3-o d3-on">On</span></span><svg class="d3-g" viewBox="0 0 30 12" aria-hidden="true"><circle class="d3-l d3-lr" cx="7" cy="6" r="5"/><circle class="d3-l d3-lb" cx="23" cy="6" r="5"/><path class="d3-f" d="M2 6a5 5 0 1 0 10 0a5 5 0 1 0-10 0M18 6a5 5 0 1 0 10 0a5 5 0 1 0-10 0M12 6h6"/></svg></button>
   <p class="t label h-loc" id="time">Washington, DC</p>
