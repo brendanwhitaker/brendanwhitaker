@@ -125,12 +125,13 @@ html[data-view="home"],html[data-view="home"] body{height:100%;overflow:hidden;o
    run on a 3D diagonal, past ones receding up and right, next ones coming in from the bottom left; the one in the
    centre lies flat and sharp. The full list sits on the right; the details and the big counter sit on the left. */
 .home{height:calc(round(down, 100svh, var(--u)) - 72px);grid-template-rows:auto 1fr auto;row-gap:27px;padding-block:27px 45px;position:relative;
-  --cw:calc((100cqw - 4 * var(--gap)) / 5 * 2 + var(--gap));--ch:round(down, calc(var(--cw) * .66), var(--u))}
+  --cw:calc((100cqw - 4 * var(--gap)) / 5 * 1.5 + var(--gap) * .5);--ch:round(down, calc(var(--cw) * .72), var(--u))}
 .hm-who{grid-column:1;grid-row:1;display:grid;align-content:start;row-gap:9px;position:relative;z-index:30}
-.hm-meta{grid-column:1;grid-row:2;align-self:start;margin-top:54px;display:grid;row-gap:18px;align-content:start;min-width:0;position:relative;z-index:30}
-.hm-f{display:grid}
+.hm-meta{grid-column:1;grid-row:2;align-self:start;display:grid;row-gap:9px;align-content:start;min-width:0;position:relative;z-index:30}
+.hm-f{display:grid;grid-template-columns:81px minmax(0,1fr);column-gap:9px;align-items:start}
 .hm-name,.hm-desc{display:none}
 .hm-meta.swap .t{animation:hmin .55s cubic-bezier(.2,.7,.2,1) both}
+.hm-meta.leaving .t{opacity:0;filter:blur(4px);transform:translateX(9px);transition:opacity .28s,filter .28s,transform .28s}
 @keyframes hmin{from{opacity:0;filter:blur(4px);transform:translateX(-9px)}to{opacity:1;filter:none;transform:none}}
 .hm-stack{grid-column:2/5;grid-row:1/4;position:relative;perspective:1600px;perspective-origin:50% 45%;pointer-events:none}
 .hm-card{position:absolute;left:50%;top:50%;width:var(--cw);height:var(--ch);margin-left:calc(var(--cw) / -2);margin-top:calc(var(--ch) / -2);
@@ -147,7 +148,9 @@ html[data-view="home"],html[data-view="home"] body{height:100%;overflow:hidden;o
 .hm-e button:hover,.hm-e button:focus-visible{color:var(--blue)}
 .hm-dash{display:block;width:27px;height:1px;background:var(--ink);margin:9px 0 8px}
 .hm-e .hm-ed{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;max-width:34ch}
-.hm-n{grid-column:1;grid-row:3;--x:calc(8 * var(--u));align-self:end;white-space:nowrap;position:relative;z-index:5}
+.hm-sw{grid-column:1;grid-row:3;align-self:start;position:relative;z-index:30}
+.hm-n{grid-column:2/4;grid-row:3;align-self:start;display:flex;align-items:flex-start;gap:9px;position:relative;z-index:40;pointer-events:none}
+.hm-dp{--x:calc(10 * var(--u));white-space:nowrap;mix-blend-mode:multiply}
 .hm-d{display:inline-block;position:relative;color:transparent;font-variant-numeric:tabular-nums}
 .hm-d::before,.hm-d::after{content:attr(data-t);position:absolute;left:0;top:0;mix-blend-mode:multiply;filter:blur(calc(var(--hb) * 1px))}
 .hm-d::before{color:var(--red);transform:translateX(calc(var(--hs) * -1px))}
@@ -155,14 +158,16 @@ html[data-view="home"],html[data-view="home"] body{height:100%;overflow:hidden;o
 @property --hs{syntax:'<number>';inherits:true;initial-value:0}
 @property --hb{syntax:'<number>';inherits:true;initial-value:0}
 .hm-d.roll{animation:hroll .8s cubic-bezier(.2,.7,.2,1)}
+.hm-d.out{--hs:20;--hb:6;transition:--hs .3s ease-in,--hb .3s ease-in}
 @keyframes hroll{from{--hs:26;--hb:7}to{--hs:0;--hb:0}}
-.hm-of{font-family:var(--sans);font-size:12.37px;letter-spacing:.08em;color:var(--grey)}
+.hm-of{position:relative}
 .w-print{grid-column:2/5}
 .w-print .print{height:round(down, calc(((100cqw - 4 * var(--gap)) / 5 * 3 + 2 * var(--gap)) * .5), var(--u));object-position:50% 25%}
 @media (max-width:720px){
   .home{grid-template-columns:minmax(0,1fr);grid-template-rows:auto 288px auto 1fr;row-gap:18px;padding-block:9px 45px;--cw:calc(100cqw * .72);--ch:round(down, calc(var(--cw) * .66), var(--u))}
-  .hm-who,.hm-stack,.hm-meta,.hm-n{grid-column:1}
-  .hm-who{grid-row:1}.hm-stack{grid-row:2}.hm-meta{grid-row:3;margin-top:0;row-gap:9px}.hm-n{grid-row:4;--x:calc(4 * var(--u))}
+  .hm-who,.hm-stack,.hm-meta,.hm-n,.hm-sw{grid-column:1}
+  .hm-sw,.cue{display:none}
+  .hm-who{grid-row:1}.hm-stack{grid-row:2}.hm-meta{grid-row:3;margin-top:0;row-gap:9px}.hm-n{grid-row:4;align-self:end}.hm-dp{--x:calc(5 * var(--u))}
   .hm-list,.hm-who .hm-lede,.hm-meta .hm-f{display:none}
   .hm-name,.hm-desc{display:block}
   .w-print{grid-column:1/-1}.w-print .print{height:round(down, calc(100cqw * .62), var(--u))}
@@ -211,7 +216,7 @@ html.intro .hd .mark{visibility:hidden}
 .hero-print .print{transition:transform 1.25s cubic-bezier(.2,.7,.2,1);transform-origin:50% 70%}
 html.pre .hero-print .print{transform:perspective(1400px) translateZ(-280px) rotateY(-24deg) rotateX(14deg)}
 /* scroll cue: floats on the centre axis of the first screen */
-.cue{position:fixed;left:50%;bottom:calc(27px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);z-index:5;display:flex;flex-direction:column;align-items:center;transition:opacity .4s;pointer-events:none}
+.cue{position:fixed;left:max(var(--m),env(safe-area-inset-left,0px));bottom:calc(27px + env(safe-area-inset-bottom,0px));z-index:5;display:flex;flex-direction:column;align-items:flex-start;transition:opacity .4s;pointer-events:none}
 .cue-line{width:1px;height:27px;background:var(--ink);transform-origin:top;animation:cue 1.8s ease-in-out infinite}
 @keyframes cue{0%{transform:scaleY(0);transform-origin:top}50%{transform:scaleY(1);transform-origin:top}51%{transform-origin:bottom}100%{transform:scaleY(0);transform-origin:bottom}}
 .cue.gone{opacity:0}
@@ -357,7 +362,8 @@ body.show-grid .ov{display:block}
   </div>
   <div class="hm-stack" id="hm-stack" aria-hidden="true"></div>
   <ol class="hm-list" id="hm-list" aria-label="What I’m building"><li class="hm-track" id="hm-track"></li></ol>
-  <p class="t serif hm-n" aria-hidden="true"><span class="hm-d" id="hm-d" data-t="01">01</span><span class="hm-of"> / 04</span></p>
+  <p class="t label hm-sw" aria-hidden="true">What I’m building</p>
+  <div class="hm-n" aria-hidden="true"><p class="t serif hm-dp"><span class="hm-d" id="hm-d" data-t="01">01</span></p><p class="t label hm-of">/ 04</p></div>
 </section>
 
 <!-- 2 · The one idea: the only bold, the only red type, the only capitals larger than a label. It climbs one column per word. -->
@@ -606,27 +612,35 @@ hmCards.forEach(function(c,k){c._lens=makeLens('lens-hm'+k,true);});
 var hf=0,ht=0,hmAnim=null,hmEntry=0,hmEntryT0=0,hmCur=-1;
 function mod(a,n){return ((a%n)+n)%n;}
 function inout3(x){return x<.5?4*x*x*x:1-Math.pow(-2*x+2,3)/2;}
-function hmGo(target){ht=target;hmAnim={from:hf,to:ht,t0:performance.now(),dur:reduce?1:950};hmTurned=true;cueCheck();}
+function hmGo(target){
+  ht=target;hmAnim={from:hf,to:ht,t0:performance.now(),dur:reduce?1:1050};hmTurned=true;cueCheck();
+  if(!reduce){document.getElementById('hm-meta').classList.add('leaving');var d=document.getElementById('hm-d');d.classList.remove('roll');d.classList.add('out');}
+}
 function hmStep(dir){hmGo(ht+dir);}
 function hmMeta(i){
   var o=HM[i],m=document.getElementById('hm-meta');
   setText('hm-name',o.name);setText('hm-kind',o.kind);setText('hm-part',o.part);setText('hm-desc',o.desc);
   var a=document.getElementById('hm-link');a.parentElement.style.display=o.link?'':'none';if(o.link){a.textContent=o.link[0];a.href=o.link[1];}
-  m.classList.remove('swap');void m.offsetWidth;if(!reduce)m.classList.add('swap');
+  m.classList.remove('swap','leaving');void m.offsetWidth;if(!reduce)m.classList.add('swap');
   var d=document.getElementById('hm-d'),s='0'+(i+1);d.dataset.t=s;d.textContent=s;
-  d.classList.remove('roll');void d.offsetWidth;if(!reduce)d.classList.add('roll');
+  d.classList.remove('roll','out');void d.offsetWidth;if(!reduce)d.classList.add('roll');
   hmEntries.forEach(function(e){e.querySelector('button').setAttribute('aria-current',+e.querySelector('button').dataset.i===i?'true':'false');});
-  snapPass([].slice.call(m.querySelectorAll('.t')).concat([d.parentElement]));
+  snapPass([].slice.call(m.querySelectorAll('.t')).concat([d.parentElement]));rowAlign();
 }
 function hmRender(){
   var root=document.documentElement;if(root.dataset.view!=='home')return;
   var W=hmStack.clientWidth,H=hmStack.clientHeight,e=hmEntry;
   hmCards.forEach(function(c,k){
     var d=mod(k-hf+hmN,hmN*2)-hmN;d+=(1-e)*5;
-    var s=d<0?-1:1,a=Math.abs(d),n=Math.min(a,1),m=Math.max(0,a-1);
-    var x=-s*(n*.3+m*.06)*W,y=s*(n*.42+m*.08)*H,z=s*(n*170+m*40),rx=-s*(n*58+m*8),rz=-s*(n*5+m*1.2);
-    c.style.transform='translate3d('+x.toFixed(1)+'px,'+y.toFixed(1)+'px,'+z.toFixed(1)+'px) rotateX('+rx.toFixed(2)+'deg) rotateZ('+rz.toFixed(2)+'deg)';
-    c.style.opacity=a>3.3?'0':(a>2.5?((3.3-a)/.8).toFixed(3):'1');
+    /* the path, read off the reference: past cards rise up and to the right and lean back, still mostly readable;
+       next cards wait below and to the left, close and nearly edge-on, stacked like slices. The card in the centre
+       keeps a slight lean, so the stack never looks pasted flat. */
+    var s=d<0?-1:1,a=Math.abs(d),n=Math.min(a,1),m=Math.max(0,a-1),x,y,z,rx,rz;
+    if(s<0){x=(n*.24+m*.08)*W;y=-(n*.5+m*.07)*H;z=-(n*140+m*70);rx=n*30+m*22;rz=-(n*6+m*2);}
+    else{x=-(n*.27+m*.035)*W;y=(n*.35+m*.055)*H;z=n*150+m*30;rx=-(n*64+m*7);rz=-(n*4+m*1);}
+    rx+=7*(1-n);rz+=1.2*(1-n);var ry=-7*(1-n);
+    c.style.transform='translate3d('+x.toFixed(1)+'px,'+y.toFixed(1)+'px,'+z.toFixed(1)+'px) rotateX('+rx.toFixed(2)+'deg) rotateY('+ry.toFixed(2)+'deg) rotateZ('+rz.toFixed(2)+'deg)';
+    c.style.opacity=(s<0?(a>2.4?0:a>1.6?(2.4-a)/.8:1):(a>3.6?0:a>2.8?(3.6-a)/.8:1)).toFixed(3);
     c.style.zIndex=String(100-Math.round(a*10));
     var q=Math.min(a,1.6);setLens(c,c._lens,LENS.blur*q*q*.55,LENS.sep*.45*q,LENS.mix*Math.min(1,a*2.5));
   });
@@ -748,7 +762,7 @@ function fitNav(){
 /* rows: everything meant to sit in one row shares one baseline. For each row, the first line of every cell is
    brought down to the lowest of them, rounded onto the grid. Whole cells move, so stacks keep their own rhythm and a
    button moves with its label. Icons sit on the row's baseline (data-base="bottom") or centre on its x-height (data-base="x"). */
-var ROWS='.hd,.idx li,.tk-list li,footer.g,.tk-foot,.actions';
+var ROWS='.hd,.idx li,.tk-list li,footer.g,.tk-foot,.actions,.hm-f';
 function cellsOf(row){var out=[];[].forEach.call(row.children,function(c){if(c.hasAttribute('data-cells'))[].forEach.call(c.children,function(cc){out.push(cc);});else out.push(c);});return out;}
 function shown(el){return el.getClientRects().length>0&&getComputedStyle(el).display!=='none';}
 function firstT(c){if(c.classList.contains('t'))return c;var l=c.querySelectorAll('.t');for(var i=0;i<l.length;i++){if(shown(l[i]))return l[i];}return null;}
@@ -775,8 +789,14 @@ function rowAlign(){
     [].forEach.call(row.children,function(c){if(c.hasAttribute('data-base')&&shown(c)&&lines.length)baseTo(c,lines[0].items.length?Math.max.apply(null,lines[0].items.map(function(i){return Math.ceil((i[1]-.25)/U)*U;})):0,row);});
   });
 }
+function hmPlaceMeta(){
+  var m=document.getElementById('hm-meta');m.style.marginTop='';
+  if(innerWidth<=720||document.documentElement.dataset.view!=='home')return;
+  var top=m.getBoundingClientRect().top,st=hmStack.getBoundingClientRect(),cy=st.top+st.height/2;
+  m.style.marginTop=Math.max(0,Math.round((cy-top-m.offsetHeight/2)/U)*U)+'px';
+}
 function snap(){
-  fitNav();resetRows();
+  fitNav();resetRows();hmPlaceMeta();
   /* floating cards are measured flat, in their own space; their 3D transform goes back on after */
   cards.forEach(function(c){c.style.transform='none';});
   hmCards.forEach(function(e){e.style.transform='none';});hmTrack.style.transform='none';
