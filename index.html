@@ -338,7 +338,14 @@ html:not(.compact) .idea{margin-left:calc(-1 * (var(--rail) + var(--gap)))}
 .idea.in .w{animation:bwm-r 2.2s cubic-bezier(.25,.6,.25,1) both;animation-delay:calc(var(--i) * 320ms)}
 .idea.in .w::after{animation:bwm-b 3.2s cubic-bezier(.25,.6,.25,1) both;animation-delay:calc(var(--i) * 320ms)}
 @keyframes bwm-r{0%{opacity:0;transform:translateX(-48px);filter:blur(10px)}25%{opacity:1}100%{opacity:1;transform:none;filter:blur(0)}}
-@keyframes bwm-b{0%{opacity:0;transform:translateX(48px);filter:blur(10px)}15%{opacity:1}55%{opacity:1;transform:none;filter:blur(0)}100%{opacity:0;transform:none;filter:blur(0)}}
+@keyframes bwm-b{0%{opacity:0;transform:translateX(48px);filter:blur(10px)}15%{opacity:1}100%{opacity:1;transform:none;filter:blur(0)}}
+/* once printed, the two passes stay in register: red under blue multiplies to ink. In 3D mode they part, red to the left and blue
+   to the right, so through red/blue glasses the line stands out in front of the page. */
+.idea.done .w,.idea.done .w::after{animation:none;opacity:1}
+.idea.done .w{transition:transform .9s cubic-bezier(.2,.7,.2,1)}
+.idea.done .w::after{opacity:1;transition:transform .9s cubic-bezier(.2,.7,.2,1)}
+body.stereo .idea.done .w{transform:translateX(calc(var(--fs) * -.028))}
+body.stereo .idea.done .w::after{transform:translateX(calc(var(--fs) * .056))}
 
 /* thesis figure and its steps */
 .fig{display:block;height:270px;width:100%;overflow:visible}
@@ -397,7 +404,7 @@ body.show-grid .ov{display:block}
   .c-note,.c-form{grid-column:1/-1}
   .c-form,.j-form{grid-template-columns:1fr}
 }
-@media (prefers-reduced-motion:reduce){*{transition:none!important}html.pre .hero-print .print{transform:none}.cue-line{animation:none}.loader{display:none!important}.idea .w{opacity:1}.idea.in .w,.idea.in .w::after{animation:none}}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}html.pre .hero-print .print{transform:none}.cue-line{animation:none}.loader{display:none!important}.idea .w{opacity:1}.idea.in .w,.idea.in .w::after{animation:none}.idea .w::after{opacity:1}}
 </style>
 </head>
 <body>
@@ -1004,7 +1011,7 @@ drawFig(0);route();
 var idea=document.getElementById('h-idea');
 /* ---------- intro ---------- */
 function runIntro(replay){
-  idea.classList.remove('in');clearTimeout(ideaT);
+  idea.classList.remove('in','done');clearTimeout(ideaT);
   var root=document.documentElement,ld=document.getElementById('loader');
   ld.className='loader';
   ld.innerHTML='<div class="sheet"></div><div class="ld-name"><p class="t serif nm" data-t="BRENDAN WHITAKER">BRENDAN WHITAKER</p></div><div class="push"><p class="t label ld-n">000</p></div>';
@@ -1094,10 +1101,11 @@ document.getElementById('introbtn').addEventListener('click',function(){if(locat
 var ideaT=0;
 function cueIdea(){
   if(idea.classList.contains('in'))return;
-  if(reduce){idea.classList.add('in');return;}
+  if(reduce){idea.classList.add('in','done');return;}
   clearTimeout(ideaT);ideaT=setTimeout(fireIdea,1300);
 }
-function fireIdea(){clearTimeout(ideaT);if(document.documentElement.dataset.view==='home')idea.classList.add('in');}
+function fireIdea(){clearTimeout(ideaT);if(document.documentElement.dataset.view!=='home')return;idea.classList.add('in');
+  setTimeout(function(){if(idea.classList.contains('in'))idea.classList.add('done');},reduce?0:2*320+3200+50);}
 ['wheel','touchmove','keydown'].forEach(function(ev){addEventListener(ev,function(){if(!document.documentElement.classList.contains('intro')&&document.documentElement.dataset.view==='home'&&!idea.classList.contains('in'))fireIdea();},{passive:true});});
 if(!document.documentElement.classList.contains('intro')&&document.documentElement.dataset.view==='home')(document.fonts&&document.fonts.ready?document.fonts.ready:Promise.resolve()).then(cueIdea);
 })();
