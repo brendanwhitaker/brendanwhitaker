@@ -340,7 +340,7 @@ body.show-grid .ov{display:block}
 <symbol id="hook" viewBox="0 0 40 40"><path d="M6 2V30H37M30 23L37 30L30 37" vector-effect="non-scaling-stroke"/></symbol>
 </defs></svg>
 
-<script>(function(){var r=document.documentElement,s=false;try{s=sessionStorage.getItem('overprint-loaded')==='1';}catch(e){}if(!s&&!matchMedia('(prefers-reduced-motion: reduce)').matches)r.classList.add('intro','loading','pre');})();</script>
+<script>(function(){var r=document.documentElement,s=/^#(thesis|writing|work)$/.test(location.hash);if(!s&&!matchMedia('(prefers-reduced-motion: reduce)').matches)r.classList.add('intro','loading','pre');})();</script>
 <div class="loader" id="loader" aria-hidden="true"><div class="push"></div></div>
 <div class="cue" id="cue" aria-hidden="true"><span class="t label">Scroll</span><span class="cue-line"></span></div>
 <div class="ov" aria-hidden="true"><div class="page"><div class="g"><div></div><div></div><div></div><div></div><div></div></div></div></div>
@@ -930,7 +930,6 @@ function runIntro(replay){
     (function defocus(now){var q=Math.min(1,(now-t1)/X);name(S0*.6*q,B0*.8*q);if(q<1)requestAnimationFrame(defocus);})(t1);
     ld.classList.add('out');root.classList.remove('loading','pre');
     setTimeout(function(){root.classList.remove('intro');ld.innerHTML='';ld.className='loader';ld.removeAttribute('style');},980);
-    try{sessionStorage.setItem('overprint-loaded','1');}catch(e){}
   }
   function skip(){if(state<3)exit();}
   ld.onclick=skip;addEventListener('keydown',skip,{once:true});
