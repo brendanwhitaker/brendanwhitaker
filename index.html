@@ -70,12 +70,11 @@ a:focus-visible,button:focus-visible,input:focus-visible{outline:2px solid var(-
 
 /* header sits at the top of the first plate */
 /* the header stays on screen. On wide screens the waffle and the places live in a rail of their own on the left that content
-   never enters, BUILD WHAT MATTERS included (only the loading screen and the page curtain cover it); the five content columns start to its right. The top row (where
-   and when, Subscribe) sits on a band of paper over those columns. On phones the rail folds away into the menu button. */
+   never enters, BUILD WHAT MATTERS included (only the loading screen and the page curtain cover it); the five content columns start to its right. The header has no
+   background: content scrolls under it. On phones the rail folds away into the menu button. */
 :root{--hdh:0px;--rail:234px;--band:63px}
 html:not(.compact) .page{padding-left:calc(max(var(--m),env(safe-area-inset-left,0px)) + var(--rail) + var(--gap))}
 .hd{position:fixed;top:0;left:0;right:0;z-index:4;height:var(--band);padding-top:18px;padding-left:inherit;padding-right:inherit;align-items:start}
-.hd::before{content:"";position:absolute;left:0;right:0;top:0;height:var(--band);background:var(--paper);z-index:-1}
 .hd>*{grid-row:1}
 /* absolutely placed in the header's first row, so top is measured from the row (already 18px down) */
 .mark{display:block;width:28px;height:28px;position:absolute;left:max(var(--m),env(safe-area-inset-left,0px));top:0}
@@ -319,6 +318,8 @@ html.pre .hero-print .print{transform:perspective(1400px) translateZ(-280px) rot
 }
 /* one line, as wide as the five content columns: the script sets the capital height so the line fills them */
 .idea{display:block;white-space:nowrap}
+/* the line runs the full width of the page, under the rail: it's overprint, and big enough not to fight the menu */
+html:not(.compact) .idea{margin-left:calc(-1 * (var(--rail) + var(--gap)))}
 .idea .w{display:inline-block}
 .idea .w+.w{margin-left:calc(.24em - var(--sb) * 1em)}
 .idea .w2{--sb:.005}
