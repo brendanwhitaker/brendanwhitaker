@@ -80,7 +80,8 @@ nav{display:flex;gap:0 27px;flex-wrap:wrap;align-items:flex-start}
 /* the header, after huyml.co: the places stack right beside the mark, under a "Menu" label that shares the top row's baseline
    with where and when and the controls. The current place is pushed in and pointed at; the arrow travels to the next one. */
 .h-nav{grid-column:1/4;padding-left:54px;position:relative;display:grid;justify-items:start;align-content:start}
-.h-list{--lh:18px;font-weight:400;text-transform:uppercase;letter-spacing:.01em;margin:0}
+/* the places are set in Instrument Serif capitals, x-height one unit, two units to the line */
+.h-list{--x:var(--u);--lh:calc(2 * var(--u));font-weight:400;text-transform:uppercase;letter-spacing:.03em;margin:0}
 .h-a{position:relative;display:inline-block;color:transparent;text-decoration:none;white-space:nowrap;
   transition:transform .55s cubic-bezier(.7,0,.2,1)}
 /* each place prints in two passes; hovering one puts the others out of focus, their passes drifting apart */
@@ -376,7 +377,7 @@ body.show-grid .ov{display:block}
 <div class="page">
 <header class="hd g">
   <a class="mark" data-base="bottom" href="#home" aria-label="Brendan Whitaker, home"><svg aria-hidden="true"><use href="#waffle"/></svg></a>
-  <nav class="h-nav" aria-label="Main"><p class="t label h-nl">Menu</p><p class="t sans h-list"><a class="h-a" data-t="Thesis" href="#thesis">Thesis</a><br><a class="h-a" data-t="Colloquia" href="#colloquia">Colloquia</a><br><a class="h-a" data-t="Writing" href="#writing">Writing</a><br><a class="h-a" data-t="Work with me" href="#work">Work with me</a></p><svg class="h-arw" viewBox="0 0 18 18" aria-hidden="true"><path d="M1 9h15M11 4l5 5-5 5" fill="none" stroke="currentColor" stroke-width="1.25"/></svg></nav>
+  <nav class="h-nav" aria-label="Main"><p class="t label h-nl">Menu</p><p class="t serif h-list"><a class="h-a" data-t="Thesis" href="#thesis">Thesis</a><br><a class="h-a" data-t="Colloquia" href="#colloquia">Colloquia</a><br><a class="h-a" data-t="Writing" href="#writing">Writing</a><br><a class="h-a" data-t="Work with me" href="#work">Work with me</a></p><svg class="h-arw" viewBox="0 0 18 18" aria-hidden="true"><path d="M1 9h15M11 4l5 5-5 5" fill="none" stroke="currentColor" stroke-width="1.25"/></svg></nav>
   <p class="t label h-loc" id="time">Washington, DC</p>
   <div class="h-end" data-cells><a class="t sans h-sub" href="#join">Subscribe</a><button class="menu" id="menubtn" type="button" aria-expanded="false" aria-controls="takeover"><span class="t label mb-l" id="mb-l">Menu</span><span class="mb-i" data-base="x" aria-hidden="true"><span class="bar b1"></span><span class="bar b2"></span></span></button></div>
 </header>
