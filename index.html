@@ -71,7 +71,7 @@ a:focus-visible,button:focus-visible,input:focus-visible{outline:2px solid var(-
 /* header sits at the top of the first plate */
 .hd{position:relative;z-index:4;height:var(--hdh);padding-top:18px;align-items:start}
 .hd>*{grid-row:1}
-:root{--hdh:126px}
+:root{--hdh:225px}
 .mark{display:block;width:28px;height:28px;grid-column:1}
 /* 28px: the waffle is drawn on a 14-unit grid, so at 28 every bar and gap lands on whole pixels (2px a unit, 4 on retina) */
 .mark svg{display:block;width:28px;height:28px;fill:var(--ink)}
@@ -80,17 +80,19 @@ nav{display:flex;gap:0 27px;flex-wrap:wrap;align-items:flex-start}
 /* the header, after huyml.co: the places stack right beside the mark, under a "Menu" label that shares the top row's baseline
    with where and when and the controls. The current place is pushed in and pointed at; the arrow travels to the next one. */
 .h-nav{grid-column:1/4;padding-left:54px;position:relative;display:grid;justify-items:start;align-content:start}
-/* the places are set in Instrument Serif capitals, x-height one unit, two units to the line */
-.h-list{--x:var(--u);--lh:calc(2 * var(--u));font-weight:400;text-transform:uppercase;letter-spacing:.03em;margin:0}
+/* the places are set in Instrument Serif capitals at the item size (x-height two units, four units to the line),
+   two units below the label, which is set in title case */
+.h-list{--x:calc(2 * var(--u));--lh:calc(4 * var(--u));font-weight:400;text-transform:uppercase;letter-spacing:.02em;margin:18px 0 0}
+.h-nl{text-transform:none;letter-spacing:.02em}
 .h-a{position:relative;display:inline-block;color:transparent;text-decoration:none;white-space:nowrap;
   transition:transform .55s cubic-bezier(.7,0,.2,1)}
 /* each place prints in two passes; hovering one puts the others out of focus, their passes drifting apart */
 .h-a::before,.h-a::after{content:attr(data-t);position:absolute;left:0;top:0;mix-blend-mode:multiply;transition:transform .4s cubic-bezier(.2,.7,.2,1),filter .4s}
 .h-a::before{color:var(--red)}.h-a::after{color:var(--blue)}
-.h-list:hover .h-a:not(:hover)::before,.h-list:focus-within .h-a:not(:focus-visible):not(:hover)::before{transform:translateX(-2px);filter:blur(1.6px)}
-.h-list:hover .h-a:not(:hover)::after,.h-list:focus-within .h-a:not(:focus-visible):not(:hover)::after{transform:translateX(2px);filter:blur(1.6px)}
-.h-a[aria-current="page"]{transform:translateX(27px)}
-.h-arw{position:absolute;left:54px;top:0;width:18px;height:18px;color:var(--ink);opacity:0;transition:transform .55s cubic-bezier(.7,0,.2,1),opacity .3s}
+.h-list:hover .h-a:not(:hover)::before,.h-list:focus-within .h-a:not(:focus-visible):not(:hover)::before{transform:translateX(-3px);filter:blur(2.4px)}
+.h-list:hover .h-a:not(:hover)::after,.h-list:focus-within .h-a:not(:focus-visible):not(:hover)::after{transform:translateX(3px);filter:blur(2.4px)}
+.h-a[aria-current="page"]{transform:translateX(36px)}
+.h-arw{position:absolute;left:54px;top:0;width:27px;height:18px;color:var(--ink);opacity:0;transition:transform .55s cubic-bezier(.7,0,.2,1),opacity .3s}
 .h-nav.on .h-arw{opacity:1}.h-loc{grid-column:4}.h-end{grid-column:5;display:flex;justify-content:flex-end;align-items:flex-start;gap:18px}
 /* the menu: when the header row gets crowded, at whatever width that is, the places fold into a button.
    Its two bars are each printed in two passes; they separate as they move and land back in register as ink. */
@@ -377,7 +379,7 @@ body.show-grid .ov{display:block}
 <div class="page">
 <header class="hd g">
   <a class="mark" data-base="bottom" href="#home" aria-label="Brendan Whitaker, home"><svg aria-hidden="true"><use href="#waffle"/></svg></a>
-  <nav class="h-nav" aria-label="Main"><p class="t label h-nl">Menu</p><p class="t serif h-list"><a class="h-a" data-t="Thesis" href="#thesis">Thesis</a><br><a class="h-a" data-t="Colloquia" href="#colloquia">Colloquia</a><br><a class="h-a" data-t="Writing" href="#writing">Writing</a><br><a class="h-a" data-t="Work with me" href="#work">Work with me</a></p><svg class="h-arw" viewBox="0 0 18 18" aria-hidden="true"><path d="M1 9h15M11 4l5 5-5 5" fill="none" stroke="currentColor" stroke-width="1.25"/></svg></nav>
+  <nav class="h-nav" aria-label="Main"><p class="t label h-nl">Menu</p><p class="t serif h-list"><a class="h-a" data-t="Thesis" href="#thesis">Thesis</a><br><a class="h-a" data-t="Colloquia" href="#colloquia">Colloquia</a><br><a class="h-a" data-t="Writing" href="#writing">Writing</a><br><a class="h-a" data-t="Work with me" href="#work">Work with me</a></p><svg class="h-arw" viewBox="0 0 27 18" aria-hidden="true"><path d="M1 9h24M20 4l5 5-5 5" fill="none" stroke="currentColor" stroke-width="1.25"/></svg></nav>
   <p class="t label h-loc" id="time">Washington, DC</p>
   <div class="h-end" data-cells><a class="t sans h-sub" href="#join">Subscribe</a><button class="menu" id="menubtn" type="button" aria-expanded="false" aria-controls="takeover"><span class="t label mb-l" id="mb-l">Menu</span><span class="mb-i" data-base="x" aria-hidden="true"><span class="bar b1"></span><span class="bar b2"></span></span></button></div>
 </header>
@@ -727,8 +729,9 @@ function markNav(){
   var h=location.hash.slice(1),nav=document.querySelector('.h-nav'),cur=null;
   [].forEach.call(document.querySelectorAll('.h-a,.tk-l'),function(a){var on=a.getAttribute('href')==='#'+h;a.setAttribute('aria-current',on?'page':'false');if(on&&a.classList.contains('h-a'))cur=a;});
   nav.classList.toggle('on',!!cur);
-  if(cur){var arw=nav.querySelector('.h-arw'),nb=nav.getBoundingClientRect().top,cr=cur.getBoundingClientRect(),b=probe(document.querySelector('.h-list')).getBoundingClientRect().top+Math.round((cr.top-document.querySelector('.h-a').getBoundingClientRect().top)/18)*18-nb;
-    arw.style.transform='translateY('+(b-4.5-9).toFixed(1)+'px)';}
+  if(cur){var arw=nav.querySelector('.h-arw'),nb=nav.getBoundingClientRect().top,cr=cur.getBoundingClientRect(),hl=document.querySelector('.h-list'),lh=parseFloat(getComputedStyle(hl).lineHeight),xh=parseFloat(getComputedStyle(hl).fontSize)*.72,
+      b=probe(hl).getBoundingClientRect().top+Math.round((cr.top-document.querySelector('.h-a').getBoundingClientRect().top)/lh)*lh-nb;
+    arw.style.transform='translateY('+(b-xh/2-9).toFixed(1)+'px)';}
 }
 /* moving between pages, after huyml.co: the arrow travels first, then an ink sheet rises over the page, the next page's name
    comes into focus on it, the page changes underneath, and the sheet carries on up and off. Scrolling within home is left alone. */
