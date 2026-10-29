@@ -346,6 +346,12 @@ html:not(.compact) .idea{margin-left:calc(-1 * (var(--rail) + var(--gap)))}
 .idea.done .w::after{opacity:1;transition:transform .9s cubic-bezier(.2,.7,.2,1)}
 body.stereo .idea.done .w{transform:translateX(calc(var(--fs) * -.028))}
 body.stereo .idea.done .w::after{transform:translateX(calc(var(--fs) * .056))}
+/* as the page scrolls, the line rises toward the menu and falls out of register: the passes slide apart and soften, so by the
+   time it passes behind the places it is only a haze of red and blue. --ip runs from 0 at rest to 1 behind the menu. */
+@property --ip{syntax:'<number>';inherits:true;initial-value:0}
+.idea{--ip:0;filter:blur(calc(var(--ip) * var(--ip) * 16px))}
+.idea .w{translate:calc(var(--fs) * -.09 * var(--ip)) 0}
+.idea .w::after{translate:calc(var(--fs) * .18 * var(--ip)) 0}
 
 /* thesis figure and its steps */
 .fig{display:block;height:270px;width:100%;overflow:visible}
@@ -1007,6 +1013,15 @@ tick();setInterval(tick,30000);
 /* scroll cue fades once you start */
 var cue=document.getElementById('cue');function cueCheck(){cue.classList.toggle('gone',scrollY>innerHeight*.2||document.documentElement.dataset.view!=='home');}
 addEventListener('scroll',cueCheck,{passive:true});
+/* BUILD WHAT MATTERS defocuses as it climbs toward the menu */
+function ideaScroll(){
+  if(reduce||document.documentElement.dataset.view!=='home'){idea.style.setProperty('--ip','0');return;}
+  var r=idea.getBoundingClientRect(),rest=r.top+scrollY,mid=r.height/2,
+      target=document.documentElement.classList.contains('compact')?36:153,
+      span=Math.max(1,rest+mid-target),p=Math.min(1,Math.max(0,scrollY/span));
+  idea.style.setProperty('--ip',(p*p*(3-2*p)).toFixed(3));
+}
+addEventListener('scroll',function(){requestAnimationFrame(ideaScroll);},{passive:true});
 drawFig(0);route();
 var idea=document.getElementById('h-idea');
 /* ---------- intro ---------- */
