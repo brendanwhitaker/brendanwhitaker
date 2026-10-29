@@ -114,12 +114,23 @@ html.menu-open .b2{top:9px;transform:rotate(-45deg)}
 html.menu-open{overflow:hidden}
 html.menu-open .hd{z-index:95}
 
-/* the page curtain: ink, rising from the foot of the page; it carries the next page's name, which comes into focus */
-.curtain{position:fixed;inset:0;z-index:98;background:var(--ink);transform:translateY(100%);visibility:hidden;pointer-events:none;display:grid;place-items:center}
-.curtain.cover{visibility:visible;transform:none;transition:transform .65s cubic-bezier(.7,0,.2,1)}
-.curtain.lift{visibility:visible;transform:translateY(-100%);transition:transform .8s cubic-bezier(.7,0,.2,1)}
-.ct-t{--x:clamp(calc(4 * var(--u)), round(down, 4.4vw, var(--u)), calc(8 * var(--u)));color:var(--paper);margin:0;filter:blur(10px);opacity:0;transition:filter .5s cubic-bezier(.2,.7,.2,1) .25s,opacity .3s .25s}
-.curtain.cover .ct-t,.curtain.lift .ct-t{filter:blur(0);opacity:1}
+/* the page curtain, printed: two sheets, red then blue, rise from the foot of the page a beat apart; where they overlap they
+   multiply to ink. Each sheet has the next page's name knocked out of it, in paper. The two knock-outs start out of register,
+   so the name shows red and blue fringes, then slide into register and come into focus as clean paper. */
+@property --co{syntax:'<length>';inherits:true;initial-value:0px}
+@property --cb{syntax:'<length>';inherits:true;initial-value:0px}
+.curtain{position:fixed;inset:0;z-index:98;visibility:hidden;pointer-events:none;isolation:isolate;--co:28px;--cb:8px}
+.cs{position:absolute;inset:0;display:grid;place-items:center;mix-blend-mode:multiply;transform:translateY(100%)}
+.cs-r{background:var(--red)}.cs-b{background:var(--blue)}
+.ct-t{--x:clamp(calc(4 * var(--u)), round(down, 4.4vw, var(--u)), calc(8 * var(--u)));color:var(--paper);margin:0;text-transform:uppercase;letter-spacing:.02em;white-space:nowrap;filter:blur(var(--cb))}
+.cs-r .ct-t{transform:translateX(calc(var(--co) * -1))}.cs-b .ct-t{transform:translateX(var(--co))}
+.curtain.cover,.curtain.lift{visibility:visible}
+.curtain.cover{--co:0px;--cb:0px;transition:--co .9s cubic-bezier(.2,.7,.2,1) .3s,--cb .7s cubic-bezier(.2,.7,.2,1) .3s}
+.curtain.cover .cs{transform:none;transition:transform .65s cubic-bezier(.7,0,.2,1)}
+.curtain.cover .cs-b{transition-delay:.06s}
+.curtain.lift{--co:0px;--cb:0px}
+.curtain.lift .cs{transform:translateY(-100%);transition:transform .8s cubic-bezier(.7,0,.2,1)}
+.curtain.lift .cs-b{transition-delay:.025s}
 /* the takeover: a sheet laid down from the top; each place prints in two passes that slide into register */
 @property --tls{syntax:'<number>';inherits:true;initial-value:0}
 @property --tlb{syntax:'<number>';inherits:true;initial-value:0}
@@ -754,7 +765,7 @@ function markNav(){
 /* moving between pages, after huyml.co: the arrow travels first, then an ink sheet rises over the page, the next page's name
    comes into focus on it, the page changes underneath, and the sheet carries on up and off. Scrolling within home is left alone. */
 var curtain=document.createElement('div');curtain.className='curtain';curtain.setAttribute('aria-hidden','true');
-curtain.innerHTML='<p class="t serif ct-t"></p>';document.body.appendChild(curtain);
+curtain.innerHTML='<div class="cs cs-r"><p class="t serif ct-t"></p></div><div class="cs cs-b"><p class="t serif ct-t"></p></div>';document.body.appendChild(curtain);
 var NAMES={home:'Ecosystem',thesis:'Thesis',work:'Work',contact:'Contact',colloquia:'Colloquia',reading:'Colloquia',join:'Join the colloquia',ecosystem:'My ecosystem',idea:'Build what matters'};
 function viewOf(h){var el=h?document.getElementById(h):null;return VIEWS.indexOf(h)>=0?h:(el&&el.closest('[data-view]')?el.closest('[data-view]').dataset.view:'home');}
 var going=0;
@@ -762,12 +773,12 @@ function go(){
   var h=location.hash.slice(1),root=document.documentElement;
   if(reduce||root.classList.contains('intro')||viewOf(h)===root.dataset.view){route();return;}
   var my=++going;markNav();
-  setText2(curtain.querySelector('.ct-t'),NAMES[h]||NAMES[viewOf(h)]||'');
+  [].forEach.call(curtain.querySelectorAll('.ct-t'),function(e){setText2(e,NAMES[h]||NAMES[viewOf(h)]||'');});
   curtain.className='curtain';void curtain.offsetWidth;
   setTimeout(function(){if(my!==going)return;curtain.classList.add('cover');},220);
   setTimeout(function(){if(my!==going)return;route();},220+650);
   setTimeout(function(){if(my!==going)return;curtain.classList.add('lift');},220+650+450);
-  setTimeout(function(){if(my!==going)return;curtain.className='curtain';},220+650+450+800);
+  setTimeout(function(){if(my!==going)return;curtain.className='curtain';},220+650+450+900);
 }
 addEventListener('hashchange',go);
 if('scrollRestoration' in history)history.scrollRestoration='manual';
