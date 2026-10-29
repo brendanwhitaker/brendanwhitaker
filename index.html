@@ -71,28 +71,28 @@ a:focus-visible,button:focus-visible,input:focus-visible{outline:2px solid var(-
 /* header sits at the top of the first plate */
 .hd{position:relative;z-index:4;height:var(--hdh);padding-top:18px;align-items:start}
 .hd>*{grid-row:1}
-:root{--hdh:225px}
+:root{--hdh:198px}
 .mark{display:block;width:28px;height:28px;grid-column:1}
 /* 28px: the waffle is drawn on a 14-unit grid, so at 28 every bar and gap lands on whole pixels (2px a unit, 4 on retina) */
 .mark svg{display:block;width:28px;height:28px;fill:var(--ink)}
 nav{display:flex;gap:0 27px;flex-wrap:wrap;align-items:flex-start}
 .hd .meta{display:grid;align-content:start}
-/* the header, after huyml.co: the places stack right beside the mark, under a "Menu" label that shares the top row's baseline
+/* the header, after huyml.co: the places stack in the second column, beside the mark, under a "Menu" label that shares the top row's baseline
    with where and when and the controls. The current place is pushed in and pointed at; the arrow travels to the next one. */
-.h-nav{grid-column:1/4;padding-left:54px;position:relative;display:grid;justify-items:start;align-content:start}
-/* the places are set in Instrument Serif capitals at the item size (x-height two units, four units to the line),
+.h-nav{grid-column:2/4;padding-left:0;position:relative;display:grid;justify-items:start;align-content:start}
+/* the places are set in Instrument Serif capitals at a half step (x-height one and a half units, three units to the line),
    two units below the label, which is set in title case */
-.h-list{--x:calc(2 * var(--u));--lh:calc(4 * var(--u));font-weight:400;text-transform:uppercase;letter-spacing:.02em;margin:18px 0 0}
+.h-list{--x:calc(1.5 * var(--u));--lh:calc(3 * var(--u));font-weight:400;text-transform:uppercase;letter-spacing:.02em;margin:18px 0 0}
 .h-nl{text-transform:none;letter-spacing:.02em}
 .h-a{position:relative;display:inline-block;color:transparent;text-decoration:none;white-space:nowrap;
   transition:transform .55s cubic-bezier(.7,0,.2,1)}
 /* each place prints in two passes; hovering one puts the others out of focus, their passes drifting apart */
 .h-a::before,.h-a::after{content:attr(data-t);position:absolute;left:0;top:0;mix-blend-mode:multiply;transition:transform .4s cubic-bezier(.2,.7,.2,1),filter .4s}
 .h-a::before{color:var(--red)}.h-a::after{color:var(--blue)}
-.h-list:hover .h-a:not(:hover)::before,.h-list:focus-within .h-a:not(:focus-visible):not(:hover)::before{transform:translateX(-3px);filter:blur(2.4px)}
-.h-list:hover .h-a:not(:hover)::after,.h-list:focus-within .h-a:not(:focus-visible):not(:hover)::after{transform:translateX(3px);filter:blur(2.4px)}
+.h-list:hover .h-a:not(:hover)::before,.h-list:focus-within .h-a:not(:focus-visible):not(:hover)::before{transform:translateX(-2.5px);filter:blur(2px)}
+.h-list:hover .h-a:not(:hover)::after,.h-list:focus-within .h-a:not(:focus-visible):not(:hover)::after{transform:translateX(2.5px);filter:blur(2px)}
 .h-a[aria-current="page"]{transform:translateX(36px)}
-.h-arw{position:absolute;left:54px;top:0;width:27px;height:18px;color:var(--ink);opacity:0;transition:transform .55s cubic-bezier(.7,0,.2,1),opacity .3s}
+.h-arw{position:absolute;left:0;top:0;width:27px;height:18px;color:var(--ink);opacity:0;transition:transform .55s cubic-bezier(.7,0,.2,1),opacity .3s}
 .h-nav.on .h-arw{opacity:1}.h-loc{grid-column:4}.h-end{grid-column:5;display:flex;justify-content:flex-end;align-items:flex-start;gap:18px}
 /* the menu: when the header row gets crowded, at whatever width that is, the places fold into a button.
    Its two bars are each printed in two passes; they separate as they move and land back in register as ink. */
