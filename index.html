@@ -882,7 +882,7 @@ function runIntro(replay){
   var root=document.documentElement,ld=document.getElementById('loader');
   ld.className='loader';
   var ph=document.querySelector('.w-print .print');
-  ld.innerHTML='<div class="sheet">'+(ph?'<img class="ld-ph" alt="" src="'+ph.src+'">':'')+'</div><div class="ld-name"><p class="t serif nm" data-t="BRENDAN">BRENDAN</p><p class="t serif nm" data-t="WHITAKER">WHITAKER</p></div><div class="push"><p class="t label ld-n">000</p></div>';
+  ld.innerHTML='<div class="sheet">'+(ph?'<img class="ld-ph" alt="" src="'+ph.src+'">':'')+'</div><div class="ld-name"><p class="t serif nm" data-t="BRENDAN WHITAKER">BRENDAN WHITAKER</p></div><div class="push"><p class="t label ld-n">000</p></div>';
   root.classList.add('intro','loading','pre');
   var n=ld.querySelector('.ld-n'),pn=ld.querySelector('.push'),w=null;
   var S0=Math.max(12,LENS.sep*4),B0=Math.max(2,LENS.blur*2),R=350,WV=1300,T=1500,H=600,X=650,state=0,t0=0;
@@ -936,6 +936,10 @@ function runIntro(replay){
   ld.onclick=skip;addEventListener('keydown',skip,{once:true});
   function go(){
     /* centre the name and the counter on whole units from the top, so their baselines land on the loader's grid */
+    /* the name is one line, set to the full width between the margins */
+    var nm=ld.querySelector('.nm'),rg=document.createRange();nm.style.setProperty('--x','90px');rg.selectNodeContents(nm);
+    var tw=0;[].forEach.call(rg.getClientRects(),function(r){tw+=r.width;});
+    if(tw)nm.style.setProperty('--x',(90*(W-2*m)/tw).toFixed(2)+'px');
     var nb=ld.querySelector('.ld-name'),nh=0;[].forEach.call(nb.children,function(c){c.style.paddingTop='0px';c.style.paddingBottom='0px';nh+=c.offsetHeight;});
     var nt=Math.round((VH-nh)/2/U)*U;nb.style.paddingTop=nt+'px';wy=Math.max(U*2,nt-ws-(W<720?18:27));pn.style.paddingTop=Math.round((VH/2-13.5)/U)*U+'px';
     snap();waffle();panel(0);t0=performance.now();state=0;requestAnimationFrame(room);
