@@ -88,13 +88,13 @@ html.loading{overflow:hidden}
 html.intro .loader{display:block;position:fixed;inset:0;z-index:100;cursor:pointer;overflow:hidden}
 .sheet{position:absolute;inset:0;background:var(--paper);transition:transform .9s cubic-bezier(.7,0,.2,1)}
 .loader.out .sheet{transform:translateY(-100%)}
-.ld-name{position:absolute;inset:0;display:grid;place-content:center;justify-items:center;transition:transform .9s cubic-bezier(.7,0,.2,1),opacity .7s}
+.ld-name{position:absolute;inset:0;display:grid;align-content:start;justify-content:center;justify-items:center;transition:transform .9s cubic-bezier(.7,0,.2,1),opacity .7s}
 .loader.out .ld-name{transform:translateY(-30vh);opacity:0}
 .nm{--x:clamp(calc(4 * var(--u)), round(down, 5.6vw, var(--u)), calc(10 * var(--u)));position:relative;color:transparent;white-space:nowrap;text-align:center}
 .nm::before,.nm::after{content:attr(data-t);position:absolute;left:0;top:0;width:100%;padding-top:inherit;mix-blend-mode:multiply;filter:blur(calc(var(--lb,0) * 1px))}
 .nm::before{color:var(--red);transform:translateX(calc(var(--ls,0) * -1px))}
 .nm::after{color:var(--blue);transform:translateX(calc(var(--ls,0) * 1px))}
-.push{position:absolute;inset:0;background:var(--ink);transform:translateX(var(--px,0px));display:flex;align-items:center;padding-left:18px}
+.push{position:absolute;inset:0;background:var(--ink);transform:translateX(var(--px,0px));display:flex;align-items:flex-start;padding-left:18px}
 /* the waffle is the one pushing: it prints itself in a strip of paper, woven blue then red, slides into register,
    then leans on the panel's edge and walks it off the page. At the end it flies home to the header. */
 html.intro .hd .mark{visibility:hidden}
@@ -657,6 +657,9 @@ function runIntro(replay){
   function skip(){if(state<3)exit();}
   ld.onclick=skip;addEventListener('keydown',skip,{once:true});
   function go(){
+    /* centre the name and the counter on whole units from the top, so their baselines land on the loader's grid */
+    var nb=ld.querySelector('.ld-name'),nh=0;[].forEach.call(nb.children,function(c){c.style.paddingTop='0px';c.style.paddingBottom='0px';nh+=c.offsetHeight;});
+    nb.style.paddingTop=Math.round((VH-nh)/2/U)*U+'px';pn.style.paddingTop=Math.round((VH/2-13.5)/U)*U+'px';
     snap();waffle();panel(0);t0=performance.now();state=0;requestAnimationFrame(room);
     setTimeout(function(){if(state!==0)return;state=1;t0=performance.now();requestAnimationFrame(push);},WV);
   }
