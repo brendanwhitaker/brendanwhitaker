@@ -332,9 +332,13 @@ html:not(.compact) .idea{margin-left:calc(-1 * (var(--rail) + var(--gap)))}
 #idea .low{z-index:auto}
 .idea .w{position:relative;z-index:2;mix-blend-mode:multiply}
 .idea .w::after{content:attr(data-t);position:absolute;left:0;top:0;padding-top:inherit;color:var(--blue);mix-blend-mode:multiply;opacity:0;transform:translateX(var(--reg,0px));pointer-events:none}
-.idea.reg .w::after{animation:reg 1.6s cubic-bezier(.2,.7,.2,1) both}
-.idea.reg .w2::after{animation-delay:.12s}.idea.reg .w3::after{animation-delay:.24s}
-@keyframes reg{0%{opacity:1;transform:translateX(27px)}55%{opacity:1;transform:translateX(0)}100%{opacity:0;transform:translateX(0)}}
+/* the answer waits a beat: the hero line is read first, then BUILD WHAT MATTERS prints itself, word by word. The red pass slides
+   in from the left out of focus, the blue from the right; they meet in register, then the blue lifts off and the red stays. */
+.idea .w{opacity:0}
+.idea.in .w{animation:bwm-r 1s cubic-bezier(.2,.7,.2,1) both;animation-delay:calc(var(--i) * 110ms)}
+.idea.in .w::after{animation:bwm-b 1.5s cubic-bezier(.2,.7,.2,1) both;animation-delay:calc(var(--i) * 110ms)}
+@keyframes bwm-r{0%{opacity:0;transform:translateX(-48px);filter:blur(10px)}25%{opacity:1}100%{opacity:1;transform:none;filter:blur(0)}}
+@keyframes bwm-b{0%{opacity:0;transform:translateX(48px);filter:blur(10px)}15%{opacity:1}55%{opacity:1;transform:none;filter:blur(0)}100%{opacity:0;transform:none;filter:blur(0)}}
 
 /* thesis figure and its steps */
 .fig{display:block;height:270px;width:100%;overflow:visible}
@@ -393,7 +397,7 @@ body.show-grid .ov{display:block}
   .c-note,.c-form{grid-column:1/-1}
   .c-form,.j-form{grid-template-columns:1fr}
 }
-@media (prefers-reduced-motion:reduce){*{transition:none!important}html.pre .hero-print .print{transform:none}.cue-line{animation:none}.loader{display:none!important}.idea.reg .w::after{animation:none}}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}html.pre .hero-print .print{transform:none}.cue-line{animation:none}.loader{display:none!important}.idea .w{opacity:1}.idea.in .w,.idea.in .w::after{animation:none}}
 </style>
 </head>
 <body>
@@ -427,9 +431,9 @@ body.show-grid .ov{display:block}
     </h1>
     <!-- the answer to the cliffhanger, on the same screen: one line, the full width of the page, overprinted -->
     <h2 class="idea sub" id="h-idea" aria-label="Build what matters">
-      <span class="t w w1" data-t="Build" aria-hidden="true">Build</span>
-      <span class="t w w2" data-t="what" aria-hidden="true">what</span>
-      <span class="t w w3" data-t="matters" aria-hidden="true">matters</span>
+      <span class="t w w1" style="--i:0" data-t="Build" aria-hidden="true">Build</span>
+      <span class="t w w2" style="--i:1" data-t="what" aria-hidden="true">what</span>
+      <span class="t w w3" style="--i:2" data-t="matters" aria-hidden="true">matters</span>
     </h2>
   </div>
   <div class="orbit" id="orbit" hidden role="img" aria-label="Things that matter: a public library, a first job in a new field, a business the neighborhood owns, a bus that comes on time, a group that keeps meeting, housing people can afford, a park someone looks after, a map a community drew itself"></div>
@@ -793,7 +797,7 @@ function go(){
   curtain.className='curtain';void curtain.offsetWidth;
   setTimeout(function(){if(my!==going)return;curtain.classList.add('cover');},220);
   setTimeout(function(){if(my!==going)return;route();},220+650);
-  setTimeout(function(){if(my!==going)return;curtain.classList.add('lift');},220+650+450);
+  setTimeout(function(){if(my!==going)return;curtain.classList.add('lift');if(root.dataset.view==='home')cueIdea();},220+650+450);
   setTimeout(function(){if(my!==going)return;curtain.className='curtain';},220+650+450+900);
 }
 addEventListener('hashchange',go);
@@ -997,8 +1001,10 @@ tick();setInterval(tick,30000);
 var cue=document.getElementById('cue');function cueCheck(){cue.classList.toggle('gone',scrollY>innerHeight*.2||document.documentElement.dataset.view!=='home');}
 addEventListener('scroll',cueCheck,{passive:true});
 drawFig(0);route();
+var idea=document.getElementById('h-idea');
 /* ---------- intro ---------- */
 function runIntro(replay){
+  idea.classList.remove('in');clearTimeout(ideaT);
   var root=document.documentElement,ld=document.getElementById('loader');
   ld.className='loader';
   ld.innerHTML='<div class="sheet"></div><div class="ld-name"><p class="t serif nm" data-t="BRENDAN WHITAKER">BRENDAN WHITAKER</p></div><div class="push"><p class="t label ld-n">000</p></div>';
@@ -1054,7 +1060,7 @@ function runIntro(replay){
       name(S0*.6*Math.min(1,(now-t1)/X),B0*.8*Math.min(1,(now-t1)/X));
       if(q<1){requestAnimationFrame(fly);return;}
       /* land: the header mark takes over in the same frame the flying one goes */
-      root.classList.remove('intro');ld.innerHTML='';ld.className='loader';ld.removeAttribute('style');
+      root.classList.remove('intro');ld.innerHTML='';ld.className='loader';ld.removeAttribute('style');cueIdea();
     })(t1);
   }
   function skip(){if(state<3)exit();}
@@ -1083,8 +1089,17 @@ function runIntro(replay){
 function setText2(el,h){var z=el.querySelector(':scope>.za');el.textContent=h;if(z)el.insertBefore(z,el.firstChild);}
 if(document.documentElement.classList.contains('intro'))runIntro(false);
 document.getElementById('introbtn').addEventListener('click',function(){if(location.hash&&location.hash!=='#home')location.hash='home';scrollTo(0,0);runIntro(true);});
-var idea=document.getElementById('h-idea');
-if('IntersectionObserver' in window){var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting&&e.intersectionRatio>.5){idea.classList.add('reg');io.disconnect();}});},{threshold:[.5]});io.observe(idea);}
+/* cue BUILD WHAT MATTERS: 1.3s after the hero is in view, about the time it takes to read the line above it;
+   at once if the reader starts to scroll first, so it is always there before they leave. */
+var ideaT=0;
+function cueIdea(){
+  if(idea.classList.contains('in'))return;
+  if(reduce){idea.classList.add('in');return;}
+  clearTimeout(ideaT);ideaT=setTimeout(fireIdea,1300);
+}
+function fireIdea(){clearTimeout(ideaT);if(document.documentElement.dataset.view==='home')idea.classList.add('in');}
+['wheel','touchmove','keydown'].forEach(function(ev){addEventListener(ev,function(){if(!document.documentElement.classList.contains('intro')&&document.documentElement.dataset.view==='home'&&!idea.classList.contains('in'))fireIdea();},{passive:true});});
+if(!document.documentElement.classList.contains('intro')&&document.documentElement.dataset.view==='home')(document.fonts&&document.fonts.ready?document.fonts.ready:Promise.resolve()).then(cueIdea);
 })();
 </script>
 
