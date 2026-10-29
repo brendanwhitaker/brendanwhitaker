@@ -360,6 +360,21 @@ body.stereo .idea.done .w::after{transform:translateX(calc(var(--fs) * .056))}
 
 /* indexes */
 .idx{row-gap:9px;align-content:start}
+/* the system: dots on the 9px lattice, stacked in five bins that sit on the five columns */
+.sys{grid-column:1/-1;position:relative;height:var(--sys-h,180px)}
+.sys-dot{position:absolute;left:0;top:0;width:9px;height:9px;transition:transform .7s cubic-bezier(.45,0,.2,1)}
+.sys-dot::before,.sys-dot::after{content:"";position:absolute;inset:0;border-radius:50%;mix-blend-mode:multiply;transition:transform .7s cubic-bezier(.2,.7,.2,1)}
+.sys-dot::before{background:var(--red)}.sys-dot::after{background:var(--blue)}
+/* moving, a dot is out of register; at rest, red under blue prints ink */
+.sys-dot.go::before{transform:translateX(-3px)}.sys-dot.go::after{transform:translateX(3px)}
+body.stereo .sys-dot::before{transform:translateX(calc(var(--b) * -1.2px))}body.stereo .sys-dot::after{transform:translateX(calc(var(--b) * 1.2px))}
+.sys-bins{grid-column:1/-1;list-style:none;margin:9px 0 0;padding:0;border-top:1px solid var(--ink)}
+.sys-bins li{grid-column:auto;padding-top:9px}
+.sys-orgs{grid-column:1/-1;grid-row:3;margin-top:54px}
+.sys-orgs li>*{min-width:0}
+.sys-sw{all:unset;cursor:pointer;justify-self:end;white-space:nowrap}
+.sys-sw .o{color:var(--mute);margin-left:9px}.sys-sw[aria-pressed="true"] .o1,.sys-sw[aria-pressed="false"] .o0{color:var(--ink)}
+.sys-orgs li.off .ti,.sys-orgs li.off .sys-role{opacity:.35}
 .idx li{grid-column:1/-1;align-items:start}
 .idx .ti a{text-decoration:none}.idx .ti a:hover{text-decoration:underline;text-decoration-thickness:1px}
 .idx li.next .label{color:var(--ink)}
@@ -454,8 +469,30 @@ body.show-grid .ov{display:block}
 
 
 
+<!-- 3 · The ecosystem, as a system: a dot histogram of people by how many of the four moves they have been through.
+     Each organization is a rule that moves people one step; the shape that emerges is the point. -->
+<section class="plate g" id="ecosystem" data-view="home" aria-labelledby="sys-h">
+  <div class="top sub">
+    <div class="sys" id="sys" role="img" aria-label="A histogram of dots, each a group of people, across five steps: not yet, see, tell, build and together. Over time the dots move to the right."></div>
+    <ol class="sys-bins sub" aria-hidden="true">
+      <li class="t label">0 · Not yet</li><li class="t label">1 · See</li><li class="t label">2 · Tell</li><li class="t label">3 · Build</li><li class="t label">4 · Together</li>
+    </ol>
+  </div>
+  <div class="low sub">
+    <h2 class="st sub" id="sys-h">
+      <span class="t label" style="--c:1">My ecosystem</span>
+      <span class="t serif ln" style="--c:1">Four organizations,</span>
+      <span class="t serif ln step" style="--c:2" id="sys-last"><svg class="hk" aria-hidden="true"><use href="#hook"/></svg>one system.</span>
+    </h2>
+    <div class="cap" style="--c:1">
+      <p class="t sans measure">Each dot is a group of people. Each organization moves them one step to the right, and the people who get all the way across pull others along. Switch one off and watch where people get stuck.</p>
+    </div>
+    <ol class="idx sub sys-orgs" id="sys-orgs" aria-label="The organizations"></ol>
+  </div>
+</section>
+
 <!-- 3 · The ecosystem. Pinned while you scroll through the four organizations, one move of the thesis each. -->
-<section class="eco" id="ecosystem" data-view="home" aria-labelledby="hm-h">
+<section class="eco" id="ecosystem-deck" data-view="parked" aria-labelledby="hm-h">
 <div class="home g">
   <div class="hm-who">
     <h2 class="t label" id="hm-h">My ecosystem</h2>
@@ -632,6 +669,9 @@ document.getElementById('season').innerHTML=SEASON.map(function(x,i){return '<li
 /* the colloquia stream: sessions coming up, then what has been written, newest first */
 var STREAM=[['Next session · Nov 5','Structure shapes what groups make'],['Session · Nov 19','Where to push a system'],['Session · Dec 3','Translation'],['Essay · Oct 18','The places between people'],['Field note','Month to month'],['Field note','Say it so they can repeat it']];
 document.getElementById('stream').innerHTML=STREAM.map(function(x,i){return '<li class="sub'+(i?'':' next')+'"><p class="t label" style="grid-column:1">'+x[0]+'</p><h3 class="t serif item ti" style="grid-column:2/-1"><a href="#colloquia">'+x[1]+'</a></h3></li>';}).join('');
+/* ---------- the ecosystem as a system ---------- */
+var SYS={orgs:[['01 · See','Synodic Studio','Helps groups see how they are connected',''],['02 · Tell','Folkmark Creative','Helps them tell a true story','https://folkmark.com'],['03 · Build','Levy Strategic Design','Builds the structure to carry it','https://withlevy.com'],['04 · Together','The Upskilling Labs','Keeps people learning together','']],on:[true,true,true,true]};
+document.getElementById('sys-orgs').innerHTML=SYS.orgs.map(function(o,i){return '<li class="sub"><p class="t label" style="grid-column:1">'+o[0]+'</p><h3 class="t serif item ti" style="grid-column:2/4">'+(o[3]?'<a href="'+o[3]+'">'+o[1]+'</a>':o[1])+'</h3><p class="t sans grey sys-role" style="grid-column:4">'+o[2]+'</p><button class="sys-sw t label" type="button" data-i="'+i+'" aria-pressed="true" style="grid-column:5" aria-label="'+o[1]+' on or off"><span class="o o1">On</span><span class="o o0">Off</span></button></li>';}).join('');
 var MOVES=[['01 · See','See how you are connected','Synodic Studio',''],['02 · Tell','Tell a true story','Folkmark Creative','https://folkmark.com'],['03 · Build','Build the structure','Levy Strategic Design','https://withlevy.com'],['04 · Together','Keep building, together','The Upskilling Labs','']];
 
 /* ---------- thesis figure: the same twelve marks, rearranged by scroll ---------- */
@@ -944,7 +984,7 @@ function snap(){
   for(var k=0;k<2;k++){for(var p=0;p<3;p++)snapPass(els);pins();}
   for(var p2=0;p2<2;p2++)snapPass(els);
   for(var r2=0;r2<2;r2++){rowAlign();snapPass(els);snapPass(els);}
-  placeCards();figScroll();rack();hmCur=-1;hmRender();markNav();glasses();
+  placeCards();figScroll();rack();hmCur=-1;hmRender();markNav();glasses();if(window.sysLayout)sysLayout();
 }
 var queued;function later(){cancelAnimationFrame(queued);queued=requestAnimationFrame(snap);}
 var lastW=innerWidth,lastH=innerHeight;
@@ -1022,6 +1062,46 @@ function ideaScroll(){
   idea.style.setProperty('--ip',(p*p*(3-2*p)).toFixed(3));
 }
 addEventListener('scroll',function(){requestAnimationFrame(ideaScroll);},{passive:true});
+/* the system runs: each tick, a group in step b moves to b+1 if that step's organization is on, more readily the more people
+   have made it all the way (the feedback loop). Groups that arrive are replaced over time by newcomers at the start, and a few
+   slip back a step. Same seed every time, so it always tells the same story. */
+(function(){
+  var box=document.getElementById('sys'),dots=[],N=0,per=1,pitch=18,run=false,timer=0,seed=7;
+  function rnd(){seed=(seed*16807)%2147483647;return (seed-1)/2147483646;}
+  function layout(){
+    var r=box.getBoundingClientRect();if(!r.width)return;
+    var gap=parseFloat(getComputedStyle(box.parentElement).columnGap)||27,colW=(r.width-4*gap)/5;
+    /* bars, not blankets: at most five dots across, so the heights carry the story */
+    per=Math.max(2,Math.min(5,Math.floor((colW+pitch-9)/pitch)));
+    var n=innerWidth<=720?40:100;
+    if(n!==N){N=n;box.innerHTML='';dots=[];seed=7;for(var i=0;i<N;i++){var d=document.createElement('span');d.className='sys-dot';box.appendChild(d);dots.push({el:d,b:0});}}
+    var rows=Math.ceil(N/per);box.style.setProperty('--sys-h',(rows*pitch-9)+'px');
+    box._gap=gap;box._colW=colW;box._rows=rows;place();
+  }
+  function place(){
+    var c=[0,0,0,0,0];
+    dots.forEach(function(d){var k=c[d.b]++,x=d.b*(box._colW+box._gap)+(k%per)*pitch,y=(box._rows-1-Math.floor(k/per))*pitch;
+      d.el.style.transform='translate('+x+'px,'+y+'px)';d.el.style.setProperty('--b',d.b);});
+  }
+  function tick(){
+    var top=dots.filter(function(d){return d.b===4;}).length/N,moved=[];
+    dots.forEach(function(d){
+      if(d.b<4&&SYS.on[d.b]&&rnd()<.035*(1+3*top)){d.b++;moved.push(d);}
+      else if(d.b===4&&rnd()<.012){d.b=0;moved.push(d);}
+      else if(d.b>0&&d.b<4&&rnd()<.004){d.b--;moved.push(d);}
+    });
+    dots.sort(function(a,b){return a.b-b.b;});
+    moved.forEach(function(d){d.el.classList.add('go');setTimeout(function(){d.el.classList.remove('go');},500);});
+    place();
+  }
+  function start(){if(run||reduce)return;run=true;timer=setInterval(tick,260);}
+  function stop(){run=false;clearInterval(timer);}
+  [].forEach.call(document.querySelectorAll('.sys-sw'),function(b){b.addEventListener('click',function(){var i=+b.dataset.i;SYS.on[i]=!SYS.on[i];b.setAttribute('aria-pressed',SYS.on[i]);b.closest('li').classList.toggle('off',!SYS.on[i]);});});
+  if('IntersectionObserver' in window)new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting)start();else stop();});},{threshold:.2}).observe(box);
+  layout();
+  if(reduce){for(var s=0;s<200;s++)tick();}
+  window.sysLayout=layout;
+})();
 drawFig(0);route();
 var idea=document.getElementById('h-idea');
 /* ---------- intro ---------- */
