@@ -94,7 +94,19 @@ html.intro .loader{display:block;position:fixed;inset:0;z-index:100;cursor:point
 .nm::before,.nm::after{content:attr(data-t);position:absolute;left:0;top:0;width:100%;padding-top:inherit;mix-blend-mode:multiply;filter:blur(calc(var(--lb,0) * 1px))}
 .nm::before{color:var(--red);transform:translateX(calc(var(--ls,0) * -1px))}
 .nm::after{color:var(--blue);transform:translateX(calc(var(--ls,0) * 1px))}
-.push{position:absolute;inset:0;background:var(--ink);transform:translateX(calc(var(--lp,0) * 100%));display:flex;align-items:center;padding-left:18px}
+.push{position:absolute;inset:0;background:var(--ink);transform:translateX(var(--px,0px));display:flex;align-items:center;padding-left:18px}
+/* the waffle is the one pushing: it prints itself in a strip of paper, woven blue then red, slides into register,
+   then leans on the panel's edge and walks it off the page. At the end it flies home to the header. */
+html.intro .hd .mark{visibility:hidden}
+.ld-w{position:absolute;left:0;top:0;overflow:visible;z-index:3;transform-origin:0 0;will-change:transform}
+.ld-w .pb{fill:var(--blue);mix-blend-mode:multiply;animation:pb 1.25s cubic-bezier(.3,.6,.2,1) both}
+.ld-w .pr{fill:var(--red);mix-blend-mode:multiply;animation:pr 1.25s cubic-bezier(.3,.6,.2,1) both}
+@keyframes pb{0%,58%{transform:translate(-240px,-150px)}100%{transform:none}}
+@keyframes pr{0%,58%{transform:translate(240px,150px)}100%{transform:none}}
+.ld-w .sh{transform-box:fill-box;transform-origin:0 50%;transform:scaleX(0);animation:th .34s cubic-bezier(.5,0,.2,1) forwards;animation-delay:calc(var(--i) * 50ms)}
+.ld-w .sv{transform-box:fill-box;transform-origin:50% 0;transform:scaleY(0);animation:tv .34s cubic-bezier(.5,0,.2,1) forwards;animation-delay:calc(240ms + var(--i) * 50ms)}
+@keyframes th{to{transform:scaleX(1)}}@keyframes tv{to{transform:scaleY(1)}}
+.ld-w.flat .pb,.ld-w.flat .pr,.ld-w.flat .sh,.ld-w.flat .sv{animation:none;transform:none}
 .push .ld-n{color:var(--paper);font-variant-numeric:tabular-nums;margin-left:0}
 /* the print swings in from a tilt as the sheet lifts */
 .hero-print .print{transition:transform 1.25s cubic-bezier(.2,.7,.2,1);transform-origin:50% 70%}
@@ -597,26 +609,57 @@ function runIntro(replay){
   ld.className='loader';
   ld.innerHTML='<div class="sheet"></div><div class="ld-name"><p class="t serif nm" data-t="Brendan">Brendan</p><p class="t serif nm" data-t="Whitaker">Whitaker</p></div><div class="push"><p class="t label ld-n">000</p></div>';
   root.classList.add('intro','loading','pre');
-  var n=ld.querySelector('.ld-n'),S0=Math.max(12,LENS.sep*4),B0=Math.max(2,LENS.blur*2),T=1500,H=650,X=650,state=0,t0=0;
+  var n=ld.querySelector('.ld-n'),pn=ld.querySelector('.push'),w=null;
+  var S0=Math.max(12,LENS.sep*4),B0=Math.max(2,LENS.blur*2),R=350,WV=1300,T=1500,H=600,X=650,state=0,t0=0;
+  var W=innerWidth,VH=innerHeight,ws=W<720?90:144,gap=W<720?9:18,m=W<720?18:27,x0=m+ws+gap,wy=Math.round((VH-ws)/2);
   function ease(x){return 1-Math.pow(1-x,3);}
-  function set(p,s,b){ld.style.setProperty('--lp',p.toFixed(4));ld.style.setProperty('--ls',s.toFixed(2));ld.style.setProperty('--lb',b.toFixed(2));}
-  set(0,S0,B0);
+  function inout(x){return x<.5?4*x*x*x:1-Math.pow(-2*x+2,3)/2;}
+  function name(s,b){ld.style.setProperty('--ls',s.toFixed(2));ld.style.setProperty('--lb',b.toFixed(2));}
+  function panel(x){pn.style.setProperty('--px',x.toFixed(1)+'px');if(w)w.style.transform='translate('+(x-ws-gap).toFixed(1)+'px,'+wy+'px)';}
+  name(S0,B0);
+  function waffle(){
+    var V='16 16 1168 1168',sh='',sv='';
+    for(var i=0;i<8;i++){sh+='<rect class="sh" style="--i:'+i+'" x="16" y="'+(16+i*146)+'" width="1168" height="147" fill="#fff"/>';sv+='<rect class="sv" style="--i:'+i+'" x="'+(16+i*146)+'" y="16" width="147" height="1168" fill="#fff"/>';}
+    var s='<svg class="ld-w" width="'+ws+'" height="'+ws+'" viewBox="'+V+'" aria-hidden="true"><defs>'
+      +'<mask id="ld-mh" maskUnits="userSpaceOnUse" x="-600" y="-600" width="2400" height="2400">'+sh+'</mask>'
+      +'<mask id="ld-mv" maskUnits="userSpaceOnUse" x="-600" y="-600" width="2400" height="2400">'+sv+'</mask></defs>'
+      +'<g class="pb"><g mask="url(#ld-mh)"><use href="#waffle" x="16" y="16" width="1168" height="1168"/></g></g>'
+      +'<g class="pr"><g mask="url(#ld-mv)"><use href="#waffle" x="16" y="16" width="1168" height="1168"/></g></g></svg>';
+    ld.insertAdjacentHTML('beforeend',s);w=ld.querySelector('.ld-w');
+  }
+  /* 1 · the panel steps back to leave a strip of paper, and the waffle prints itself there */
+  function room(now){
+    if(state!==0)return;var q=Math.min(1,(now-t0)/R);panel(x0*inout(q));
+    if(q<1)requestAnimationFrame(room);
+  }
+  /* 2 · the waffle leans on the edge and walks the panel off the page; the name comes into register behind it */
   function push(now){
-    if(state!==1)return;var p=Math.min(1,(now-t0)/T),e=ease(p);
-    set(e,S0*(1-e),B0*(1-e)*(1-e));setText2(n,String(Math.round(p*100)).padStart(3,'0'));
+    if(state!==1)return;var p=Math.min(1,(now-t0)/T),e=inout(p);
+    panel(x0+(W-x0)*e);name(S0*(1-ease(p)),B0*Math.pow(1-ease(p),2));setText2(n,String(Math.round(p*100)).padStart(3,'0'));
     if(p<1)requestAnimationFrame(push);else{state=2;setTimeout(exit,H);}
   }
+  /* 3 · the sheet lifts, the name defocuses into its passes, and the waffle flies home to the header */
   function exit(){
-    if(state>=3)return;state=3;set(1,0,0);setText2(n,'100');
+    if(state>=3)return;state=3;name(0,0);setText2(n,'100');
+    if(!w)waffle();w.classList.add('flat');
+    var tg=document.querySelector('.hd .mark').getBoundingClientRect(),r=w.getBoundingClientRect(),sc=tg.width/ws;
+    w.style.transform='translate('+r.left.toFixed(1)+'px,'+r.top.toFixed(1)+'px)';
+    requestAnimationFrame(function(){requestAnimationFrame(function(){
+      w.style.transition='transform .9s cubic-bezier(.7,0,.2,1)';
+      w.style.transform='translate('+tg.left.toFixed(1)+'px,'+tg.top.toFixed(1)+'px) scale('+sc.toFixed(4)+')';
+    });});
     var t1=performance.now();
-    (function defocus(now){var q=Math.min(1,(now-t1)/X);set(1,S0*.6*q,B0*.8*q);if(q<1)requestAnimationFrame(defocus);})(t1);
+    (function defocus(now){var q=Math.min(1,(now-t1)/X);name(S0*.6*q,B0*.8*q);if(q<1)requestAnimationFrame(defocus);})(t1);
     ld.classList.add('out');root.classList.remove('loading','pre');
-    setTimeout(function(){root.classList.remove('intro');ld.innerHTML='';ld.className='loader';ld.removeAttribute('style');},950);
+    setTimeout(function(){root.classList.remove('intro');ld.innerHTML='';ld.className='loader';ld.removeAttribute('style');},980);
     try{sessionStorage.setItem('overprint-loaded','1');}catch(e){}
   }
   function skip(){if(state<3)exit();}
   ld.onclick=skip;addEventListener('keydown',skip,{once:true});
-  function go(){snap();t0=performance.now();state=1;requestAnimationFrame(push);}
+  function go(){
+    snap();waffle();panel(0);t0=performance.now();state=0;requestAnimationFrame(room);
+    setTimeout(function(){if(state!==0)return;state=1;t0=performance.now();requestAnimationFrame(push);},WV);
+  }
   if(replay)requestAnimationFrame(go);else (document.fonts&&document.fonts.ready?document.fonts.ready:Promise.resolve()).then(function(){requestAnimationFrame(go);});
 }
 function setText2(el,h){var z=el.querySelector(':scope>.za');el.textContent=h;if(z)el.insertBefore(z,el.firstChild);}
