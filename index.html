@@ -117,6 +117,31 @@ html.menu-open .tk-l{opacity:1;animation:conv .9s cubic-bezier(.2,.7,.2,1) both;
 }
 @media (prefers-reduced-motion:reduce){html.menu-open .tk-l{animation:none}.takeover{clip-path:none!important}}
 
+/* the rolodex */
+.ro{position:relative;height:calc(4 * 100svh)}
+.ro-stage{position:sticky;top:0;height:round(down, 100svh, var(--u));display:grid;grid-template-columns:repeat(5,minmax(0,1fr));grid-template-rows:auto 1fr auto;column-gap:var(--gap);row-gap:27px;padding-block:81px 54px}
+.ro-h{grid-column:1;grid-row:1}
+.ro-meta{grid-column:1;grid-row:2;align-self:start;margin-top:54px;display:grid;row-gap:18px;align-content:start;min-width:0}
+.ro-f{display:grid}
+.ro-meta.swap .t{animation:roin .55s cubic-bezier(.2,.7,.2,1) both}
+@keyframes roin{from{opacity:0;filter:blur(4px);transform:translateX(-9px)}to{opacity:1;filter:none;transform:none}}
+.ro-plates{grid-column:2/5;grid-row:1/4;position:relative;perspective:1400px;perspective-origin:50% 50%;align-self:stretch}
+.ro-plate{position:absolute;left:0;right:0;top:50%;height:round(down, min(54vh, calc(((100cqw - 4 * var(--gap)) / 5 * 3 + 2 * var(--gap)) * .5)), var(--u));margin:0;margin-top:calc(round(down, min(54vh, calc(((100cqw - 4 * var(--gap)) / 5 * 3 + 2 * var(--gap)) * .5)), var(--u)) / -2);background:var(--paper);border-radius:16px;box-shadow:inset 0 0 0 1px var(--hair);transform-origin:50% 50%;will-change:transform;backface-visibility:hidden;padding:0 18px 18px;display:grid;grid-template-rows:auto 1fr}
+.ro-plate svg{width:100%;height:100%;display:block;overflow:visible}
+.ro-drum{grid-column:5;grid-row:2;position:relative;perspective:900px;align-self:stretch;margin:0;padding:0}
+.ro-drum li{position:absolute;left:0;right:0;top:50%;transform-origin:50% 50%;backface-visibility:hidden;will-change:transform}
+.ro-drum button{all:unset;cursor:pointer;display:block;color:var(--ink)}
+.ro-drum button>.t{display:block}
+.ro-drum button:hover,.ro-drum button:focus-visible{color:var(--blue)}
+.ro-n{grid-column:1;grid-row:3;--x:calc(4 * var(--u));align-self:end;font-variant-numeric:tabular-nums}
+.ro-of{font-family:var(--sans);font-size:12.37px;letter-spacing:.08em;color:var(--grey)}
+@media (max-width:720px){
+  .ro-stage{grid-template-columns:minmax(0,1fr);grid-template-rows:auto 216px 99px 1fr;padding-block:72px 54px;row-gap:18px}
+  .ro-h,.ro-meta,.ro-plates,.ro-drum,.ro-n{grid-column:1}
+  .ro-plates{grid-row:2}.ro-drum{grid-row:3}.ro-meta{grid-row:4;align-self:start}.ro-n{display:none}
+  .ro-plate{height:216px;margin-top:-108px}
+}
+
 /* the 3D switch floats in the bottom right, on every screen */
 .lens.float{position:fixed;right:max(var(--m),env(safe-area-inset-right,0px));bottom:calc(27px + env(safe-area-inset-bottom,0px));z-index:50;background:var(--paper)}
 .copy{appearance:none;background:none;border:0;padding-inline:0;cursor:pointer;color:var(--blue);text-decoration:underline;text-decoration-thickness:1px;text-underline-offset:4px;text-align:left}
@@ -342,6 +367,23 @@ body.show-grid .ov{display:block}
   </div>
 </section>
 
+<!-- What I'm building: a rolodex, after huyml.co. The section pins while you scroll; one plate at a time comes to the centre
+     and into focus, the names turn on a drum, and the details on the left change with it. -->
+<section class="ro" id="building" aria-labelledby="h-ro">
+  <div class="ro-stage">
+    <h2 class="t label ro-h" id="h-ro">What I’m building</h2>
+    <div class="ro-meta" id="ro-meta" aria-live="polite">
+      <div class="ro-f"><p class="t label">Kind</p><p class="t sans" id="ro-kind">My reading series</p></div>
+      <div class="ro-f"><p class="t label">My part</p><p class="t sans" id="ro-part">Host</p></div>
+      <p class="t sans grey" id="ro-desc">Two or three essays</p>
+      <p class="t sans"><a id="ro-link" href="#colloquia">See this season</a></p>
+    </div>
+    <div class="ro-plates" id="ro-plates"></div>
+    <ol class="ro-drum" id="ro-drum" aria-label="Four things I’m building"></ol>
+    <p class="t serif ro-n" aria-hidden="true"><span id="ro-i">01</span><span class="ro-of"> / 04</span></p>
+  </div>
+</section>
+
 <!-- 4 · Builders’ Colloquia. Back to the left: the season high and right, the caption hangs from the last line. -->
 <section class="plate g" id="colloquia" aria-labelledby="h-coll">
   <div class="top sub">
@@ -382,12 +424,6 @@ body.show-grid .ov{display:block}
 <!-- 6 · Work with me. Back to the left: the print high and right. -->
 <section class="plate g" id="work" aria-labelledby="h-work">
   <div class="top sub">
-    <ol class="idx sub" style="grid-column:2/5" aria-label="Organizations I’ve helped start">
-      <li class="sub"><p class="t label" style="grid-column:1">Predictive alignment</p><h3 class="t serif item ti" style="grid-column:2/-1">Synodic Studio</h3></li>
-      <li class="sub"><p class="t label" style="grid-column:1">Narrative and brand</p><h3 class="t serif item ti" style="grid-column:2/-1"><a href="https://folkmark.com">Folkmark Creative</a></h3></li>
-      <li class="sub"><p class="t label" style="grid-column:1">Strategic design</p><h3 class="t serif item ti" style="grid-column:2/-1"><a href="https://withlevy.com">Levy Strategic Design</a></h3></li>
-      <li class="sub"><p class="t label" style="grid-column:1">Civic workforce</p><h3 class="t serif item ti" style="grid-column:2/-1">The Upskilling Labs</h3></li>
-    </ol>
   </div>
   <div class="low sub">
     <h2 class="st sub" id="h-work">
@@ -538,7 +574,76 @@ function rack(){
     setLens(el,el._lens,LENS.blur*a*a,LENS.sep*a,LENS.mix*Math.min(1,a*3));
   });
 }
-addEventListener('scroll',function(){requestAnimationFrame(function(){figScroll();rack();});},{passive:true});
+addEventListener('scroll',function(){requestAnimationFrame(function(){figScroll();rack();if(window.roRender)roRender();});},{passive:true});
+
+/* ---------- the rolodex ---------- */
+var RO=[
+ {name:'Builders’ Colloquia',kind:'My reading series',part:'Host',desc:'Two or three essays, read beforehand, and an evening of argument with people I meet through the work.',link:['See this season','#colloquia']},
+ {name:'The Upskilling Labs',kind:'Civic workforce nonprofit',part:'One of its first designers',desc:'A community for lifelong learning, grown from a partnership with the DC Public Library.',link:null},
+ {name:'Folkmark',kind:'Narrative and brand studio',part:'Lead strategist',desc:'A studio that helps the people around an idea tell one true story about it.',link:['Visit Folkmark','https://folkmark.com']},
+ {name:'Levy Strategic Design',kind:'Strategic design firm',part:'Built it with a partner',desc:'Strategic infrastructure for builders: the structure that lets good intentions last.',link:['Visit Levy','https://withlevy.com']}
+];
+/* each plate is drawn in the shared mark vocabulary: dots are people, filled circles evenings, small squares readings,
+   squares organizations, rings with a dot writing, the thick line the story, dashed shapes what comes next */
+function roFig(k){
+  var s='',I='#140509',H='#c9c9c6',sd=11+k*7;function r(){sd=(sd*16807)%2147483647;return (sd-1)/2147483646;}
+  if(k===0){s+='<line x1="60" y1="290" x2="740" y2="290" stroke="'+H+'"/>';
+    for(var i=0;i<6;i++){var x=115+i*114;s+='<circle cx="'+x+'" cy="290" r="10" fill="'+I+'"/>';
+      for(var j=0;j<(i%2?2:3);j++)s+='<rect x="'+(x-6)+'" y="'+(240-j*24)+'" width="12" height="12" fill="none" stroke="'+I+'" stroke-width="1.25"/>';
+      for(var q=0;q<6+(i%3);q++){var a=r()*Math.PI,d=24+r()*22;s+='<circle cx="'+(x+Math.cos(a)*d).toFixed(1)+'" cy="'+(300+Math.sin(a)*d).toFixed(1)+'" r="3.2" fill="'+I+'"/>';}}}
+  if(k===1){s+='<rect x="300" y="100" width="200" height="200" fill="none" stroke="'+I+'" stroke-width="1.5"/>';
+    for(var i=0;i<9;i++)s+='<circle cx="'+(70+i*24)+'" cy="'+(200+(r()-.5)*40).toFixed(1)+'" r="3.2" fill="'+I+'"/>';
+    for(var a=0;a<4;a++)for(var b=0;b<4;b++)s+='<circle cx="'+(340+a*40)+'" cy="'+(140+b*40)+'" r="3.2" fill="'+I+'"/>';
+    s+='<path d="M520 300H580V250H640V200H700V150H750" fill="none" stroke="'+H+'"/>';
+    [[550,288],[610,238],[670,188],[725,138]].forEach(function(p){s+='<circle cx="'+p[0]+'" cy="'+p[1]+'" r="3.2" fill="'+I+'"/>';});}
+  if(k===2){var P=[[110,280],[200,150],[300,240],[400,120],[490,260],[590,160],[690,230]];
+    P.forEach(function(p,i){if(i<P.length-1)s+='<line x1="'+p[0]+'" y1="'+p[1]+'" x2="'+P[i+1][0]+'" y2="'+P[i+1][1]+'" stroke="'+H+'"/>';});
+    s+='<path d="M'+P[0].join(' ')+'L'+P[2].join(' ')+'L'+P[3].join(' ')+'L'+P[5].join(' ')+'L'+P[6].join(' ')+'" fill="none" stroke="'+I+'" stroke-width="3" stroke-linejoin="round"/>';
+    P.forEach(function(p){s+='<circle cx="'+p[0]+'" cy="'+p[1]+'" r="14" fill="#efefed" stroke="'+I+'" stroke-width="1.25"/><circle cx="'+p[0]+'" cy="'+p[1]+'" r="3" fill="'+I+'"/>';});}
+  if(k===3){for(var a=0;a<9;a++)for(var b=0;b<4;b++)s+='<rect x="'+(130+a*60)+'" y="'+(70+b*55)+'" width="22" height="22" fill="none" stroke="'+H+'"/>';
+    s+='<line x1="100" y1="330" x2="700" y2="330" stroke="'+I+'" stroke-width="1.25"/>';
+    for(var a=0;a<8;a++){var hgt=1+Math.min(3,Math.floor(a/2));for(var b=0;b<hgt;b++)s+='<rect x="'+(130+a*60)+'" y="'+(235-b*55)+'" width="22" height="22" fill="'+I+'"/>';s+='<line x1="'+(141+a*60)+'" y1="326" x2="'+(141+a*60)+'" y2="334" stroke="'+I+'"/>';}
+    s+='<rect x="610" y="70" width="22" height="187" fill="none" stroke="'+I+'" stroke-dasharray="3 3"/>';}
+  return '<svg viewBox="0 0 800 380" preserveAspectRatio="xMidYMid meet" aria-hidden="true">'+s+'</svg>';
+}
+window.roRender=function(){roRender();};
+var roSec=document.getElementById('building'),roStage=roSec.querySelector('.ro-stage');
+document.getElementById('ro-plates').innerHTML=RO.map(function(o,i){return '<figure class="ro-plate"><p class="t label">Fig. 0'+(i+1)+' · '+o.name+'</p>'+roFig(i)+'</figure>';}).join('');
+document.getElementById('ro-drum').innerHTML=RO.map(function(o,i){return '<li><button type="button" data-i="'+i+'"><span class="t serif item">'+o.name+'</span></button></li>';}).join('');
+var roPlates=[].slice.call(roSec.querySelectorAll('.ro-plate')),roItems=[].slice.call(roSec.querySelectorAll('.ro-drum li')),roCur=-1,roNow=0;
+roPlates.forEach(function(p,i){p._lens=makeLens('lens-ro'+i,true);});
+function smooth(a,b,x){x=Math.max(0,Math.min(1,(x-a)/(b-a)));return x*x*(3-2*x);}
+function roF(){
+  var r=roSec.getBoundingClientRect(),span=Math.max(1,r.height-innerHeight),f=Math.max(0,Math.min(1,-r.top/span))*(RO.length-1);
+  var g=Math.min(RO.length-2,Math.floor(f)),fr=f-g;return g+smooth(.22,.78,fr);   /* it dwells on each thing before turning to the next */
+}
+function roMeta(i){
+  var o=RO[i],m=document.getElementById('ro-meta');
+  setText('ro-kind',o.kind);setText('ro-part',o.part);setText('ro-desc',o.desc);setText('ro-i','0'+(i+1));
+  var a=document.getElementById('ro-link');a.parentElement.style.display=o.link?'':'none';
+  if(o.link){a.textContent=o.link[0];a.href=o.link[1];}
+  m.classList.remove('swap');void m.offsetWidth;if(!reduce)m.classList.add('swap');
+  snapPass([].slice.call(roStage.querySelectorAll('.ro-meta .t, .ro-n')));
+}
+function roRender(){
+  var f=reduce?Math.round(roF()):roF(),R=roItems.length?Math.max(60,roItems[0].parentElement.clientHeight*.42):100;roNow=f;
+  roPlates.forEach(function(p,i){
+    var d=i-f,ad=Math.abs(d);
+    p.style.transform='translate3d('+(d*-3).toFixed(2)+'%,'+(d*58).toFixed(2)+'%,'+(-ad*240).toFixed(1)+'px) rotateX('+(-d*30).toFixed(2)+'deg) rotateZ('+(d*-3).toFixed(2)+'deg)';
+    p.style.opacity=ad>1.7?0:(1-Math.max(0,ad-.5)*.75).toFixed(3);p.style.zIndex=String(20-Math.round(ad*4));
+    setLens(p,p._lens,LENS.blur*ad*ad*.9,LENS.sep*.55*ad,LENS.mix*Math.min(1,ad*2.5));
+  });
+  roItems.forEach(function(li,i){
+    var d=i-f,a=-d*32;
+    li.style.transform='translateY(-50%) translateZ('+(-R)+'px) rotateX('+a.toFixed(2)+'deg) translateZ('+R+'px)';
+    li.style.opacity=Math.abs(a)>85?0:(.22+.78*Math.max(0,1-Math.abs(d))).toFixed(3);
+  });
+  var idx=Math.round(f);if(idx!==roCur){roCur=idx;roMeta(idx);}
+}
+roItems.forEach(function(li){li.querySelector('button').addEventListener('click',function(){
+  var i=+this.dataset.i,span=roSec.offsetHeight-innerHeight,top=roSec.getBoundingClientRect().top+scrollY;
+  scrollTo({top:top+span*i/(RO.length-1),behavior:reduce?'auto':'smooth'});
+});});
 
 /* ---------- hero orbit ---------- */
 var CARDS=[['A place','A public library'],['Work','A first job in a new field'],['Ownership','A business the neighborhood owns'],['Infrastructure','A bus that comes on time'],['A practice','A group that keeps meeting'],['Home','Housing people can afford'],['A commons','A park someone looks after'],['Knowledge','A map a community drew itself']];
@@ -576,7 +681,7 @@ requestAnimationFrame(spin);
 function probe(el,end){var cls=end?'zb':'za',z=el.querySelector(':scope>.'+cls);
   if(!z){z=document.createElement('span');z.className=cls;z.setAttribute('aria-hidden','true');z.style.cssText='display:inline-block;width:0;height:0;vertical-align:baseline';end?el.appendChild(z):el.insertBefore(z,el.firstChild);}
   return z;}
-function frameOf(el){return el.closest('.card,.btn,.lens,.cue,.loader,.tune,.takeover')||document.body;}
+function frameOf(el){return el.closest('.card,.btn,.lens,.cue,.loader,.tune,.takeover,.ro-drum li,.ro-plate,.ro-stage')||document.body;}
 function by(el){return probe(el).getBoundingClientRect().top-frameOf(el).getBoundingClientRect().top;}
 function groupOf(el){var st=el.parentElement;if(!el.classList.contains('ln')||!st||!st.classList.contains('st'))return null;return [].slice.call(st.querySelectorAll(':scope>.ln'));}
 function snapPass(els){
@@ -644,12 +749,13 @@ function snap(){
   fitNav();resetRows();
   /* floating cards are measured flat, in their own space; their 3D transform goes back on after */
   cards.forEach(function(c){c.style.transform='none';});
+  roPlates.concat(roItems).forEach(function(e){e.style.transform='none';});
   var els=[].slice.call(document.querySelectorAll('.t'));
   els.forEach(function(el){el.style.paddingTop='0px';el.style.paddingBottom='0px';delete el.dataset.done;});
   for(var k=0;k<2;k++){for(var p=0;p<3;p++)snapPass(els);pins();}
   for(var p2=0;p2<2;p2++)snapPass(els);
   for(var r2=0;r2<2;r2++){rowAlign();snapPass(els);snapPass(els);}
-  placeCards();figScroll();rack();
+  placeCards();figScroll();rack();roRender();
 }
 var queued;function later(){cancelAnimationFrame(queued);queued=requestAnimationFrame(snap);}
 var lastW=innerWidth,lastH=innerHeight;
