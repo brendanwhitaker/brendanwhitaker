@@ -75,11 +75,16 @@ a:focus-visible,button:focus-visible,input:focus-visible{outline:2px solid var(-
 :root{--hdh:0px;--rail:234px;--band:63px}
 /* the vertical logotype under the waffle: BRENDAN (left) turned a quarter clockwise, reading down, its B at the top; WHITAKER
    (right) turned three quarters, reading up, its W at the foot. Two columns as wide as the waffle, the same length, tops facing in. */
-.logo-v{position:absolute;left:max(var(--m),env(safe-area-inset-left,0px));top:46px;width:28px;display:flex;justify-content:space-between;text-decoration:none;color:var(--ink)}
-.lv{font-family:var(--sans);font-weight:500;font-size:12.37px;line-height:12px;letter-spacing:.12em;text-transform:uppercase;writing-mode:vertical-rl;white-space:nowrap}
+.logo-v{position:absolute;left:max(var(--m),env(safe-area-inset-left,0px));top:46px;width:28px;display:flex;justify-content:center;gap:0;text-decoration:none;color:var(--ink)}
+/* the B and the W are drawn after the waffle: the B's bars run out past its stem the way the waffle's bars cross, and the W is
+   three stems hung on two round cups. They stand upright, as the waffle does, while the rest of each word lies on its side. */
+.lg{display:inline-block;width:10px;height:10px;margin-bottom:var(--lg-sp,2px);overflow:visible;fill:none;stroke:currentColor;stroke-width:1.2;stroke-linecap:butt;stroke-linejoin:miter}
+/* writing mode turns them with the words; turn them back upright */
+.lv-b .lg{transform:rotate(-90deg)}.lv-w .lg{transform:rotate(90deg)}
+.lv{font-family:var(--sans);font-weight:500;font-size:12.37px;line-height:11px;letter-spacing:.12em;text-transform:uppercase;writing-mode:vertical-rl;white-space:nowrap}
 /* measured from the letters' ink: Brendan is spaced out to Whitaker's length, and Whitaker is nudged so the two start and end level */
-.lv-b{letter-spacing:2.794px}
-.lv-w{transform:rotate(180deg) translateY(3.5px)}
+.lv-b{letter-spacing:2.194px}
+.lv-w{transform:rotate(180deg) translateY(2.75px)}
 html.compact .logo-v,html.intro .logo-v{visibility:hidden}
 html:not(.compact) .page{padding-left:calc(max(var(--m),env(safe-area-inset-left,0px)) + var(--rail) + var(--gap))}
 .hd{position:fixed;top:0;left:0;right:0;z-index:4;height:var(--band);padding-top:18px;padding-left:inherit;padding-right:inherit;align-items:start}
@@ -431,7 +436,7 @@ body.show-grid .ov{display:block}
 <div class="page">
 <header class="hd g">
   <a class="mark" data-base="bottom" href="#home" aria-label="Brendan Whitaker, home"><svg aria-hidden="true"><use href="#waffle"/></svg></a>
-  <a class="logo-v" href="#home" tabindex="-1" aria-hidden="true"><span class="lv lv-b">Brendan</span><span class="lv lv-w">Whitaker</span></a>
+  <a class="logo-v" href="#home" tabindex="-1" aria-hidden="true"><span class="lv lv-b"><svg class="lg lg-b" viewBox="-0.6 -0.6 8.2 10.2" aria-hidden="true"><path d="M0 0.6H4.6a1.95 1.95 0 0 1 0 3.9H0M2 0.6V8.4M3.4 4.5H5a1.95 1.95 0 0 1 0 3.9H0"/></svg>rendan</span><span class="lv lv-w"><svg class="lg lg-w" viewBox="-0.6 -0.6 10.2 10.2" aria-hidden="true"><path d="M0.6 0V6.4a2.2 2.2 0 0 0 4.4 0V0M5 6.4a2.2 2.2 0 0 0 4.4 0V0"/></svg>hitaker</span></a>
   <nav class="h-nav" aria-label="Main"><p class="t label h-nl">Menu</p><p class="t serif h-list"><a class="h-a" data-t="Ecosystem" href="#home">Ecosystem</a><br><a class="h-a" data-t="Thesis" href="#thesis">Thesis</a><br><a class="h-a" data-t="Colloquia" href="#colloquia">Colloquia</a><br><a class="h-a" data-t="Work" href="#work">Work</a><br><a class="h-a" data-t="Contact" href="#contact">Contact</a></p><svg class="h-arw" viewBox="0 0 27 18" aria-hidden="true"><path d="M1 9h24M20 4l5 5-5 5" fill="none" stroke="currentColor" stroke-width="1.25"/></svg></nav>
   <button class="d3" id="stereo" type="button" aria-pressed="false" aria-label="3D mode"><span class="t label d3-t">3D<span class="d3-o d3-off">Off</span><span class="d3-o d3-on">On</span></span><svg class="d3-g" viewBox="0 0 30 12" aria-hidden="true"><circle class="d3-l d3-lr" cx="7" cy="6" r="5"/><circle class="d3-l d3-lb" cx="23" cy="6" r="5"/><path class="d3-f" d="M2 6a5 5 0 1 0 10 0a5 5 0 1 0-10 0M18 6a5 5 0 1 0 10 0a5 5 0 1 0-10 0M12 6h6"/></svg></button>
   <p class="t label h-loc" id="time">Washington, DC</p>
