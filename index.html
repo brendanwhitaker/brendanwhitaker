@@ -627,7 +627,21 @@ body.show-grid .ov{display:block}
 
 
 <!-- Thesis · 1. The loop high on the centre columns, the statement low. One object, one statement. -->
-<section class="plate g" id="thesis" data-view="thesis" aria-labelledby="h-thesis">
+<section class="plate g" id="thesis" data-view="thesis" aria-labelledby="h-thesis-wip">
+  <div class="low sub">
+    <h2 class="st sub" id="h-thesis-wip">
+      <span class="t label" style="--c:1">Thesis</span>
+      <span class="t serif ln" style="--c:1">Build what matters,</span>
+      <span class="t serif ln step" style="--c:2" id="thesis-wip-last"><svg class="hk" aria-hidden="true"><use href="#hook"/></svg>in progress.</span>
+    </h2>
+    <div class="cap" style="--c:1">
+      <p class="t sans measure">I’m writing down how I think communities get stronger: people build, see, tell, and build again, together. The full version is on its way; subscribe and you’ll get it when it’s ready.</p>
+      <div class="actions"><a class="btn" href="#join"><span class="tab"><svg aria-hidden="true"><use href="#arrow"/></svg></span><span class="bl t sans">Subscribe for updates</span></a></div>
+    </div>
+  </div>
+</section>
+
+<section class="plate g" id="thesis-full" data-view="parked" aria-labelledby="h-thesis">
   <div class="top sub">
     <div class="figbox"><svg class="fig" id="fig" viewBox="0 0 360 216" preserveAspectRatio="xMidYMin meet" role="img" aria-label="A loop through four moves: build, see, tell, together. Dots, each a group of people, go around it; each lap they come back with one more ring. Click a move to switch it off."></svg></div>
   </div>
@@ -645,7 +659,7 @@ body.show-grid .ov{display:block}
 </section>
 
 <!-- Thesis · 2. The four moves as a table, the one in play in focus; the statement says why the order matters. -->
-<section class="plate g" id="loop" data-view="thesis" aria-labelledby="h-loop">
+<section class="plate g" id="loop" data-view="parked" aria-labelledby="h-loop">
   <div class="top sub">
     <ol class="idx sub moves" id="moves" aria-label="The four moves"></ol>
   </div>
@@ -662,7 +676,7 @@ body.show-grid .ov{display:block}
 </section>
 
 <!-- Thesis · 3. Three lenses: where the thinking comes from, as three rows. -->
-<section class="plate g" id="lenses" data-view="thesis" aria-labelledby="h-lenses">
+<section class="plate g" id="lenses" data-view="parked" aria-labelledby="h-lenses">
   <div class="top sub">
     <ol class="idx sub lenses" id="lensrows" aria-label="Three lenses" style="grid-column:2/5">
       <li class="sub"><p class="t label" style="grid-column:1">01</p><h3 class="t serif item ti" style="grid-column:2/-1">Complex adaptive systems</h3><p class="t sans grey" style="grid-column:2/-1">A community is not a machine. Simple rules, followed by many people, make patterns nobody designed. So I work on the rules, not the people.</p></li>
@@ -684,7 +698,7 @@ body.show-grid .ov{display:block}
 </section>
 
 <!-- Thesis · 4. Matter: the double meaning, and the way on. -->
-<section class="plate g" id="matter" data-view="thesis" aria-labelledby="h-matter">
+<section class="plate g" id="matter" data-view="parked" aria-labelledby="h-matter">
   <div class="low sub">
     <h2 class="st sub" id="h-matter">
       <span class="t label" style="--c:1">Build what matters</span>
@@ -922,7 +936,7 @@ function loopTick(dt){
   });
 }
 (function(){
-  var sec=document.getElementById('thesis'),last=0;
+  var sec=document.getElementById('thesis-full'),last=0;
   function step(now){if(!LOOP.run)return;var dt=Math.min(.064,(now-(last||now))/1000);last=now;loopTick(dt);drawFig();LOOP.raf=requestAnimationFrame(step);}
   function go(on){if(on&&!reduce){if(!LOOP.run){LOOP.run=true;last=0;LOOP.raf=requestAnimationFrame(step);}}else{LOOP.run=false;cancelAnimationFrame(LOOP.raf);}}
   if('IntersectionObserver' in window)new IntersectionObserver(function(es){es.forEach(function(e){go(e.isIntersecting&&!sec.hidden);});},{threshold:.1}).observe(sec);
