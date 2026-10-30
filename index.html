@@ -143,31 +143,33 @@ html.menu-open .hd{z-index:95}
 @property --co{syntax:'<length>';inherits:true;initial-value:0px}
 @property --cb{syntax:'<length>';inherits:true;initial-value:0px}
 .curtain{position:fixed;inset:0;z-index:98;visibility:hidden;pointer-events:none;isolation:isolate;--co:28px;--cb:8px}
-.cs{position:absolute;inset:0;display:grid;place-items:center;mix-blend-mode:multiply;transform:translateY(104%) rotate(2.2deg);
+.cs{position:absolute;inset:0;display:grid;place-items:center;mix-blend-mode:multiply;transform:translateY(104%) rotate(1deg);
   /* film: a lit edge along the top, and a soft shadow thrown ahead of it onto what is underneath */
-  box-shadow:inset 0 1px 0 rgba(255,255,255,.4),inset 0 0 0 1px rgba(20,5,9,.12),0 -26px 50px -18px rgba(60,35,10,.4)}
-.cs-b{transform:translateY(104%) rotate(-1.6deg)}
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.22),0 -18px 40px -20px rgba(20,5,9,.18)}
+.cs-b{transform:translateY(104%) rotate(-.7deg)}
 .cs-r{background:var(--red)}.cs-b{background:var(--blue)}
 .ct-t{--x:clamp(calc(4 * var(--u)), round(down, 4.4vw, var(--u)), calc(8 * var(--u)));color:var(--paper);margin:0;text-transform:uppercase;letter-spacing:.02em;white-space:nowrap;filter:blur(var(--cb))}
+/* the knock-out is clear film: what shows through it is the lamp, a halogen at about 3200K, so the paper reads a shade warm */
+.curtain .ct-t{color:#f6f0e4}
 .cs-r .ct-t{transform:translateX(calc(var(--co) * -1))}.cs-b .ct-t{transform:translateX(var(--co))}
 .curtain.cover,.curtain.lift{visibility:visible}
 .curtain.cover{--co:0px;--cb:0px;transition:--co .9s cubic-bezier(.2,.7,.2,1) .3s,--cb .7s cubic-bezier(.2,.7,.2,1) .3s}
 .curtain.cover .cs{transform:none;transition:transform .7s cubic-bezier(.6,0,.2,1)}
 .curtain.cover .cs-b{transition-delay:.06s}
 .curtain.cover .ct-t{animation:knob 1s cubic-bezier(.3,.6,.2,1) .3s both}
-@keyframes knob{0%{filter:blur(10px)}58%{filter:blur(0px)}74%{filter:blur(1.8px)}100%{filter:blur(0px)}}
+@keyframes knob{0%{filter:blur(8px)}60%{filter:blur(0px)}76%{filter:blur(1px)}100%{filter:blur(0px)}}
 .curtain.lift{--co:0px;--cb:0px}
-.curtain.lift .cs{transform:translateY(-104%) rotate(-1.8deg);transition:transform .8s cubic-bezier(.7,0,.2,1)}.curtain.lift .cs-b{transform:translateY(-104%) rotate(1.4deg)}
+.curtain.lift .cs{transform:translateY(-104%) rotate(-.8deg);transition:transform .8s cubic-bezier(.7,0,.2,1)}.curtain.lift .cs-b{transform:translateY(-104%) rotate(.6deg)}
 .curtain.lift .cs-b{transition-delay:.025s}
 /* the page itself sits in one wrapper, full width, so it can be handled as a single sheet */
 .ohs{margin-left:calc(var(--pl) * -1);margin-right:calc(var(--pr) * -1);padding-left:var(--pl);padding-right:var(--pr)}
-/* the lamp: light, not ink. It warms whatever it falls on and lets the corners go dim, and it comes up with a tungsten flicker. */
+/* the lamp: light, not ink. A faint hot spot in the middle and a faint fall-off to the corners, as an overhead's fresnel gives. */
 .lamp{position:fixed;inset:0;z-index:99;pointer-events:none;opacity:0;visibility:hidden}
 html.oh .lamp{visibility:visible}
 .lamp::before{content:'';position:absolute;inset:0;mix-blend-mode:soft-light;
-  background:radial-gradient(ellipse 70% 62% at 50% 46%,rgba(255,206,140,.62) 0%,rgba(255,196,128,.34) 34%,rgba(255,180,110,.1) 64%,transparent 86%)}
+  background:radial-gradient(ellipse 70% 62% at 50% 46%,rgba(255,214,160,.16) 0%,rgba(255,206,150,.08) 40%,transparent 80%)}
 .lamp::after{content:'';position:absolute;inset:0;mix-blend-mode:multiply;
-  background:radial-gradient(ellipse 80% 75% at 50% 46%,transparent 52%,rgba(160,125,85,.12) 82%,rgba(120,88,52,.24) 100%)}
+  background:radial-gradient(ellipse 85% 80% at 50% 46%,transparent 58%,rgba(150,120,90,.05) 85%,rgba(120,92,60,.1) 100%)}
 /* the takeover: a sheet laid down from the top; each place prints in two passes that slide into register */
 @property --tls{syntax:'<number>';inherits:true;initial-value:0}
 @property --tlb{syntax:'<number>';inherits:true;initial-value:0}
@@ -1033,12 +1035,12 @@ function go(){
   [].forEach.call(curtain.querySelectorAll('.ct-t'),function(e){setText2(e,NAMES[h]||NAMES[viewOf(h)]||'');});
   curtain.className='curtain';void curtain.offsetWidth;
   lampA.forEach(function(a){a.cancel();});root.classList.add('oh');
-  /* the bulb comes up with a tungsten flicker as the sheets are laid on, and cools slowly after they lift away */
-  lampA=[lamp.animate([{opacity:0},{opacity:.55,offset:.12},{opacity:.3,offset:.2},{opacity:.8,offset:.38},{opacity:.68,offset:.48},{opacity:1}],{duration:560,fill:'forwards'})];
+  /* the halogen comes up fast as the sheets are laid on, and fades out with a short afterglow as they lift away */
+  lampA=[lamp.animate([{opacity:0},{opacity:1}],{duration:240,delay:200,fill:'forwards',easing:'cubic-bezier(.2,.7,.3,1)'})];
   setTimeout(function(){if(my!==going)return;curtain.classList.add('cover');},220);
   setTimeout(function(){if(my!==going)return;route();},220+700);
   setTimeout(function(){if(my!==going)return;curtain.classList.add('lift');if(root.dataset.view==='home')cueIdea();
-    lampA.push(lamp.animate([{opacity:1},{opacity:1,offset:.2},{opacity:0}],{duration:1500,fill:'forwards',easing:'cubic-bezier(.4,0,.6,1)'}));},220+700+600);
+    lampA.push(lamp.animate([{opacity:1},{opacity:0}],{duration:700,delay:250,fill:'forwards',easing:'cubic-bezier(.3,0,.5,1)'}));},220+700+600);
   setTimeout(function(){if(my!==going)return;curtain.className='curtain';},220+700+600+900);
   setTimeout(function(){if(my!==going)return;root.classList.remove('oh');lampA.forEach(function(a){a.cancel();});lampA=[];},220+700+600+1500);
 }
