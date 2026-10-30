@@ -11,7 +11,7 @@
 <link rel="apple-touch-icon" href="/assets/images/apple-touch-icon.png">
 <link rel="manifest" href="/site.webmanifest">
 <meta name="theme-color" content="#efefed">
-<title>Overprint Grid Study</title>
+<title>Brendan Whitaker</title>
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:opsz,wght@14..32,300..700&display=swap">
 <style>
@@ -576,13 +576,13 @@ body.show-grid .ov{display:block}
 <section class="plate g" id="join" data-view="home" aria-labelledby="h-join">
   <div class="low sub">
     <h2 class="st sub" id="h-join">
-      <span class="t label" style="--c:1">Join Builders’ Colloquia</span>
+      <span class="t label" style="--c:1">Subscribe</span>
       <span class="t serif ln" style="--c:1">Read along</span>
       <span class="t serif ln step" style="--c:2"><svg class="hk" aria-hidden="true"><use href="#hook"/></svg>with me.</span>
     </h2>
     <div class="cap" style="--c:1">
-      <p class="t sans measure" id="formnote">Get each season’s readings ahead of time and an invitation to every evening. Everyone who joins can ask for a free pair of red and blue 3D glasses.</p>
-      <form id="sub" class="j-form"><label class="vh" for="email">Email</label><input id="email" type="email" required placeholder="you@example.com"><button class="btn" type="submit"><span class="tab"><svg aria-hidden="true"><use href="#arrow"/></svg></span><span class="bl t sans">Join the colloquia</span></button></form>
+      <p class="t sans measure" id="formnote">Each season’s readings before the sessions, and the essays after. Everyone who subscribes can ask for a free pair of red and blue 3D glasses.</p>
+      <form id="sub" class="j-form"><label class="vh" for="email">Email</label><input id="email" type="email" required placeholder="you@example.com"><button class="btn" type="submit"><span class="tab"><svg aria-hidden="true"><use href="#arrow"/></svg></span><span class="bl t sans">Subscribe</span></button></form>
     </div>
   </div>
 </section>
@@ -657,7 +657,7 @@ body.show-grid .ov{display:block}
     </h2>
     <div class="cap" style="--c:1">
       <p class="t sans measure">The word thing once meant a meeting: the place people gathered to settle what mattered. The things worth building still do that. They give people a reason to look, something to say, and somewhere to come back to.</p>
-      <div class="actions"><a class="btn" href="#join"><span class="tab"><svg aria-hidden="true"><use href="#arrow"/></svg></span><span class="bl t sans">Read along with me</span></a><a class="t sans" href="#ecosystem">The ecosystem</a></div>
+      <div class="actions"><a class="btn" href="#join"><span class="tab"><svg aria-hidden="true"><use href="#arrow"/></svg></span><span class="bl t sans">Subscribe</span></a><a class="t sans" href="#colloquia">The colloquia</a></div>
     </div>
   </div>
 </section>
@@ -676,7 +676,7 @@ body.show-grid .ov{display:block}
     </h2>
     <div class="cap" style="--c:3">
       <p class="t sans measure">Each session assigns two or three essays to read beforehand. What I write afterwards lands here too, linked to the session it came from.</p>
-      <div class="actions"><a class="btn" href="https://lu.ma/brendanwhitaker"><span class="tab"><svg aria-hidden="true"><use href="#arrow"/></svg></span><span class="bl t sans">Save a seat, Nov 5</span></a><a class="t sans" href="#join">Join the colloquia</a></div>
+      <div class="actions"><a class="btn" href="https://lu.ma/brendanwhitaker"><span class="tab"><svg aria-hidden="true"><use href="#arrow"/></svg></span><span class="bl t sans">Save a seat, Nov 5</span></a><a class="t sans" href="#join">Subscribe for the readings</a></div>
     </div>
   </div>
 </section>
@@ -731,7 +731,7 @@ body.show-grid .ov{display:block}
         <li class="sub"><p class="t label tk-n">03</p><a class="t serif tk-l" style="--i:2" data-t="Colloquia" href="#colloquia">Colloquia</a></li>
         <li class="sub"><p class="t label tk-n">04</p><a class="t serif tk-l" style="--i:3" data-t="Work" href="#work">Work</a></li>
         <li class="sub"><p class="t label tk-n">05</p><a class="t serif tk-l" style="--i:4" data-t="Contact" href="#contact">Contact</a></li>
-        <li class="sub"><p class="t label tk-n">06</p><a class="t serif tk-l" style="--i:5" data-t="Join the colloquia" href="#join">Join the colloquia</a></li>
+        <li class="sub"><p class="t label tk-n">06</p><a class="t serif tk-l" style="--i:5" data-t="Subscribe" href="#join">Subscribe</a></li>
       </ol>
     </nav>
     <div class="g tk-foot">
@@ -975,7 +975,7 @@ function markNav(){
    comes into focus on it, the page changes underneath, and the sheet carries on up and off. Scrolling within home is left alone. */
 var curtain=document.createElement('div');curtain.className='curtain';curtain.setAttribute('aria-hidden','true');
 curtain.innerHTML='<div class="cs cs-r"><p class="t serif ct-t"></p></div><div class="cs cs-b"><p class="t serif ct-t"></p></div>';document.body.appendChild(curtain);
-var NAMES={home:'Ecosystem',thesis:'Thesis',work:'Work',contact:'Contact',colloquia:'Colloquia',reading:'Colloquia',join:'Join the colloquia',ecosystem:'My ecosystem',idea:'Build what matters'};
+var NAMES={home:'Ecosystem',thesis:'Thesis',work:'Work',contact:'Contact',colloquia:'Colloquia',reading:'Colloquia',join:'Subscribe',ecosystem:'My ecosystem',idea:'Build what matters'};
 function viewOf(h){var el=h?document.getElementById(h):null;return VIEWS.indexOf(h)>=0?h:(el&&el.closest('[data-view]')?el.closest('[data-view]').dataset.view:'home');}
 var going=0;
 function go(){
