@@ -356,7 +356,7 @@ body.stereo .idea.done .w::after{transform:translateX(calc(var(--fs) * .056))}
 /* thesis figure and its steps */
 .fig{display:block;height:270px;width:100%;overflow:visible}
 .figbox{grid-column:2/5;grid-row:1}
-.moves{grid-column:1/-1;grid-row:2;margin-top:27px}
+.moves{grid-column:1/-1;grid-row:1;row-gap:27px}
 .moves li>*{min-width:0}
 .moves li{transition:opacity .4s}
 .moves.live li:not(.now){opacity:.45}
@@ -590,35 +590,37 @@ body.show-grid .ov{display:block}
 
 
 
-<!-- Thesis · 1. The statement, alone on its screen, low and on the centre columns. Copy is first-person and short. -->
+<!-- Thesis · 1. The loop high on the centre columns, the statement low. One object, one statement. -->
 <section class="plate g" id="thesis" data-view="thesis" aria-labelledby="h-thesis">
+  <div class="top sub">
+    <div class="figbox"><svg class="fig" id="fig" viewBox="0 0 360 216" preserveAspectRatio="xMidYMin meet" role="img" aria-label="A loop through four moves: build, see, tell, together. Dots, each a group of people, go around it; each lap they come back with one more ring. Click a move to switch it off."></svg></div>
+  </div>
   <div class="low sub">
     <h2 class="st sub" id="h-thesis">
-      <span class="t label" style="--c:2">The thesis</span>
-      <span class="t serif ln" style="--c:2">Communities get stronger</span>
-      <span class="t serif ln step" style="--c:3"><svg class="hk" aria-hidden="true"><use href="#hook"/></svg>when people build first,</span>
-      <span class="t serif ln" style="--c:2" id="thesis-last">then see, tell and do it again together.</span>
+      <span class="t label" style="--c:1">The thesis</span>
+      <span class="t serif ln" style="--c:1">Communities get stronger</span>
+      <span class="t serif ln step" style="--c:2"><svg class="hk" aria-hidden="true"><use href="#hook"/></svg>when people build, see, tell,</span>
+      <span class="t serif ln" style="--c:1" id="thesis-last">and build again, together.</span>
     </h2>
-    <div class="cap" style="--c:2">
-      <p class="t sans measure">Most of what I do comes down to one observation: people who have built something want to see how it fits. Once they can see it, they have something worth saying. And once they have said it, others want to build with them. Then it starts over, one size up.</p>
+    <div class="cap" style="--c:1">
+      <p class="t sans measure">Making is how people think. Someone who has built something, however small, wants to see how it fits. Seeing it, they have something worth saying. Saying it, they find the others. And the next thing they build is bigger, because they are not building it alone.</p>
     </div>
   </div>
 </section>
 
-<!-- Thesis · 2. The loop: the figure high on the centre columns, the four moves as a table beneath it, the current move in focus. -->
+<!-- Thesis · 2. The four moves as a table, the one in play in focus; the statement says why the order matters. -->
 <section class="plate g" id="loop" data-view="thesis" aria-labelledby="h-loop">
   <div class="top sub">
-    <div class="figbox"><svg class="fig" id="fig" viewBox="0 0 360 216" preserveAspectRatio="xMidYMin meet" role="img" aria-label="A loop through four moves: build, see, tell, together. Dots, each a group of people, go around it; each lap they come back with more. Click a move to switch it off."></svg></div>
     <ol class="idx sub moves" id="moves" aria-label="The four moves"></ol>
   </div>
   <div class="low sub">
     <h2 class="st sub" id="h-loop">
-      <span class="t label" style="--c:1">The loop</span>
-      <span class="t serif ln" style="--c:1">Four moves,</span>
-      <span class="t serif ln step" style="--c:2" id="loop-last"><svg class="hk" aria-hidden="true"><use href="#hook"/></svg>round and round, and up.</span>
+      <span class="t label" style="--c:2">The order</span>
+      <span class="t serif ln" style="--c:2">Build first.</span>
+      <span class="t serif ln step" style="--c:3" id="loop-last"><svg class="hk" aria-hidden="true"><use href="#hook"/></svg>The rest follows.</span>
     </h2>
-    <div class="cap" style="--c:1">
-      <p class="t sans measure">Each dot is a group of people. Every time round they come back with one more ring. Turn 3D on and each lap steps toward you: the loop is a spiral, and the laps are time. Click a move to switch it off and watch where people stall.</p>
+    <div class="cap" style="--c:2">
+      <p class="t sans measure">I used to put seeing first. In practice it runs the other way: nobody looks hard at a system until they have put something into it. Each dot in the loop is a group of people, and each time round they come back with one more ring. With 3D on, every lap steps toward you: the loop is a spiral, and the laps are time. Click a move to switch it off and watch where people stall.</p>
     </div>
   </div>
 </section>
@@ -627,9 +629,9 @@ body.show-grid .ov{display:block}
 <section class="plate g" id="lenses" data-view="thesis" aria-labelledby="h-lenses">
   <div class="top sub">
     <ol class="idx sub lenses" id="lensrows" aria-label="Three lenses" style="grid-column:2/5">
-      <li class="sub"><p class="t label" style="grid-column:1">01</p><h3 class="t serif item ti" style="grid-column:2/-1">Complex adaptive systems</h3><p class="t sans grey" style="grid-column:2/-1">Communities are not machines. Simple rules, followed by many people, make patterns nobody designed. Push the rules, not the people.</p></li>
-      <li class="sub"><p class="t label" style="grid-column:1">02</p><h3 class="t serif item ti" style="grid-column:2/-1">Actor-network theory</h3><p class="t sans grey" style="grid-column:2/-1">The things people build are actors too. A map, a story, a building: each one gathers people and holds them together after the meeting ends.</p></li>
-      <li class="sub"><p class="t label" style="grid-column:1">03</p><h3 class="t serif item ti" style="grid-column:2/-1">Community economic development</h3><p class="t sans grey" style="grid-column:2/-1">The point is capacity that stays. Work done with a community, and then by it, is worth more than work done for it.</p></li>
+      <li class="sub"><p class="t label" style="grid-column:1">01</p><h3 class="t serif item ti" style="grid-column:2/-1">Complex adaptive systems</h3><p class="t sans grey" style="grid-column:2/-1">A community is not a machine. Simple rules, followed by many people, make patterns nobody designed. So I work on the rules, not the people.</p></li>
+      <li class="sub"><p class="t label" style="grid-column:1">02</p><h3 class="t serif item ti" style="grid-column:2/-1">Actor-network theory</h3><p class="t sans grey" style="grid-column:2/-1">The things people build act too. A map, a story, a building: each one gathers people and keeps them together after the meeting ends.</p></li>
+      <li class="sub"><p class="t label" style="grid-column:1">03</p><h3 class="t serif item ti" style="grid-column:2/-1">Community economic development</h3><p class="t sans grey" style="grid-column:2/-1">The measure of the work is what stays when the work is over: skills, ties, and things in the ground.</p></li>
     </ol>
   </div>
   <div class="low sub">
@@ -639,7 +641,7 @@ body.show-grid .ov{display:block}
       <span class="t serif ln step" style="--c:3" id="lenses-last"><svg class="hk" aria-hidden="true"><use href="#hook"/></svg>comes from.</span>
     </h2>
     <div class="cap" style="--c:2">
-      <p class="t sans measure">Three bodies of work I keep returning to. The colloquia read them in the open.</p>
+      <p class="t sans measure">Three bodies of work I keep returning to. The colloquia read them in the open, two or three essays at a time.</p>
       <div class="actions"><a class="t sans" href="#colloquia">Sessions and essays</a></div>
     </div>
   </div>
@@ -654,7 +656,7 @@ body.show-grid .ov{display:block}
       <span class="t serif ln step" style="--c:2" id="matter-last"><svg class="hk" aria-hidden="true"><use href="#hook"/></svg>and what you can hold.</span>
     </h2>
     <div class="cap" style="--c:1">
-      <p class="t sans measure">Matter is the stuff things are made of, and it is what counts. I mean both. The work that lasts is the kind you can point to.</p>
+      <p class="t sans measure">The word thing once meant a meeting: the place people gathered to settle what mattered. The things worth building still do that. They give people a reason to look, something to say, and somewhere to come back to.</p>
       <div class="actions"><a class="btn" href="#join"><span class="tab"><svg aria-hidden="true"><use href="#arrow"/></svg></span><span class="bl t sans">Read along with me</span></a><a class="t sans" href="#ecosystem">The ecosystem</a></div>
     </div>
   </div>
@@ -779,7 +781,7 @@ var ECOS=[
 /* ---------- the ecosystem as a system ---------- */
 var SYS={orgs:[['01 · See','Synodic Studio','Helps groups see how they are connected',''],['02 · Tell','Folkmark Creative','Helps them tell a true story','https://folkmark.com'],['03 · Build','Levy Strategic Design','Builds the structure to carry it','https://withlevy.com'],['04 · Together','The Upskilling Labs','Keeps people learning together','']],on:[true,true,true,true]};
 document.getElementById('sys-orgs').innerHTML=SYS.orgs.map(function(o,i){return '<li class="sub"><p class="t label" style="grid-column:1">'+o[0]+'</p><h3 class="t serif item ti" style="grid-column:2/4">'+(o[3]?'<a href="'+o[3]+'">'+o[1]+'</a>':o[1])+'</h3><p class="t sans grey sys-role" style="grid-column:4">'+o[2]+'</p><button class="sys-sw t label" type="button" data-i="'+i+'" aria-pressed="true" style="grid-column:5" aria-label="'+o[1]+' on or off"><span class="o o1">On</span><span class="o o0">Off</span></button></li>';}).join('');
-var MOVES=[['01 · Build','Build something','Make a thing you can point to. It gives you a reason to look.','Levy Strategic Design','https://withlevy.com'],['02 · See','See how it fits','Find the ties around what you built, and who holds them.','Synodic Intelligence',''],['03 · Tell','Tell it so it travels','Say what you saw in a way others can repeat.','Folkmark Creative','https://folkmark.com'],['04 · Together','Do it again, together','Others join, and the next thing is bigger.','The Upskilling Labs','']];
+var MOVES=[['01 · Build','Make a thing you can point to','A thing in the world is a question you cannot put down. It is where the looking starts.','Levy Strategic Design','https://withlevy.com'],['02 · See','See how it fits','Trace the ties around it: who it touches, what holds it up, what it leans on.','Synodic Intelligence',''],['03 · Tell','Tell it so it travels','Say what you saw plainly enough that someone else can repeat it without you.','Folkmark Creative','https://folkmark.com'],['04 · Together','Build again, with others','People join what they can see and repeat. The next thing is bigger, and it is not yours alone.','The Upskilling Labs','']];
 document.getElementById('moves').innerHTML=MOVES.map(function(m){return '<li class="sub"><p class="t label" style="grid-column:1">'+m[0]+'</p><h3 class="t serif item ti" style="grid-column:2">'+m[1]+'</h3><p class="t sans grey" style="grid-column:3/5">'+m[2]+'</p><p class="t label" style="grid-column:5">Carried by '+(m[4]?'<a href="'+m[4]+'">'+m[3]+'</a>':m[3])+'</p></li>';}).join('');
 
 /* ---------- thesis figure: the loop ----------
@@ -830,7 +832,7 @@ function loopTick(dt){
   });
 }
 (function(){
-  var sec=document.getElementById('loop'),last=0;
+  var sec=document.getElementById('thesis'),last=0;
   function step(now){if(!LOOP.run)return;var dt=Math.min(.064,(now-(last||now))/1000);last=now;loopTick(dt);drawFig();LOOP.raf=requestAnimationFrame(step);}
   function go(on){if(on&&!reduce){if(!LOOP.run){LOOP.run=true;last=0;LOOP.raf=requestAnimationFrame(step);}}else{LOOP.run=false;cancelAnimationFrame(LOOP.raf);}}
   if('IntersectionObserver' in window)new IntersectionObserver(function(es){es.forEach(function(e){go(e.isIntersecting&&!sec.hidden);});},{threshold:.1}).observe(sec);
