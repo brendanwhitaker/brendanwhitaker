@@ -364,21 +364,20 @@ body.stereo .idea.done .w::after{transform:translateX(calc(var(--fs) * .056))}
 
 /* indexes */
 .idx{row-gap:9px;align-content:start}
-/* the ecosystem, browsable: one row per organization, on the five columns like a table. The print above shows whichever row
-   you point at (photos to come). Pointing at a row keeps it in focus and lets the others fall out of it. */
-.eco-print{grid-column:4/6;grid-row:1;margin:0;display:grid;align-content:start}
-.eco-print>*{grid-column:1/-1}
-.ep-l{margin-bottom:9px}
-.ep-slot{height:round(down, calc(((100cqw - 4 * var(--gap)) / 5 * 2 + var(--gap)) * .66), var(--u));border-radius:16px;box-shadow:inset 0 0 0 1px var(--hair);display:grid;align-content:start;justify-items:start;padding:18px;overflow:hidden}
-.ep-slot:has(img){padding:0}.ep-slot img{width:100%;height:100%;object-fit:cover;display:block;filter:grayscale(1) contrast(1.08)}
-.eco-idx{grid-column:1/4;grid-row:1;row-gap:27px}
-.eco-idx li{grid-column:1/-1}
-.eco-idx li>*{min-width:0}
-.eco-idx .ti{--x:calc(2 * var(--u))}
-.eco-idx .ti a{color:inherit}
-.eco-idx li{transition:filter .45s,opacity .45s}
-.eco-idx.f li:not(:hover){filter:blur(1.6px);opacity:.45}
-.eco-arw{justify-self:end}
+/* the ecosystem as prints: each organization is a photograph three columns wide; the words are its caption */
+.prints-plate{grid-template-rows:auto auto;row-gap:81px}
+.prints{grid-column:1/-1;grid-row:2;row-gap:81px}
+.prints li{grid-column:1/-1;align-items:end}
+.pr-fig{margin:0;grid-column:1/4;display:grid;align-content:start}
+.prints li:nth-child(even) .pr-fig{grid-column:3/6}
+.pr-cap{grid-column:4/6;display:grid;align-content:end;row-gap:9px}
+.prints li:nth-child(even) .pr-cap{grid-column:1/3;grid-row:1}
+.prints li:nth-child(even) .pr-fig{grid-row:1}
+.pr-slot{height:round(down, calc(((100cqw - 4 * var(--gap)) / 5 * 3 + 2 * var(--gap)) * .66), var(--u));border-radius:16px;box-shadow:inset 0 0 0 1px var(--hair);display:grid;align-content:start;justify-items:start;padding:18px;overflow:hidden;background:var(--paper)}
+.pr-slot:has(img){padding:0;box-shadow:none}.pr-slot img{width:100%;height:100%;object-fit:cover;display:block;filter:grayscale(1) contrast(1.08)}
+.pr-cap .ti a{color:inherit;text-decoration:none}.pr-cap .ti a:hover{text-decoration:underline;text-decoration-thickness:1px}
+.pr-cap .t+.t{margin-top:0}
+@media (max-width:720px){.prints-plate{row-gap:54px}.prints{row-gap:54px}.prints li>*{grid-column:1/-1!important;grid-row:auto!important}.pr-slot{height:round(down, calc(100cqw * .66), var(--u))}.pr-cap{align-content:start}}
 @media (max-width:720px){.idea .w{display:block;margin-left:calc(var(--sb) * -1em)}.idea .w+.w{margin-left:calc(var(--sb) * -1em)}.eco-print{display:none}.eco-idx{grid-column:1/-1}.eco-idx li>*,.eco-idx li .sub>*{grid-column:1/-1!important}}
 /* the system: dots on the 9px lattice, stacked in five bins that sit on the five columns */
 .sys{grid-column:1/-1;position:relative;height:var(--sys-h,180px)}
@@ -492,21 +491,17 @@ body.show-grid .ov{display:block}
 
 <!-- 3 · The ecosystem: two done-for-you practices feed the one that brings them together for clients; the Labs is where people
      learn to do it, and they go on to build their own. Laid on the five columns, done for you on the left, learn to do it on the right. -->
-<section class="plate g" id="ecosystem" data-view="home" aria-labelledby="eco-h">
+<section class="plate g prints-plate" id="ecosystem" data-view="home" aria-labelledby="eco-h">
   <div class="top sub">
-    <ol class="idx sub eco-idx" id="eco-idx" aria-label="The organizations"></ol>
-    <figure class="eco-print sub" id="eco-print" aria-hidden="true"><p class="t label ep-l" id="ep-l">Fig. 01 · Levy Strategic Design</p><div class="ep-slot" id="ep-slot"><span class="t label">Photo to come</span></div></figure>
-  </div>
-  <div class="low sub">
     <h2 class="st sub" id="eco-h">
       <span class="t label" style="--c:1">My ecosystem</span>
       <span class="t serif ln" style="--c:1">Four organizations,</span>
       <span class="t serif ln step" style="--c:2" id="eco-last"><svg class="hk" aria-hidden="true"><use href="#hook"/></svg>one ecosystem.</span>
     </h2>
-    <div class="cap" style="--c:1">
-      <p class="t sans measure">Two do the work for you, one does it with you, and one is where people learn to do it themselves.</p>
-    </div>
   </div>
+  <!-- the prints are the thing: one per organization, three columns wide, alternating sides, each coming into focus as it
+       reaches the middle of the screen. The words hang off the print, on the other side, from its last line up. -->
+  <ol class="prints sub" id="prints" aria-label="The organizations"></ol>
 </section>
 
 <!-- 3 · The ecosystem, as a system: a dot histogram of people by how many of the four moves they have been through.
@@ -762,23 +757,16 @@ document.getElementById('season').innerHTML=SEASON.map(function(x,i){return '<li
 /* the colloquia stream: sessions coming up, then what has been written, newest first */
 var STREAM=[['Next session · Nov 5','Structure shapes what groups make'],['Session · Nov 19','Where to push a system'],['Session · Dec 3','Translation'],['Essay · Oct 18','The places between people'],['Field note','Month to month'],['Field note','Say it so they can repeat it']];
 document.getElementById('stream').innerHTML=STREAM.map(function(x,i){return '<li class="sub'+(i?'':' next')+'"><p class="t label" style="grid-column:1">'+x[0]+'</p><h3 class="t serif item ti" style="grid-column:2/-1"><a href="#colloquia">'+x[1]+'</a></h3></li>';}).join('');
-/* ---------- the ecosystem index ---------- */
+/* ---------- the ecosystem prints ---------- */
 /* in the loop's order, so BUILD WHAT MATTERS hands straight into 01 · Build */
 var ECOS=[
   ['01 · Build','Levy Strategic Design','Brings it together for clients','With you','Built it with a partner','https://withlevy.com'],
   ['02 · See','Synodic Intelligence','Helps groups see how they are connected','For you','Built it',''],
   ['03 · Tell','Folkmark Creative','Helps them tell a true story','For you','Lead strategist','https://folkmark.com'],
   ['04 · Together','The Upskilling Labs','Where people learn to do it themselves','By you','One of its first designers','']];
-(function(){
-  var ol=document.getElementById('eco-idx'),pr=document.getElementById('eco-print'),lab=document.getElementById('ep-l');
-  ol.innerHTML=ECOS.map(function(o,i){return '<li class="sub" data-i="'+i+'"><p class="t label" style="grid-column:1">'+o[0]+'</p>'
-    +'<h3 class="t serif item ti" style="grid-column:2">'+(o[5]?'<a href="'+o[5]+'">'+o[1]+'</a>':o[1])+'</h3>'
-    +'<div style="grid-column:3" class="sub" data-cells><p class="t sans grey">'+o[2]+'</p><p class="t label" style="margin-top:9px">'+o[3]+' · '+o[4]+'</p></div></li>';}).join('');
-  [].forEach.call(ol.children,function(li){
-    li.addEventListener('mouseenter',function(){ol.classList.add('f');var o=ECOS[+li.dataset.i];setText('ep-l','Fig. '+o[0].slice(0,2)+' · '+o[1]);});
-    li.addEventListener('mouseleave',function(){ol.classList.remove('f');});
-  });
-})();
+document.getElementById('prints').innerHTML=ECOS.map(function(o,i){return '<li class="sub">'
+  +'<figure class="pr-fig" data-i="'+i+'"><div class="pr-slot">'+(o[6]?'<img src="'+o[6]+'" alt="">':'<span class="t label">Photo to come</span>')+'</div></figure>'
+  +'<div class="pr-cap"><p class="t label">'+o[0]+'</p><h3 class="t serif item ti">'+(o[5]?'<a href="'+o[5]+'">'+o[1]+'</a>':o[1])+'</h3><p class="t sans grey">'+o[2]+'</p><p class="t label">'+o[3]+' · '+o[4]+'</p></div></li>';}).join('');
 /* ---------- the ecosystem as a system ---------- */
 var SYS={orgs:[['01 · See','Synodic Studio','Helps groups see how they are connected',''],['02 · Tell','Folkmark Creative','Helps them tell a true story','https://folkmark.com'],['03 · Build','Levy Strategic Design','Builds the structure to carry it','https://withlevy.com'],['04 · Together','The Upskilling Labs','Keeps people learning together','']],on:[true,true,true,true]};
 document.getElementById('sys-orgs').innerHTML=SYS.orgs.map(function(o,i){return '<li class="sub"><p class="t label" style="grid-column:1">'+o[0]+'</p><h3 class="t serif item ti" style="grid-column:2/4">'+(o[3]?'<a href="'+o[3]+'">'+o[1]+'</a>':o[1])+'</h3><p class="t sans grey sys-role" style="grid-column:4">'+o[2]+'</p><button class="sys-sw t label" type="button" data-i="'+i+'" aria-pressed="true" style="grid-column:5" aria-label="'+o[1]+' on or off"><span class="o o1">On</span><span class="o o0">Off</span></button></li>';}).join('');
@@ -875,7 +863,7 @@ function setLens(el,L,blur,sep,q){
 }
 /* rack focus: statements, the print, the figure and the indexes are sharp through the middle of the screen
    and separate toward the top and bottom edges. Body text, captions and controls are never touched. */
-var RACK=[].slice.call(document.querySelectorAll('.figbox,.idx:not(.eco-idx),h2.st,#h-close'));
+var RACK=[].slice.call(document.querySelectorAll('.figbox,.idx:not(.eco-idx),h2.st,#h-close,.pr-fig'));
 RACK.forEach(function(el,i){el.classList.add('rackable');el._lens=makeLens('lens-r'+i,true);});
 function rack(){
   if(reduce)return;var vh=innerHeight;
