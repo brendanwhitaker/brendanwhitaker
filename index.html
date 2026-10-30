@@ -4,14 +4,23 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="description" content="Brendan Whitaker is architecting an ecosystem to help folks build what matters.">
-<meta name="robots" content="noindex">
+<link rel="canonical" href="https://www.brendanwhitaker.com/">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://www.brendanwhitaker.com/">
+<meta property="og:site_name" content="Brendan Whitaker">
+<meta property="og:title" content="Brendan Whitaker — Build what matters">
+<meta property="og:description" content="Architecting an ecosystem to help folks build what matters. Washington, DC.">
+<meta property="og:image" content="https://www.brendanwhitaker.com/assets/images/og.jpg">
+<meta property="og:image:width" content="1200"><meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Architecting an ecosystem to help folks: BUILD WHAT MATTERS, printed in red and blue.">
+<meta name="twitter:card" content="summary_large_image">
 <style>:root{box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style>
 <link rel="icon" href="/favicon.ico" sizes="32x32">
 <link rel="icon" href="/assets/images/icon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="/assets/images/apple-touch-icon.png">
 <link rel="manifest" href="/site.webmanifest">
 <meta name="theme-color" content="#efefed">
-<title>Brendan Whitaker</title>
+<title>Brendan Whitaker — Build what matters</title>
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:opsz,wght@14..32,300..700&display=swap">
 <style>
@@ -496,7 +505,7 @@ body.show-grid .ov{display:block}
 <symbol id="hook" viewBox="0 0 40 40"><path d="M6 2V30H37M30 23L37 30L30 37" vector-effect="non-scaling-stroke"/></symbol>
 </defs></svg>
 
-<script>(function(){var r=document.documentElement,s=/^#(thesis|loop|lenses|matter|colloquia|work|contact)$/.test(location.hash);if(!s&&!matchMedia('(prefers-reduced-motion: reduce)').matches)r.classList.add('intro','loading','pre');})();</script>
+<script>(function(){var r=document.documentElement,s=/^#(thesis|loop|lenses|matter|colloquia|work|contact)$/.test(location.hash),seen=false;try{var n=Date.now(),l=+localStorage.getItem('bw-intro')||0;seen=n-l<6*36e5;localStorage.setItem('bw-intro',n);}catch(e){}if(!s&&!seen&&!matchMedia('(prefers-reduced-motion: reduce)').matches)r.classList.add('intro','loading','pre');})();</script>
 <div class="loader" id="loader" aria-hidden="true"><div class="push"></div></div>
 <div class="cue" id="cue" aria-hidden="true"><span class="t label">Scroll</span><span class="cue-line"></span></div>
 <div class="ov" aria-hidden="true"><div class="page"><div class="g"><div></div><div></div><div></div><div></div><div></div></div></div></div>
@@ -545,69 +554,6 @@ body.show-grid .ov{display:block}
   <ol class="wall sub" id="wall" aria-label="The organizations"></ol>
 </section>
 
-<!-- 3 · The ecosystem, as a system: a dot histogram of people by how many of the four moves they have been through.
-     Each organization is a rule that moves people one step; the shape that emerges is the point. -->
-<section class="plate g" id="system" data-view="parked" aria-labelledby="sys-h">
-  <div class="top sub">
-    <div class="sys" id="sys" role="img" aria-label="A histogram of dots, each a group of people, across five steps: not yet, see, tell, build and together. Over time the dots move to the right."></div>
-    <ol class="sys-bins sub" aria-hidden="true">
-      <li class="t label">0 · Not yet</li><li class="t label">1 · See</li><li class="t label">2 · Tell</li><li class="t label">3 · Build</li><li class="t label">4 · Together</li>
-    </ol>
-  </div>
-  <div class="low sub">
-    <h2 class="st sub" id="sys-h">
-      <span class="t label" style="--c:1">My ecosystem</span>
-      <span class="t serif ln" style="--c:1">Four organizations,</span>
-      <span class="t serif ln step" style="--c:2" id="sys-last"><svg class="hk" aria-hidden="true"><use href="#hook"/></svg>one system.</span>
-    </h2>
-    <div class="cap" style="--c:1">
-      <p class="t sans measure">Each dot is a group of people. Each organization moves them one step to the right, and the people who get all the way across pull others along. Switch one off and watch where people get stuck.</p>
-    </div>
-    <ol class="idx sub sys-orgs" id="sys-orgs" aria-label="The organizations"></ol>
-  </div>
-</section>
-
-<!-- 3 · The ecosystem. Pinned while you scroll through the four organizations, one move of the thesis each. -->
-<section class="eco" id="ecosystem-deck" data-view="parked" aria-labelledby="hm-h">
-<div class="home g">
-  <div class="hm-who">
-    <h2 class="t label" id="hm-h">My ecosystem</h2>
-    <p class="t sans measure hm-lede">Organizations and communities, each carrying one move of the thesis.</p>
-  </div>
-  <div class="hm-meta" id="hm-meta" aria-live="polite">
-    <h3 class="t serif item hm-name" id="hm-name">Synodic Studio</h3>
-    <div class="hm-f"><p class="t label">Kind</p><p class="t sans" id="hm-kind">Predictive alignment</p></div>
-    <div class="hm-f"><p class="t label">My part</p><p class="t sans" id="hm-part">Built it</p></div>
-    <p class="t sans grey hm-desc" id="hm-desc">Two or three essays</p>
-    <div class="hm-f"><p class="t label">The move</p><p class="t sans" id="hm-move">See</p></div>
-    <p class="t sans"><a id="hm-link" href="#">Visit</a></p>
-  </div>
-  <div class="hm-stack" id="hm-stack" aria-hidden="true"></div>
-  <ol class="hm-list" id="hm-list" aria-label="My ecosystem"><li class="hm-track" id="hm-track"></li></ol>
-  <p class="t label hm-sw" aria-hidden="true">The ecosystem</p>
-  <div class="hm-n" aria-hidden="true"><p class="t serif hm-dp"><span class="hm-d" id="hm-d" data-t="01">01</span></p><p class="t label hm-of">/ 04</p></div>
-</div>
-</section>
-
-<!-- 4 · Builders’ Colloquia on the home page: the season high, the statement low. The full stream is its own page. -->
-<section class="plate g" id="reading" data-view="parked" aria-labelledby="h-coll">
-  <div class="top sub">
-    <ol class="idx sub" id="season" style="grid-column:2/5" aria-label="This season"></ol>
-  </div>
-  <div class="low sub">
-    <h2 class="st sub" id="h-coll">
-      <span class="t label" style="--c:1">Builders’ Colloquia</span>
-      <span class="t serif ln" style="--c:1">What I’m reading,</span>
-      <span class="t serif ln step" style="--c:2"><svg class="hk" aria-hidden="true"><use href="#hook"/></svg>and the evenings</span>
-      <span class="t serif ln" style="--c:1" id="coll-last">where we argue about it.</span>
-    </h2>
-    <div class="cap" style="--c:1">
-      <p class="t sans">Two or three essays, read beforehand. A small room of people I meet through the work. No slides, and no one is quoted after.</p>
-      <div class="actions"><a class="btn" href="https://lu.ma/brendanwhitaker"><span class="tab"><svg aria-hidden="true"><use href="#arrow"/></svg></span><span class="bl t sans">Save a seat, Nov 5</span></a><a class="t sans" href="#colloquia">Sessions and essays</a></div>
-    </div>
-  </div>
-</section>
-
 <!-- 5 · Join. The bottom of the home page: the one thing to sign up for. -->
 <section class="plate g" id="join" data-view="home" aria-labelledby="h-join">
   <div class="low sub">
@@ -619,6 +565,7 @@ body.show-grid .ov{display:block}
     <div class="cap" style="--c:1">
       <p class="t sans measure" id="formnote">Occasional updates on what I’m building, reading, and writing. A few emails a season, and you can leave any time.</p>
       <form id="sub" class="j-form"><label class="vh" for="email">Email</label><input id="email" type="email" required placeholder="you@example.com"><button class="btn" type="submit"><span class="tab"><svg aria-hidden="true"><use href="#arrow"/></svg></span><span class="bl t sans">Subscribe</span></button></form>
+      <p class="t label">I’ll only use your email for these updates, and never share it.</p>
     </div>
   </div>
 </section>
@@ -641,78 +588,6 @@ body.show-grid .ov{display:block}
   </div>
 </section>
 
-<section class="plate g" id="thesis-full" data-view="parked" aria-labelledby="h-thesis">
-  <div class="top sub">
-    <div class="figbox"><svg class="fig" id="fig" viewBox="0 0 360 216" preserveAspectRatio="xMidYMin meet" role="img" aria-label="A loop through four moves: build, see, tell, together. Dots, each a group of people, go around it; each lap they come back with one more ring. Click a move to switch it off."></svg></div>
-  </div>
-  <div class="low sub">
-    <h2 class="st sub" id="h-thesis">
-      <span class="t label" style="--c:1">The thesis</span>
-      <span class="t serif ln" style="--c:1">Communities get stronger</span>
-      <span class="t serif ln step" style="--c:2"><svg class="hk" aria-hidden="true"><use href="#hook"/></svg>when people build, see, tell,</span>
-      <span class="t serif ln" style="--c:1" id="thesis-last">and build again, together.</span>
-    </h2>
-    <div class="cap" style="--c:1">
-      <p class="t sans measure">Making is how people think. Someone who has built something, however small, wants to see how it fits. Seeing it, they have something worth saying. Saying it, they find the others. And the next thing they build is bigger, because they are not building it alone.</p>
-    </div>
-  </div>
-</section>
-
-<!-- Thesis · 2. The four moves as a table, the one in play in focus; the statement says why the order matters. -->
-<section class="plate g" id="loop" data-view="parked" aria-labelledby="h-loop">
-  <div class="top sub">
-    <ol class="idx sub moves" id="moves" aria-label="The four moves"></ol>
-  </div>
-  <div class="low sub">
-    <h2 class="st sub" id="h-loop">
-      <span class="t label" style="--c:2">The order</span>
-      <span class="t serif ln" style="--c:2">Build first.</span>
-      <span class="t serif ln step" style="--c:3" id="loop-last"><svg class="hk" aria-hidden="true"><use href="#hook"/></svg>The rest follows.</span>
-    </h2>
-    <div class="cap" style="--c:2">
-      <p class="t sans measure">I used to put seeing first. In practice it runs the other way: nobody looks hard at a system until they have put something into it. Each dot in the loop is a group of people, and each time round they come back with one more ring. With 3D on, every lap steps toward you: the loop is a spiral, and the laps are time. Click a move to switch it off and watch where people stall.</p>
-    </div>
-  </div>
-</section>
-
-<!-- Thesis · 3. Three lenses: where the thinking comes from, as three rows. -->
-<section class="plate g" id="lenses" data-view="parked" aria-labelledby="h-lenses">
-  <div class="top sub">
-    <ol class="idx sub lenses" id="lensrows" aria-label="Three lenses" style="grid-column:2/5">
-      <li class="sub"><p class="t label" style="grid-column:1">01</p><h3 class="t serif item ti" style="grid-column:2/-1">Complex adaptive systems</h3><p class="t sans grey" style="grid-column:2/-1">A community is not a machine. Simple rules, followed by many people, make patterns nobody designed. So I work on the rules, not the people.</p></li>
-      <li class="sub"><p class="t label" style="grid-column:1">02</p><h3 class="t serif item ti" style="grid-column:2/-1">Actor-network theory</h3><p class="t sans grey" style="grid-column:2/-1">The things people build act too. A map, a story, a building: each one gathers people and keeps them together after the meeting ends.</p></li>
-      <li class="sub"><p class="t label" style="grid-column:1">03</p><h3 class="t serif item ti" style="grid-column:2/-1">Community economic development</h3><p class="t sans grey" style="grid-column:2/-1">The measure of the work is what stays when the work is over: skills, ties, and things in the ground.</p></li>
-    </ol>
-  </div>
-  <div class="low sub">
-    <h2 class="st sub" id="h-lenses">
-      <span class="t label" style="--c:2">Three lenses</span>
-      <span class="t serif ln" style="--c:2">Where the thinking</span>
-      <span class="t serif ln step" style="--c:3" id="lenses-last"><svg class="hk" aria-hidden="true"><use href="#hook"/></svg>comes from.</span>
-    </h2>
-    <div class="cap" style="--c:2">
-      <p class="t sans measure">Three bodies of work I keep returning to. The colloquia read them in the open, two or three essays at a time.</p>
-      <div class="actions"><a class="t sans" href="#colloquia">Sessions and essays</a></div>
-    </div>
-  </div>
-</section>
-
-<!-- Thesis · 4. Matter: the double meaning, and the way on. -->
-<section class="plate g" id="matter" data-view="parked" aria-labelledby="h-matter">
-  <div class="low sub">
-    <h2 class="st sub" id="h-matter">
-      <span class="t label" style="--c:1">Build what matters</span>
-      <span class="t serif ln" style="--c:1">What counts,</span>
-      <span class="t serif ln step" style="--c:2" id="matter-last"><svg class="hk" aria-hidden="true"><use href="#hook"/></svg>and what you can hold.</span>
-    </h2>
-    <div class="cap" style="--c:1">
-      <p class="t sans measure">The word thing once meant a meeting: the place people gathered to settle what mattered. The things worth building still do that. They give people a reason to look, something to say, and somewhere to come back to.</p>
-      <div class="actions"><a class="btn" href="#join"><span class="tab"><svg aria-hidden="true"><use href="#arrow"/></svg></span><span class="bl t sans">Subscribe</span></a><a class="t sans" href="#colloquia">The colloquia</a></div>
-    </div>
-  </div>
-</section>
-
-
 <!-- Colloquia. One stream: the sessions and the essays written from them. The stream high, the statement low and right. -->
 <section class="plate g" id="colloquia" data-view="colloquia" aria-labelledby="h-colloquia">
   <div class="low sub">
@@ -724,62 +599,6 @@ body.show-grid .ov{display:block}
     <div class="cap" style="--c:1">
       <p class="t sans measure">A small room in DC, a few readings sent ahead, and a co-host to start the argument. No slides, and no one is quoted after. The first season is being planned; subscribe and you’ll hear when seats open.</p>
       <div class="actions"><a class="btn" href="#join"><span class="tab"><svg aria-hidden="true"><use href="#arrow"/></svg></span><span class="bl t sans">Subscribe for updates</span></a></div>
-    </div>
-  </div>
-</section>
-
-<!-- Colloquia · 2. The season as a calendar index: number and date, the evening and its question, readings, co-host and seats -->
-<section class="plate g" id="season-one" data-view="parked" aria-labelledby="h-season">
-  <div class="top sub">
-    <div class="ssn-head sub" aria-hidden="true"><p class="t label" style="grid-column:1">No. · Date</p><p class="t label" style="grid-column:2/4">The evening</p><p class="t label" style="grid-column:4">Readings</p><p class="t label" style="grid-column:5">Co-host · Seats</p></div>
-    <ol class="ssn sub" id="ssn" aria-label="Season one"></ol>
-  </div>
-  <div class="low sub">
-    <h2 class="st sub" id="h-season">
-      <span class="t label" style="--c:3">Season one</span>
-      <span class="t serif ln" style="--c:3">Six evenings,</span>
-      <span class="t serif ln step" style="--c:4" id="season-last"><svg class="hk" aria-hidden="true"><use href="#hook"/></svg>planned.</span>
-    </h2>
-    <div class="cap" style="--c:3">
-      <p class="t sans measure">Dates are planned, not promised. Readings and co-hosts are announced two weeks before each evening, and the essay follows it.</p>
-    </div>
-  </div>
-</section>
-
-<!-- Colloquia · 3. The writing: essays from the evenings and notes between them -->
-<section class="plate g" id="essays" data-view="parked" aria-labelledby="h-essays">
-  <div class="top sub">
-    <ol class="idx sub" id="writing" style="grid-column:2/5" aria-label="Essays and notes"></ol>
-  </div>
-  <div class="low sub">
-    <h2 class="st sub" id="h-essays">
-      <span class="t label" style="--c:1">Essays</span>
-      <span class="t serif ln" style="--c:1">Written from</span>
-      <span class="t serif ln step" style="--c:2" id="essays-last"><svg class="hk" aria-hidden="true"><use href="#hook"/></svg>the room.</span>
-    </h2>
-    <div class="cap" style="--c:1">
-      <p class="t sans measure">What I write after each evening, and notes in between. The ideas leave the room; the names stay in it.</p>
-      <div class="actions"><a class="t sans" href="#join">Get them by email</a></div>
-    </div>
-  </div>
-</section>
-
-<!-- Colloquia · 4. Ask for a seat -->
-<section class="plate g" id="ask" data-view="parked" aria-labelledby="h-ask">
-  <div class="low sub">
-    <h2 class="st sub" id="h-ask">
-      <span class="t label" style="--c:3">Seats</span>
-      <span class="t serif ln" style="--c:3">Ask for</span>
-      <span class="t serif ln step" style="--c:4" id="ask-last"><svg class="hk" aria-hidden="true"><use href="#hook"/></svg>a seat.</span>
-    </h2>
-    <div class="cap" style="--c:3">
-      <p class="t sans measure" id="asknote">Tell me what you’re building and which evening you’d like. I keep each room small and mixed, so I’ll write back either way.</p>
-      <form id="askform" class="a-form">
-        <label class="vh" for="a-email">Email</label><input id="a-email" type="email" required placeholder="you@example.com">
-        <label class="vh" for="a-what">What you’re building</label><input id="a-what" type="text" required placeholder="What you’re building">
-        <label class="vh" for="a-when">Which evening</label><select id="a-when"><option value="any">Any evening</option></select>
-        <button class="btn" type="submit"><span class="tab"><svg aria-hidden="true"><use href="#arrow"/></svg></span><span class="bl t sans">Ask</span></button>
-      </form>
     </div>
   </div>
 </section>
@@ -813,7 +632,7 @@ body.show-grid .ov{display:block}
     </h2>
     <div class="cap" style="--c:1">
       <p class="t sans measure">I work with people building organizations, systems and movements meant to last. Start with an intro call, or write to me directly.</p>
-      <div class="actions"><a class="btn" href="https://lu.ma/brendanwhitaker"><span class="tab"><svg aria-hidden="true"><use href="#arrow"/></svg></span><span class="bl t sans">Book an intro call</span></a><button class="copy t sans" type="button" data-copy="hello@brendanwhitaker.com">hello@brendanwhitaker.com</button></div>
+      <div class="actions"><a class="btn" href="mailto:hello@brendanwhitaker.com?subject=Intro%20call"><span class="tab"><svg aria-hidden="true"><use href="#arrow"/></svg></span><span class="bl t sans">Ask for an intro call</span></a><button class="copy t sans" type="button" data-copy="hello@brendanwhitaker.com">hello@brendanwhitaker.com</button></div>
     </div>
   </div>
 </section>
@@ -823,7 +642,7 @@ body.show-grid .ov{display:block}
 <footer class="g" id="foot">
   <p class="t label">Brendan Whitaker</p>
   <div class="f-inq"><p class="t label" id="inq-l">For inquiries</p><p><button class="copy t sans" type="button" data-copy="hello@brendanwhitaker.com" data-label="inq-l">hello@brendanwhitaker.com</button></p></div>
-  <p class="t label end"><button class="gridbtn" id="introbtn" type="button">Replay intro</button> · <button class="gridbtn" id="tunebtn" type="button" aria-pressed="false">Tune focus</button> · <button class="gridbtn" id="gridbtn" type="button" aria-pressed="false">Show grid</button> · T or G</p>
+  <p class="t label end" hidden><button class="gridbtn" id="introbtn" type="button">Replay intro</button> · <button class="gridbtn" id="tunebtn" type="button" aria-pressed="false">Tune focus</button> · <button class="gridbtn" id="gridbtn" type="button" aria-pressed="false">Show grid</button> · T or G</p>
 </footer>
 <div class="takeover" id="takeover" role="dialog" aria-label="Menu">
   <div class="page tk-page">
@@ -855,26 +674,27 @@ body.show-grid .ov{display:block}
 </aside>
 </div>
 
+<script>(function(){var D=Document.prototype,E=Element.prototype,g=D.getElementById,q=D.querySelector,eq=E.querySelector,P=/hm-|\.home|orbit|sys|fig|ssn|lst/;function st(){return document.createElement('div');}D.getElementById=function(id){return g.call(this,id)||st();};D.querySelector=function(s){return q.call(this,s)||(P.test(s)?st():null);};E.querySelector=function(s){return eq.call(this,s)||(P.test(s)?st():null);};})();</script>
 <script>
 (function(){
 var U=9, reduce=matchMedia('(prefers-reduced-motion: reduce)').matches, STEREO=false;
 
 /* ---------- indexes ---------- */
-var SEASON=[['No. 01 · Nov 5','Structure shapes what groups make'],['No. 02 · Nov 19','Where to push a system'],['No. 03 · Dec 3','Translation'],['No. 04 · Dec 17','Spiraling up'],['No. 05 · Jan 14','Collective impact, for and against'],['No. 06 · Jan 28','Coordination without a center']];
+var SEASON=[];
 document.getElementById('season').innerHTML=SEASON.map(function(x,i){return '<li class="sub'+(i?'':' next')+'"><p class="t label" style="grid-column:1">'+x[0]+'</p><h3 class="t serif item ti" style="grid-column:2/-1"><a href="#colloquia">'+x[1]+'</a></h3></li>';}).join('');
 /* the colloquia stream: sessions coming up, then what has been written, newest first */
 /* the season as a calendar: each evening's number and date, title and question, readings, co-host and seats.
    Nothing is running yet, so readings and co-hosts are "to come" and every evening is planned. */
-var QS=['Does the shape of a group decide what it can make?','If you could change one thing, where would it matter most?','What gets lost when an idea moves between people, and what gets made?','How does one small win become the next, bigger one?','Does coordinating from the top help, or add a layer?','Can people work together with no one in charge?'];
+var QS=[];
 document.getElementById('ssn').innerHTML=SEASON.map(function(x,i){var p=x[0].split(' · ');
   return '<li class="sub'+(i?'':' next')+'"><div class="when"><p class="t label">'+p[0]+'</p><p class="t label">Planned · '+p[1]+'</p></div>'
   +'<div class="ev"><h3 class="t serif item">'+x[1]+'</h3><p class="t sans grey">'+QS[i]+'</p><p class="t label">Essay after the evening</p></div>'
   +'<div class="rd"><p class="t label ml">Readings</p><p class="t sans grey">Two weeks before</p></div>'
   +'<div class="ch"><p class="t label ml">Co-host</p><p class="t sans grey">To be announced</p><p class="t label">About 12 seats · DC</p></div></li>';}).join('');
 var sel=document.getElementById('a-when');SEASON.forEach(function(x){var o=document.createElement('option');o.value=x[0];o.textContent=x[0]+' · '+x[1];sel.appendChild(o);});
-var WRITING=[['Essay · Oct 18','The places between people'],['Note','Month to month'],['Note','Say it so they can repeat it']];
+var WRITING=[];
 document.getElementById('writing').innerHTML=WRITING.map(function(x){return '<li class="sub"><p class="t label" style="grid-column:1">'+x[0]+'</p><h3 class="t serif item ti" style="grid-column:2/-1"><a href="#essays">'+x[1]+'</a></h3></li>';}).join('');
-document.getElementById('askform').addEventListener('submit',function(e){e.preventDefault();document.getElementById('asknote').textContent='Thank you. I’ll write back. This is a study, so nothing was sent.';this.reset();});
+document.getElementById('askform').addEventListener('submit',function(e){e.preventDefault();document.getElementById('asknote').textContent='';this.reset();});
 /* ---------- the ecosystem prints ---------- */
 /* in the loop's order, so BUILD WHAT MATTERS hands straight into 01 · Build */
 var ECOS=[
@@ -883,9 +703,9 @@ var ECOS=[
   ['03 · Share','Folkmark Creative','Helps them tell a true story','For you','Lead strategist','https://folkmark.com'],
   ['04 · Learn','The Upskilling Labs','Where people learn to do it themselves','By you','One of its first designers','']];
 /* ---------- the ecosystem as a system ---------- */
-var SYS={orgs:[['01 · See','Synodic Studio','Helps groups see how they are connected',''],['02 · Tell','Folkmark Creative','Helps them tell a true story','https://folkmark.com'],['03 · Build','Levy Strategic Design','Builds the structure to carry it','https://withlevy.com'],['04 · Together','The Upskilling Labs','Keeps people learning together','']],on:[true,true,true,true]};
+var SYS={orgs:[],on:[true,true,true,true]};
 document.getElementById('sys-orgs').innerHTML=SYS.orgs.map(function(o,i){return '<li class="sub"><p class="t label" style="grid-column:1">'+o[0]+'</p><h3 class="t serif item ti" style="grid-column:2/4">'+(o[3]?'<a href="'+o[3]+'">'+o[1]+'</a>':o[1])+'</h3><p class="t sans grey sys-role" style="grid-column:4">'+o[2]+'</p><button class="sys-sw t label" type="button" data-i="'+i+'" aria-pressed="true" style="grid-column:5" aria-label="'+o[1]+' on or off"><span class="o o1">On</span><span class="o o0">Off</span></button></li>';}).join('');
-var MOVES=[['01 · Build','Make a thing you can point to','A thing in the world is a question you cannot put down. It is where the looking starts.','Levy Strategic Design','https://withlevy.com'],['02 · See','See how it fits','Trace the ties around it: who it touches, what holds it up, what it leans on.','Synodic Intelligence',''],['03 · Tell','Tell it so it travels','Say what you saw plainly enough that someone else can repeat it without you.','Folkmark Creative','https://folkmark.com'],['04 · Together','Build again, with others','People join what they can see and repeat. The next thing is bigger, and it is not yours alone.','The Upskilling Labs','']];
+var MOVES=[];
 document.getElementById('moves').innerHTML=MOVES.map(function(m){return '<li class="sub"><p class="t label" style="grid-column:1">'+m[0]+'</p><h3 class="t serif item ti" style="grid-column:2">'+m[1]+'</h3><p class="t sans grey" style="grid-column:3/5">'+m[2]+'</p><p class="t label" style="grid-column:5">Carried by '+(m[4]?'<a href="'+m[4]+'">'+m[3]+'</a>':m[3])+'</p></li>';}).join('');
 
 /* ---------- thesis figure: the loop ----------
@@ -902,7 +722,7 @@ function lpos(s){var i=Math.floor(s)%4,f=s-Math.floor(s),a=LOOP.st[i],b=LOOP.st[
 function dpos(d){var s=d.s-d.q*.07,i=Math.floor(((s%4)+4)%4),a=LOOP.st[i],b=LOOP.st[(i+1)%4],L=Math.hypot(b[0]-a[0],b[1]-a[1]),nx=-(b[1]-a[1])/L,ny=(b[0]-a[0])/L,pz=lpos(((s%4)+4)%4);return [pz[0]+nx*d.o,pz[1]+ny*d.o];}
 function setText(id,h){var e=document.getElementById(id),z=e.querySelector(':scope>.za');e.innerHTML=h;if(z)e.insertBefore(z,e.firstChild);}
 var figP=0,lastStep=-1;
-function drawFig(){
+function drawFig(){return;
   var fig=document.getElementById('fig');if(!fig)return;
   function eye(e,col){
     var s='';
@@ -920,7 +740,7 @@ function drawFig(){
   fig.innerHTML=STEREO?'<g style="mix-blend-mode:multiply">'+eye(-1,'#ed0c0c')+'</g><g style="mix-blend-mode:multiply">'+eye(1,'#1666c4')+'</g>':eye(0,'#140509');
   if(LOOP.cur!==lastStep){lastStep=LOOP.cur;var ol=document.getElementById('moves');ol.classList.add('live');[].forEach.call(ol.children,function(li,i){li.classList.toggle('now',i===LOOP.cur);});}
 }
-function loopTick(dt){
+function loopTick(dt){return;
   LOOP.curT+=dt;if(LOOP.curT>3.2){LOOP.curT=0;LOOP.cur=(LOOP.cur+1)%4;}
   var top=LOOP.dots.filter(function(d){return d.lap>=2;}).length/LOOP.dots.length;
   var queue=[0,0,0,0];
@@ -1039,12 +859,7 @@ function photoWatch(img){if(img._lens)return;img._lens=makeLens('lens-ph'+PHOTOS
 addEventListener('scroll',function(){requestAnimationFrame(function(){figScroll();rack();});},{passive:true});
 
 /* ---------- the ecosystem ---------- */
-var HM=[
- {name:'Synodic Studio',kind:'Predictive alignment',part:'Built it',move:'See',desc:'Helps groups see how they are connected before they decide what to build.',link:null,img:''},
- {name:'Folkmark',kind:'Narrative and brand studio',part:'Lead strategist',move:'Tell',desc:'A studio that helps the people around an idea tell one true story about it.',link:['Visit Folkmark','https://folkmark.com'],img:''},
- {name:'Levy Strategic Design',kind:'Strategic design firm',part:'Built it with a partner',move:'Build',desc:'Strategic infrastructure for builders: the structure that lets good intentions last.',link:['Visit Levy','https://withlevy.com'],img:''},
- {name:'The Upskilling Labs',kind:'Civic workforce nonprofit',part:'One of its first designers',move:'Together',desc:'A community for lifelong learning, grown from a partnership with the DC Public Library.',link:null,img:''}
-];
+var HM=[{name:'',kind:'',part:'',move:'',desc:'',link:null,img:''},{name:'',kind:'',part:'',move:'',desc:'',link:null,img:''},{name:'',kind:'',part:'',move:'',desc:'',link:null,img:''},{name:'',kind:'',part:'',move:'',desc:'',link:null,img:''}];
 var hmN=HM.length,hmSec=document.getElementById('ecosystem'),hmStage=hmSec.querySelector('.home'),hmStack=document.getElementById('hm-stack'),hmTrack=document.getElementById('hm-track'),hmList=document.getElementById('hm-list');
 /* a finite deck: four cards, one each. Waiting cards stack at the bottom left and run out as you go */
 hmStack.innerHTML=HM.map(function(o,k){
@@ -1057,11 +872,11 @@ var hmCards=[].slice.call(hmStack.children),hmEntries=[].slice.call(hmTrack.chil
 hmCards.forEach(function(c,k){c._lens=makeLens('lens-hm'+k,true);});
 var hf=0,hmCur=-1,hmEntry=1;
 function smooth(a,b,x){x=Math.max(0,Math.min(1,(x-a)/(b-a)));return x*x*(3-2*x);}
-function hmProgress(){
+function hmProgress(){return;
   var r=hmSec.getBoundingClientRect(),span=Math.max(1,r.height-innerHeight),f=Math.max(0,Math.min(1,-r.top/span))*(hmN-1);
   var g=Math.min(hmN-2,Math.floor(f));return g+smooth(.2,.8,f-g);   /* it rests on each one before turning to the next */
 }
-function hmMeta(i){
+function hmMeta(i){return;
   var o=HM[i],m=document.getElementById('hm-meta');
   setText('hm-name',o.name);setText('hm-kind',o.kind);setText('hm-part',o.part);setText('hm-move',o.move);setText('hm-desc',o.desc);
   var a=document.getElementById('hm-link');a.parentElement.style.display=o.link?'':'none';if(o.link){a.textContent=o.link[0];a.href=o.link[1];}
@@ -1071,7 +886,7 @@ function hmMeta(i){
   hmEntries.forEach(function(e,k){e.querySelector('button').setAttribute('aria-current',k===i?'true':'false');});
   snapPass([].slice.call(m.querySelectorAll('.t')).concat([d.parentElement]));rowAlign();
 }
-function hmRender(){
+function hmRender(){return;
   var root=document.documentElement;if(root.dataset.view!=='home')return;
   var sr=hmSec.getBoundingClientRect();if(sr.bottom<-50||sr.top>innerHeight+50)return;
   hf=reduce?Math.round(hmProgress()):hmProgress();
@@ -1145,7 +960,7 @@ if('scrollRestoration' in history)history.scrollRestoration='manual';
 addEventListener('load',function(){if(document.documentElement.dataset.view!=='home')scrollTo(0,0);});
 
 /* ---------- hero orbit ---------- */
-var CARDS=[['A place','A public library'],['Work','A first job in a new field'],['Ownership','A business the neighborhood owns'],['Infrastructure','A bus that comes on time'],['A practice','A group that keeps meeting'],['Home','Housing people can afford'],['A commons','A park someone looks after'],['Knowledge','A map a community drew itself']];
+var CARDS=[];
 var orbit=document.getElementById('orbit');
 orbit.innerHTML=CARDS.map(function(c){return '<div class="card"><span class="t label">'+c[0]+'</span><span class="t serif item">'+c[1]+'</span></div>';}).join('');
 var cards=[].slice.call(orbit.children),theta=0,paused=false,last=0;
@@ -1246,7 +1061,7 @@ function rowAlign(){
     [].forEach.call(row.children,function(c){if(c.hasAttribute('data-base')&&shown(c)&&lines.length)baseTo(c,lines[0].items.length?Math.max.apply(null,lines[0].items.map(function(i){return Math.ceil((i[1]-.25)/U)*U;})):0,row);});
   });
 }
-function hmPlaceMeta(){
+function hmPlaceMeta(){return;
   var m=document.getElementById('hm-meta');m.style.marginTop='';
   if(innerWidth<=720||document.documentElement.dataset.view!=='home')return;
   var top=m.getBoundingClientRect().top,st=hmStack.getBoundingClientRect(),cy=st.top+st.height/2;
