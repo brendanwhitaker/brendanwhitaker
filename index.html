@@ -981,8 +981,9 @@ function setLens(el,L,blur,sep,q){
 var RACK=[].slice.call(document.querySelectorAll('.figbox,h2.st,#h-close'));
 RACK.forEach(function(el,i){el.classList.add('rackable');el._lens=makeLens('lens-r'+i,true);});
 /* the wall: where each print hangs. c0 is its first column, span how many columns, ar its height for its width.
-   Each hangs below whatever it shares a column with, a gap clear; 02 starts lower so the top doesn't read as a row. */
-var PINS=[{c0:1,span:2,ar:.75,top:0},{c0:5,span:1,ar:1.4,top:72},{c0:2,span:3,ar:.56,after:0},{c0:5,span:1,ar:1.3,after:1}];
+   Each is at least two columns wide and hangs below whatever it shares a column with, a gap clear;
+   02 starts lower so the top doesn't read as a row. */
+var PINS=[{c0:1,span:3,ar:.56,top:0},{c0:4,span:2,ar:1.1,top:117},{c0:2,span:2,ar:.9,after:[0]},{c0:4,span:2,ar:.7,after:[1]}];
 var wall=document.getElementById('wall');
 wall.innerHTML=ECOS.map(function(o,i){var mv=o[0].split(' · '),P=PINS[i];
   var name=o[5]?'<a href="'+o[5]+'">'+o[1]+'</a>':o[1];
@@ -994,7 +995,7 @@ var PIN_EL=[].slice.call(wall.children);
 function wallLay(){
   if(innerWidth<=720){PIN_EL.forEach(function(el){el.style.top='';});wall.style.height='';return;}
   var bot=[],GAP=63;
-  PIN_EL.forEach(function(el,i){var P=PINS[i],top=P.after==null?P.top:bot[P.after]+GAP;top=Math.round(top/U)*U;
+  PIN_EL.forEach(function(el,i){var P=PINS[i],top=P.after==null?P.top:Math.max.apply(null,P.after.map(function(k){return bot[k];}))+GAP;top=Math.round(top/U)*U;
     el.style.top=top+'px';bot[i]=top+Math.ceil(el.offsetHeight/U)*U;});
   wall.style.height=Math.max.apply(null,bot)+'px';
 }
