@@ -356,7 +356,11 @@ body.stereo .idea.done .w::after{transform:translateX(calc(var(--fs) * .056))}
 /* thesis figure and its steps */
 .fig{display:block;height:270px;width:100%;overflow:visible}
 .figbox{grid-column:2/5;grid-row:1}
-.figcap{grid-column:3;grid-row:2;min-height:144px;display:grid;align-content:start;margin-top:27px}
+.moves{grid-column:1/-1;grid-row:2;margin-top:27px}
+.moves li>*{min-width:0}
+.moves li{transition:opacity .4s}
+.moves.live li:not(.now){opacity:.45}
+.lenses li+li{margin-top:9px}
 
 /* indexes */
 .idx{row-gap:9px;align-content:start}
@@ -431,7 +435,8 @@ body.show-grid .ov{display:block}
   .top>*{grid-column:1/-1!important}
   .idx li>*{grid-column:1/-1!important}
   .fig{height:216px}
-  .figbox,.figcap{grid-column:1/-1!important;grid-row:auto!important}
+  .figbox,.moves{grid-column:1/-1!important;grid-row:auto!important}
+  .lenses{grid-column:1/-1!important}
   .print{height:216px}
   .hero-print{grid-column:1/-1}
   .hero-print .print{height:round(down, calc(100cqw * .62), var(--u))}
@@ -452,7 +457,7 @@ body.show-grid .ov{display:block}
 <symbol id="hook" viewBox="0 0 40 40"><path d="M6 2V30H37M30 23L37 30L30 37" vector-effect="non-scaling-stroke"/></symbol>
 </defs></svg>
 
-<script>(function(){var r=document.documentElement,s=/^#(thesis|colloquia|work|contact)$/.test(location.hash);if(!s&&!matchMedia('(prefers-reduced-motion: reduce)').matches)r.classList.add('intro','loading','pre');})();</script>
+<script>(function(){var r=document.documentElement,s=/^#(thesis|loop|lenses|matter|colloquia|work|contact)$/.test(location.hash);if(!s&&!matchMedia('(prefers-reduced-motion: reduce)').matches)r.classList.add('intro','loading','pre');})();</script>
 <div class="loader" id="loader" aria-hidden="true"><div class="push"></div></div>
 <div class="cue" id="cue" aria-hidden="true"><span class="t label">Scroll</span><span class="cue-line"></span></div>
 <div class="ov" aria-hidden="true"><div class="page"><div class="g"><div></div><div></div><div></div><div></div><div></div></div></div></div>
@@ -585,21 +590,72 @@ body.show-grid .ov{display:block}
 
 
 
-<!-- 3 · Thesis. Flipped: one figure high and left rearranges as you scroll, the steps high and right; the statement low and right. -->
+<!-- Thesis · 1. The statement, alone on its screen, low and on the centre columns. Copy is first-person and short. -->
 <section class="plate g" id="thesis" data-view="thesis" aria-labelledby="h-thesis">
-  <div class="top sub">
-    <div class="figbox"><svg class="fig" id="fig" viewBox="0 0 360 216" preserveAspectRatio="xMidYMin meet" role="img" aria-label="A loop through four moves: build, see, tell, together. Dots, each a group of people, go around it; each lap they come back with more. Click a move to switch it off."></svg></div>
-    <div class="figcap" id="figcap" aria-live="polite"><p class="t label" id="fc-n">01 · Build</p><h3 class="t serif item" id="fc-t">Build something</h3><p class="t sans grey" id="fc-b">Carried by Levy Strategic Design</p></div>
-  </div>
   <div class="low sub">
     <h2 class="st sub" id="h-thesis">
       <span class="t label" style="--c:2">The thesis</span>
       <span class="t serif ln" style="--c:2">Communities get stronger</span>
-      <span class="t serif ln step" style="--c:3"><svg class="hk" aria-hidden="true"><use href="#hook"/></svg>when people can see,</span>
-      <span class="t serif ln" style="--c:2" id="thesis-last">tell and build together.</span>
+      <span class="t serif ln step" style="--c:3"><svg class="hk" aria-hidden="true"><use href="#hook"/></svg>when people build first,</span>
+      <span class="t serif ln" style="--c:2" id="thesis-last">then see, tell and do it again together.</span>
     </h2>
     <div class="cap" style="--c:2">
-      <p class="t sans grey">Diagrams, not data. Dots are people, never named. Squares are organizations. The thick line is the story. Dashed shapes are what comes next.</p>
+      <p class="t sans measure">Most of what I do comes down to one observation: people who have built something want to see how it fits. Once they can see it, they have something worth saying. And once they have said it, others want to build with them. Then it starts over, one size up.</p>
+    </div>
+  </div>
+</section>
+
+<!-- Thesis · 2. The loop: the figure high on the centre columns, the four moves as a table beneath it, the current move in focus. -->
+<section class="plate g" id="loop" data-view="thesis" aria-labelledby="h-loop">
+  <div class="top sub">
+    <div class="figbox"><svg class="fig" id="fig" viewBox="0 0 360 216" preserveAspectRatio="xMidYMin meet" role="img" aria-label="A loop through four moves: build, see, tell, together. Dots, each a group of people, go around it; each lap they come back with more. Click a move to switch it off."></svg></div>
+    <ol class="idx sub moves" id="moves" aria-label="The four moves"></ol>
+  </div>
+  <div class="low sub">
+    <h2 class="st sub" id="h-loop">
+      <span class="t label" style="--c:1">The loop</span>
+      <span class="t serif ln" style="--c:1">Four moves,</span>
+      <span class="t serif ln step" style="--c:2" id="loop-last"><svg class="hk" aria-hidden="true"><use href="#hook"/></svg>round and round, and up.</span>
+    </h2>
+    <div class="cap" style="--c:1">
+      <p class="t sans measure">Each dot is a group of people. Every time round they come back with one more ring. Turn 3D on and each lap steps toward you: the loop is a spiral, and the laps are time. Click a move to switch it off and watch where people stall.</p>
+    </div>
+  </div>
+</section>
+
+<!-- Thesis · 3. Three lenses: where the thinking comes from, as three rows. -->
+<section class="plate g" id="lenses" data-view="thesis" aria-labelledby="h-lenses">
+  <div class="top sub">
+    <ol class="idx sub lenses" id="lensrows" aria-label="Three lenses" style="grid-column:2/5">
+      <li class="sub"><p class="t label" style="grid-column:1">01</p><h3 class="t serif item ti" style="grid-column:2/-1">Complex adaptive systems</h3><p class="t sans grey" style="grid-column:2/-1">Communities are not machines. Simple rules, followed by many people, make patterns nobody designed. Push the rules, not the people.</p></li>
+      <li class="sub"><p class="t label" style="grid-column:1">02</p><h3 class="t serif item ti" style="grid-column:2/-1">Actor-network theory</h3><p class="t sans grey" style="grid-column:2/-1">The things people build are actors too. A map, a story, a building: each one gathers people and holds them together after the meeting ends.</p></li>
+      <li class="sub"><p class="t label" style="grid-column:1">03</p><h3 class="t serif item ti" style="grid-column:2/-1">Community economic development</h3><p class="t sans grey" style="grid-column:2/-1">The point is capacity that stays. Work done with a community, and then by it, is worth more than work done for it.</p></li>
+    </ol>
+  </div>
+  <div class="low sub">
+    <h2 class="st sub" id="h-lenses">
+      <span class="t label" style="--c:2">Three lenses</span>
+      <span class="t serif ln" style="--c:2">Where the thinking</span>
+      <span class="t serif ln step" style="--c:3" id="lenses-last"><svg class="hk" aria-hidden="true"><use href="#hook"/></svg>comes from.</span>
+    </h2>
+    <div class="cap" style="--c:2">
+      <p class="t sans measure">Three bodies of work I keep returning to. The colloquia read them in the open.</p>
+      <div class="actions"><a class="t sans" href="#colloquia">Sessions and essays</a></div>
+    </div>
+  </div>
+</section>
+
+<!-- Thesis · 4. Matter: the double meaning, and the way on. -->
+<section class="plate g" id="matter" data-view="thesis" aria-labelledby="h-matter">
+  <div class="low sub">
+    <h2 class="st sub" id="h-matter">
+      <span class="t label" style="--c:1">Build what matters</span>
+      <span class="t serif ln" style="--c:1">What counts,</span>
+      <span class="t serif ln step" style="--c:2" id="matter-last"><svg class="hk" aria-hidden="true"><use href="#hook"/></svg>and what you can hold.</span>
+    </h2>
+    <div class="cap" style="--c:1">
+      <p class="t sans measure">Matter is the stuff things are made of, and it is what counts. I mean both. The work that lasts is the kind you can point to.</p>
+      <div class="actions"><a class="btn" href="#join"><span class="tab"><svg aria-hidden="true"><use href="#arrow"/></svg></span><span class="bl t sans">Read along with me</span></a><a class="t sans" href="#ecosystem">The ecosystem</a></div>
     </div>
   </div>
 </section>
@@ -723,7 +779,8 @@ var ECOS=[
 /* ---------- the ecosystem as a system ---------- */
 var SYS={orgs:[['01 · See','Synodic Studio','Helps groups see how they are connected',''],['02 · Tell','Folkmark Creative','Helps them tell a true story','https://folkmark.com'],['03 · Build','Levy Strategic Design','Builds the structure to carry it','https://withlevy.com'],['04 · Together','The Upskilling Labs','Keeps people learning together','']],on:[true,true,true,true]};
 document.getElementById('sys-orgs').innerHTML=SYS.orgs.map(function(o,i){return '<li class="sub"><p class="t label" style="grid-column:1">'+o[0]+'</p><h3 class="t serif item ti" style="grid-column:2/4">'+(o[3]?'<a href="'+o[3]+'">'+o[1]+'</a>':o[1])+'</h3><p class="t sans grey sys-role" style="grid-column:4">'+o[2]+'</p><button class="sys-sw t label" type="button" data-i="'+i+'" aria-pressed="true" style="grid-column:5" aria-label="'+o[1]+' on or off"><span class="o o1">On</span><span class="o o0">Off</span></button></li>';}).join('');
-var MOVES=[['01 · Build','Build something','Levy Strategic Design','https://withlevy.com'],['02 · See','See how it is connected','Synodic Intelligence',''],['03 · Tell','Tell a true story','Folkmark Creative','https://folkmark.com'],['04 · Together','Do it again, together','The Upskilling Labs','']];
+var MOVES=[['01 · Build','Build something','Make a thing you can point to. It gives you a reason to look.','Levy Strategic Design','https://withlevy.com'],['02 · See','See how it fits','Find the ties around what you built, and who holds them.','Synodic Intelligence',''],['03 · Tell','Tell it so it travels','Say what you saw in a way others can repeat.','Folkmark Creative','https://folkmark.com'],['04 · Together','Do it again, together','Others join, and the next thing is bigger.','The Upskilling Labs','']];
+document.getElementById('moves').innerHTML=MOVES.map(function(m){return '<li class="sub"><p class="t label" style="grid-column:1">'+m[0]+'</p><h3 class="t serif item ti" style="grid-column:2">'+m[1]+'</h3><p class="t sans grey" style="grid-column:3/5">'+m[2]+'</p><p class="t label" style="grid-column:5">Carried by '+(m[4]?'<a href="'+m[4]+'">'+m[3]+'</a>':m[3])+'</p></li>';}).join('');
 
 /* ---------- thesis figure: the loop ----------
    Four moves at the corners of a loop: build, see, tell, together, and round again. Dots are groups of people going around it.
@@ -755,7 +812,7 @@ function drawFig(){
       for(var r=1;r<=Math.min(dd.lap,3);r++)s+='<circle cx="'+x.toFixed(1)+'" cy="'+y.toFixed(1)+'" r="'+(2.4+r*2.2)+'" fill="none" stroke="'+col+'" stroke-width=".8" opacity=".8"/>';});
     return s;}
   fig.innerHTML=STEREO?'<g style="mix-blend-mode:multiply">'+eye(-1,'#ed0c0c')+'</g><g style="mix-blend-mode:multiply">'+eye(1,'#1666c4')+'</g>':eye(0,'#140509');
-  if(LOOP.cur!==lastStep){lastStep=LOOP.cur;var mv=MOVES[LOOP.cur];setText('fc-n',mv[0]);setText('fc-t',mv[1]);setText('fc-b','Carried by '+(mv[3]?'<a href="'+mv[3]+'">'+mv[2]+'</a>':mv[2]));}
+  if(LOOP.cur!==lastStep){lastStep=LOOP.cur;var ol=document.getElementById('moves');ol.classList.add('live');[].forEach.call(ol.children,function(li,i){li.classList.toggle('now',i===LOOP.cur);});}
 }
 function loopTick(dt){
   LOOP.curT+=dt;if(LOOP.curT>3.2){LOOP.curT=0;LOOP.cur=(LOOP.cur+1)%4;}
@@ -773,7 +830,7 @@ function loopTick(dt){
   });
 }
 (function(){
-  var sec=document.getElementById('thesis'),last=0;
+  var sec=document.getElementById('loop'),last=0;
   function step(now){if(!LOOP.run)return;var dt=Math.min(.064,(now-(last||now))/1000);last=now;loopTick(dt);drawFig();LOOP.raf=requestAnimationFrame(step);}
   function go(on){if(on&&!reduce){if(!LOOP.run){LOOP.run=true;last=0;LOOP.raf=requestAnimationFrame(step);}}else{LOOP.run=false;cancelAnimationFrame(LOOP.raf);}}
   if('IntersectionObserver' in window)new IntersectionObserver(function(es){es.forEach(function(e){go(e.isIntersecting&&!sec.hidden);});},{threshold:.1}).observe(sec);
