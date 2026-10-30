@@ -379,25 +379,30 @@ body.stereo .idea.done .w::after{transform:translateX(calc(var(--fs) * .056))}
 
 /* indexes */
 .idx{row-gap:9px;align-content:start}
-/* the ecosystem as an index: one organization per row, spaced out. The print takes the right four columns; the first column
-   holds its particulars, number first, as a short table of label and value. */
-.prints-plate{grid-template-rows:auto auto;row-gap:81px}
-.orgs{grid-column:1/-1;grid-row:2;list-style:none;margin:0;padding:0;row-gap:126px}
-.org{grid-column:1/-1;align-items:start}
-.org-meta{grid-column:1;display:grid;align-content:start}
-.org-meta .n{color:var(--ink);margin-bottom:18px}
-.org-meta dl{margin:0;display:grid}
-.org-meta dt{color:var(--grey)}.org-meta dd{margin:0 0 9px}
-.org-meta dd a{color:var(--blue)}
-.org-fig{grid-column:2/-1;margin:0;display:grid;row-gap:18px}
-.org-fig .pr-slot{height:round(down, calc(((100cqw - 4 * var(--gap)) / 5 * 4 + 3 * var(--gap)) * .52), var(--u));border-radius:16px;
-  box-shadow:inset 0 0 0 1px var(--hair);background:var(--paper);overflow:hidden;display:grid;align-content:space-between;justify-items:start;padding:18px}
-.org-fig .pr-slot:has(img){padding:0;box-shadow:none}.org-fig .pr-slot img{width:100%;height:100%;object-fit:cover;display:block;filter:grayscale(1) contrast(1.08)}
-.org-w{--x:calc(4 * var(--u));margin-bottom:-9px}
-.org-fig figcaption{display:grid}.org-fig figcaption .t+.t{margin-top:0}
-@media (max-width:720px){.orgs{row-gap:72px}.org-meta{grid-column:1/-1;grid-row:2;margin-top:18px}.org-fig{grid-column:1/-1;grid-row:1}
-  .org-fig .pr-slot{height:round(down, calc(100cqw * .66), var(--u))}.org-w{--x:calc(3 * var(--u))}
-  .org-meta dl{grid-template-columns:auto 1fr;column-gap:18px}.org-meta dd{margin:0}}
+/* the ecosystem as a wall: four prints of different sizes placed loosely on the five columns, gaps between, nothing touching.
+   Each shows its name; pointing at it (or focusing it) pulls focus from the picture to its words. */
+.prints-plate{grid-template-rows:auto auto;row-gap:81px;align-content:start}
+.wall{grid-column:1/-1;grid-row:2;list-style:none;margin:0;padding:0;position:relative;--c:calc((100cqw - 4 * var(--gap)) / 5)}
+.pin{position:absolute;left:calc((var(--c0) - 1) * (var(--c) + var(--gap)));width:calc(var(--span) * var(--c) + (var(--span) - 1) * var(--gap));display:grid;row-gap:9px}
+.pin-fig{margin:0;position:relative}
+.pin .pr-slot{height:round(down, calc((var(--span) * var(--c) + (var(--span) - 1) * var(--gap)) * var(--ar)), var(--u));border-radius:16px;box-shadow:inset 0 0 0 1px var(--hair);background:var(--paper);overflow:hidden;
+  display:grid;align-content:space-between;justify-items:start;padding:18px;transition:filter .45s cubic-bezier(.2,.7,.2,1)}
+.pin .pr-slot:has(img){padding:0;box-shadow:none}.pin .pr-slot img{width:100%;height:100%;object-fit:cover;display:block;filter:grayscale(1) contrast(1.08)}
+.pin-w{--x:calc(3 * var(--u));margin-bottom:-9px}
+.pin-n{--x:calc(1.5 * var(--u))}
+.pin-n a{color:inherit;text-decoration:none}
+/* the words over the print: there, but out of sight until the print is pointed at */
+.pin-d{position:absolute;inset:auto 0 0 0;padding:18px;display:grid;opacity:0;transition:opacity .35s;pointer-events:none}
+.pin-d .t+.t{margin-top:0}
+.pin:hover .pr-slot,.pin:focus-within .pr-slot{filter:blur(6px) opacity(.35)}
+.pin:hover .pin-d,.pin:focus-within .pin-d{opacity:1}
+.pin:focus-within{outline:2px solid var(--ink);outline-offset:6px;border-radius:18px}
+.pin:has(a:focus-visible){outline:none}
+@media (hover:none),(max-width:720px){.pin-d{position:static;opacity:1;padding:0}.pin:hover .pr-slot,.pin:focus-within .pr-slot{filter:none}}
+@media (max-width:720px){.wall{display:grid;row-gap:54px}.pin{position:static;width:auto;grid-column:1/-1}
+  .pin:nth-child(odd){margin-right:calc(var(--c) + var(--gap))}.pin:nth-child(even){margin-left:calc(var(--c) + var(--gap))}
+  .pin .pr-slot{height:round(down, calc((100cqw - var(--c) - var(--gap)) * var(--ar)), var(--u))}
+  .pin-fig{display:contents}.pin .pr-slot{order:1}.pin-n{order:2}.pin-d{order:3}}
 @media (max-width:720px){.idea .w{display:block;margin-left:calc(var(--sb) * -1em)}.idea .w+.w{margin-left:calc(var(--sb) * -1em)}.eco-print{display:none}.eco-idx{grid-column:1/-1}.eco-idx li>*,.eco-idx li .sub>*{grid-column:1/-1!important}}
 /* the system: dots on the 9px lattice, stacked in five bins that sit on the five columns */
 .sys{grid-column:1/-1;position:relative;height:var(--sys-h,180px)}
@@ -519,8 +524,8 @@ body.show-grid .ov{display:block}
       <p class="t sans measure">Everything I build runs through these four. They are how the ecosystem reaches beyond DC: into neighborhoods, institutions, and movements across the country.</p>
     </div>
   </div>
-  <!-- the four, spaced out as an index: each a large print on the right four columns, its particulars in the first column -->
-  <ol class="orgs sub" id="orgs" aria-label="The organizations"></ol>
+  <!-- the four, scattered across the five columns with gaps between, each a different size, like prints pinned to a wall -->
+  <ol class="wall sub" id="wall" aria-label="The organizations"></ol>
 </section>
 
 <!-- 3 · The ecosystem, as a system: a dot histogram of people by how many of the four moves they have been through.
@@ -881,16 +886,25 @@ function setLens(el,L,blur,sep,q){
    and separate toward the top and bottom edges. Body text, captions and controls are never touched. */
 var RACK=[].slice.call(document.querySelectorAll('.figbox,h2.st,#h-close'));
 RACK.forEach(function(el,i){el.classList.add('rackable');el._lens=makeLens('lens-r'+i,true);});
-/* the four as an index: number, then a short table of particulars; the print carries the name and what it does */
-document.getElementById('orgs').innerHTML=ECOS.map(function(o,i){var mv=o[0].split(' · '),host=o[5]?o[5].replace(/^https?:\/\//,''):'';
-  return '<li class="org sub"><div class="org-meta"><p class="t label n">/'+mv[0]+'</p><dl>'
-  +'<dt class="t label">Move</dt><dd class="t sans">'+mv[1]+'</dd>'
-  +'<dt class="t label">How</dt><dd class="t sans">'+o[3]+'</dd>'
-  +'<dt class="t label">My part</dt><dd class="t sans">'+o[4]+'</dd>'
-  +(host?'<dt class="t label">Site</dt><dd class="t sans"><a href="'+o[5]+'">'+host+'</a></dd>':'')
-  +'</dl></div><figure class="org-fig"><div class="pr-slot">'
-  +(o[6]?'<img src="'+o[6]+'" alt="">':'<span class="t label">Photo to come</span><span class="t serif org-w">'+mv[1]+'</span>')+'</div>'
-  +'<figcaption><h3 class="t serif item">'+o[1]+'</h3><p class="t sans grey">'+o[2]+'</p></figcaption></figure></li>';}).join('');
+/* the wall: where each print hangs. c0 is its first column, span how many columns, ar its height for its width.
+   Each hangs below whatever it shares a column with, a gap clear; 02 starts lower so the top doesn't read as a row. */
+var PINS=[{c0:1,span:2,ar:.75,top:0},{c0:5,span:1,ar:1.4,top:72},{c0:2,span:3,ar:.56,after:0},{c0:5,span:1,ar:1.3,after:1}];
+var wall=document.getElementById('wall');
+wall.innerHTML=ECOS.map(function(o,i){var mv=o[0].split(' · '),P=PINS[i];
+  var name=o[5]?'<a href="'+o[5]+'">'+o[1]+'</a>':o[1];
+  return '<li class="pin" style="--c0:'+P.c0+';--span:'+P.span+';--ar:'+P.ar+'"'+(o[5]?'':' tabindex="0"')+'><figure class="pin-fig"><div class="pr-slot">'
+  +(o[6]?'<img src="'+o[6]+'" alt="">':'<span class="t label">Photo to come</span><span class="t serif pin-w">'+mv[1]+'</span>')+'</div>'
+  +'<div class="pin-d"><p class="t label">'+o[0]+'</p><p class="t sans">'+o[2]+'</p><p class="t label">'+o[3]+' · '+o[4]+'</p></div></figure>'
+  +'<h3 class="t serif pin-n">'+name+'</h3></li>';}).join('');
+var PIN_EL=[].slice.call(wall.children);
+function wallLay(){
+  if(innerWidth<=720){PIN_EL.forEach(function(el){el.style.top='';});wall.style.height='';return;}
+  var bot=[],GAP=63;
+  PIN_EL.forEach(function(el,i){var P=PINS[i],top=P.after==null?P.top:bot[P.after]+GAP;top=Math.round(top/U)*U;
+    el.style.top=top+'px';bot[i]=top+Math.ceil(el.offsetHeight/U)*U;});
+  wall.style.height=Math.max.apply(null,bot)+'px';
+}
+window.wallLay=wallLay;wallLay();
 function rack(){
   var vh=innerHeight;
   RACK.forEach(function(el){
@@ -912,7 +926,7 @@ function photoLens(img,blur,sep,q){var L=img._lens;
   if(blur<.05&&Math.abs(sep)<.05&&q<.01){img.style.filter='';return;}
   L.blur.setAttribute('stdDeviation',blur.toFixed(2));L.r.setAttribute('dx',(-sep).toFixed(2));L.u.setAttribute('dx',sep.toFixed(2));
   L.mix.setAttribute('k2',(1-q).toFixed(3));L.mix.setAttribute('k3',q.toFixed(3));
-  img.style.filter='grayscale(1) contrast(1.08) url(#'+L.id+')';}
+  img.style.filter=(img.tagName==='IMG'?'grayscale(1) contrast(1.08) ':'')+'url(#'+L.id+')';}
 function photoRest(img){var z=STEREO?-2:0;photoLens(img,0,z,z?.55:0);}
 function photoArrive(img){
   if(img._in)return;img._in=1;
@@ -922,11 +936,11 @@ function photoArrive(img){
     photoLens(img,3*d,6*d+z,Math.max(z?.55:0,Math.min(1,d*3)));if(a<1)requestAnimationFrame(step);})(t0);
 }
 function photoWatch(img){if(img._lens)return;img._lens=makeLens('lens-ph'+PHOTOS.length,true);PHOTOS.push(img);
-  if(!reduce&&!(img.complete&&img.getBoundingClientRect().top<innerHeight))photoLens(img,3,6,1);
+  var ready=img.tagName!=='IMG'||img.complete;if(!reduce&&!(ready&&img.getBoundingClientRect().top<innerHeight))photoLens(img,3,6,1);
   var io=new IntersectionObserver(function(es){es.forEach(function(en){if(!en.isIntersecting)return;io.disconnect();
-    if(img.complete&&img.naturalWidth)photoArrive(img);else img.addEventListener('load',function(){photoArrive(img);},{once:true});});},{threshold:.25});
+    if(img.tagName!=='IMG'||(img.complete&&img.naturalWidth))photoArrive(img);else img.addEventListener('load',function(){photoArrive(img);},{once:true});});},{threshold:.25});
   io.observe(img);}
-[].forEach.call(document.querySelectorAll('img.print,.org-fig img'),photoWatch);
+[].forEach.call(document.querySelectorAll('img.print,.pin .pr-slot'),photoWatch);
 addEventListener('scroll',function(){requestAnimationFrame(function(){figScroll();rack();});},{passive:true});
 
 /* ---------- the ecosystem ---------- */
@@ -1164,7 +1178,7 @@ function snap(){
   for(var k=0;k<2;k++){for(var p=0;p<3;p++)snapPass(els);pins();}
   for(var p2=0;p2<2;p2++)snapPass(els);
   for(var r2=0;r2<2;r2++){rowAlign();snapPass(els);snapPass(els);}
-  placeCards();figScroll();rack();hmCur=-1;hmRender();markNav();glasses();if(window.sysLayout)sysLayout();
+  placeCards();figScroll();rack();hmCur=-1;hmRender();markNav();glasses();if(window.sysLayout)sysLayout();if(window.wallLay)wallLay();
 }
 var queued;function later(){cancelAnimationFrame(queued);queued=requestAnimationFrame(snap);}
 var lastW=innerWidth,lastH=innerHeight;
