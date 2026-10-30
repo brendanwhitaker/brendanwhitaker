@@ -588,8 +588,8 @@ body.show-grid .ov{display:block}
 <!-- 3 · Thesis. Flipped: one figure high and left rearranges as you scroll, the steps high and right; the statement low and right. -->
 <section class="plate g" id="thesis" data-view="thesis" aria-labelledby="h-thesis">
   <div class="top sub">
-    <div class="figbox"><svg class="fig" id="fig" viewBox="0 0 360 216" preserveAspectRatio="xMidYMin meet" role="img" aria-label="Twelve people, scattered, with the ties between them"></svg></div>
-    <div class="figcap" id="figcap" aria-live="polite"><p class="t label" id="fc-n">01 · See</p><h3 class="t serif item" id="fc-t">See how you are connected</h3><p class="t sans grey" id="fc-b">Carried by Synodic Studio</p></div>
+    <div class="figbox"><svg class="fig" id="fig" viewBox="0 0 360 216" preserveAspectRatio="xMidYMin meet" role="img" aria-label="A loop through four moves: build, see, tell, together. Dots, each a group of people, go around it; each lap they come back with more. Click a move to switch it off."></svg></div>
+    <div class="figcap" id="figcap" aria-live="polite"><p class="t label" id="fc-n">01 · Build</p><h3 class="t serif item" id="fc-t">Build something</h3><p class="t sans grey" id="fc-b">Carried by Levy Strategic Design</p></div>
   </div>
   <div class="low sub">
     <h2 class="st sub" id="h-thesis">
@@ -723,44 +723,70 @@ var ECOS=[
 /* ---------- the ecosystem as a system ---------- */
 var SYS={orgs:[['01 · See','Synodic Studio','Helps groups see how they are connected',''],['02 · Tell','Folkmark Creative','Helps them tell a true story','https://folkmark.com'],['03 · Build','Levy Strategic Design','Builds the structure to carry it','https://withlevy.com'],['04 · Together','The Upskilling Labs','Keeps people learning together','']],on:[true,true,true,true]};
 document.getElementById('sys-orgs').innerHTML=SYS.orgs.map(function(o,i){return '<li class="sub"><p class="t label" style="grid-column:1">'+o[0]+'</p><h3 class="t serif item ti" style="grid-column:2/4">'+(o[3]?'<a href="'+o[3]+'">'+o[1]+'</a>':o[1])+'</h3><p class="t sans grey sys-role" style="grid-column:4">'+o[2]+'</p><button class="sys-sw t label" type="button" data-i="'+i+'" aria-pressed="true" style="grid-column:5" aria-label="'+o[1]+' on or off"><span class="o o1">On</span><span class="o o0">Off</span></button></li>';}).join('');
-var MOVES=[['01 · See','See how you are connected','Synodic Studio',''],['02 · Tell','Tell a true story','Folkmark Creative','https://folkmark.com'],['03 · Build','Build the structure','Levy Strategic Design','https://withlevy.com'],['04 · Together','Keep building, together','The Upskilling Labs','']];
+var MOVES=[['01 · Build','Build something','Levy Strategic Design','https://withlevy.com'],['02 · See','See how it is connected','Synodic Intelligence',''],['03 · Tell','Tell a true story','Folkmark Creative','https://folkmark.com'],['04 · Together','Do it again, together','The Upskilling Labs','']];
 
-/* ---------- thesis figure: the same twelve marks, rearranged by scroll ---------- */
-var seed=7;function rnd(){seed=(seed*16807)%2147483647;return (seed-1)/2147483646;}
-var N=12,SC=[];while(SC.length<N){var p=[30+rnd()*300,22+rnd()*172];if(SC.every(function(q){return Math.hypot(p[0]-q[0],p[1]-q[1])>46;}))SC.push(p);}
-var order=SC.map(function(_,i){return i;}).sort(function(a,b){return SC[a][0]-SC[b][0];}),CELL=[];
-for(var c=0;c<4;c++)order.slice(c*3,c*3+3).sort(function(a,b){return SC[b][1]-SC[a][1];}).forEach(function(n,r){CELL[n]=[c,r];});
-function gp(c,r){return [40+c*64,170-r*62];}
-var GR=SC.map(function(_,i){return gp(CELL[i][0],CELL[i][1]);}),Z=SC.map(function(){return rnd()*2-1;});
-var TIES=[];SC.forEach(function(p,i){SC.map(function(q,j){return [Math.hypot(p[0]-q[0],p[1]-q[1]),j];}).sort(function(a,b){return a[0]-b[0];}).slice(1,3).forEach(function(d){var e=i<d[1]?[i,d[1]]:[d[1],i];if(!TIES.some(function(x){return x[0]===e[0]&&x[1]===e[1];}))TIES.push(e);});});
-var byCell={};CELL.forEach(function(cr,n){byCell[cr]=n;});
-var PATH=[[0,0],[1,0],[1,1],[2,1],[2,2],[3,2]].map(function(cr){return byCell[cr];});
-function cl(v){return v<0?0:v>1?1:v;}function ease(t){return t<.5?2*t*t:1-Math.pow(-2*t+2,2)/2;}
-var DESC=['Twelve people, scattered, with the ties between them','The same people, with one line of story running through six of them','The same people gathered into four organizations; the story climbs through them','The four organizations with room for a fifth, still to come'];
-var figP=0,lastStep=-1;
-function drawFig(P){
-  var m=ease(cl(P*3-1)),tie=1-cl(P*3-1.2),story=cl(P*3-.4)*1,orgs=cl(P*3-1.7),next=cl(P*3-2.4);
-  function at(i){return [SC[i][0]+(GR[i][0]-SC[i][0])*m,SC[i][1]+(GR[i][1]-SC[i][1])*m];}
-  function eyes(eye,col){
-    var s='',dz=function(i){return Z[i]*(1-m)+(CELL[i][1]-1)*.8*m;};
-    function X(i){return at(i)[0]+eye*2.6*dz(i);}function Y(i){return at(i)[1];}
-    if(tie>0)TIES.forEach(function(e){s+='<line x1="'+X(e[0]).toFixed(1)+'" y1="'+Y(e[0]).toFixed(1)+'" x2="'+X(e[1]).toFixed(1)+'" y2="'+Y(e[1]).toFixed(1)+'" stroke="'+col+'" stroke-width="1" opacity="'+(.5*tie).toFixed(2)+'"/>';});
-    if(orgs>0)for(var k=0;k<5;k++){var a=gp(k,2),dashed=k===4;var o=dashed?next:orgs;if(o<=0)continue;s+='<rect x="'+(a[0]-20)+'" y="'+(a[1]-144)+'" width="40" height="164" fill="none" stroke="'+col+'" stroke-width="1"'+(dashed?' stroke-dasharray="3 3"':'')+' opacity="'+o.toFixed(2)+'"/>';}
-    if(next>0)[0,1,2].forEach(function(r){var g=gp(4,r);s+='<circle cx="'+g[0]+'" cy="'+g[1]+'" r="5" fill="none" stroke="'+col+'" stroke-width="1" stroke-dasharray="2 2" opacity="'+next.toFixed(2)+'"/>';});
-    if(story>0){var d='';PATH.forEach(function(n,j){d+=(j?'L':'M')+X(n).toFixed(1)+' '+Y(n).toFixed(1);});s+='<path d="'+d+'" fill="none" stroke="'+col+'" stroke-width="3" stroke-linejoin="round" stroke-linecap="round" opacity="'+story.toFixed(2)+'" style="mix-blend-mode:multiply"/>';}
-    for(var i=0;i<N;i++)s+='<circle cx="'+X(i).toFixed(1)+'" cy="'+Y(i).toFixed(1)+'" r="3.6" fill="'+col+'"/>';
-    return s;}
-  var fig=document.getElementById('fig');
-  fig.innerHTML=STEREO?'<g style="mix-blend-mode:multiply">'+eyes(-1,'#ed0c0c')+'</g><g style="mix-blend-mode:multiply">'+eyes(1,'#1666c4')+'</g>':eyes(0,'#140509');
-  var st=Math.min(3,Math.floor(P*3+.5));
-  if(st!==lastStep){lastStep=st;fig.setAttribute('aria-label',DESC[st]);var mv=MOVES[st];setText('fc-n',mv[0]);setText('fc-t',mv[1]);setText('fc-b','Carried by '+(mv[3]?'<a href="'+mv[3]+'">'+mv[2]+'</a>':mv[2]));}
-}
+/* ---------- thesis figure: the loop ----------
+   Four moves at the corners of a loop: build, see, tell, together, and round again. Dots are groups of people going around it.
+   Each lap a dot comes back with one more ring: the same loop, at a larger scale. With 3D on, each lap sits one step closer
+   to you, so through the glasses the loop is a spiral coming forward: the laps are time, and forward is up.
+   Click a move to switch it off and watch where people stall. */
+var LOOP=window.LOOP={st:[[60,46],[300,46],[300,170],[60,170]],on:[true,true,true,true],dots:[],t:0,raf:0,run:false,seed:11,cur:0,curT:0};
+function lrnd(){LOOP.seed=(LOOP.seed*16807)%2147483647;return (LOOP.seed-1)/2147483646;}
+for(var li=0;li<36;li++)LOOP.dots.push({s:lrnd()*4,v:.26+lrnd()*.2,lap:0,wait:0,o:(lrnd()-.5)*12,q:0});
+/* position on the loop: s in [0,4), one unit per edge, corners rounded */
+function lpos(s){var i=Math.floor(s)%4,f=s-Math.floor(s),a=LOOP.st[i],b=LOOP.st[(i+1)%4];return [a[0]+(b[0]-a[0])*f,a[1]+(b[1]-a[1])*f];}
+/* a dot's drawn place: on the loop, nudged sideways (across the edge) by its own offset, and held back in a queue when stalled */
+function dpos(d){var s=d.s-d.q*.07,i=Math.floor(((s%4)+4)%4),a=LOOP.st[i],b=LOOP.st[(i+1)%4],L=Math.hypot(b[0]-a[0],b[1]-a[1]),nx=-(b[1]-a[1])/L,ny=(b[0]-a[0])/L,pz=lpos(((s%4)+4)%4);return [pz[0]+nx*d.o,pz[1]+ny*d.o];}
 function setText(id,h){var e=document.getElementById(id),z=e.querySelector(':scope>.za');e.innerHTML=h;if(z)e.insertBefore(z,e.firstChild);}
-function figScroll(){
-  var r=document.getElementById('thesis').getBoundingClientRect(),vh=innerHeight;
-  var P=reduce?1:cl((vh*.85-r.top)/(vh*.85+r.height*.05));
-  if(Math.abs(P-figP)>.002||lastStep<0){figP=P;drawFig(P);}
+var figP=0,lastStep=-1;
+function drawFig(){
+  var fig=document.getElementById('fig');if(!fig)return;
+  function eye(e,col){
+    var s='';
+    /* the loop itself: in 3D, drawn lap by lap, each one a step forward */
+    var laps=STEREO?4:1;
+    for(var k=0;k<laps;k++){var d='';for(var q=0;q<=80;q++){var sv=q/20,pz=lpos(sv),dz=STEREO?(k+sv/4)*.9:0;d+=(q?'L':'M')+(pz[0]+e*2.6*dz).toFixed(1)+' '+pz[1].toFixed(1);}
+      s+='<path d="'+d+'" fill="none" stroke="'+col+'" stroke-width="1" opacity="'+(STEREO?.25+.15*k:.5)+'"/>';}
+    /* the four moves: squares, dashed when switched off */
+    LOOP.st.forEach(function(p,i){var on=LOOP.on[i],dz=STEREO?.9:0;s+='<rect class="lst" data-i="'+i+'" x="'+(p[0]-9+e*2.6*dz).toFixed(1)+'" y="'+(p[1]-9)+'" width="18" height="18" fill="'+(i===LOOP.cur&&on?col:'none')+'" fill-opacity=".12" stroke="'+col+'" stroke-width="'+(i===LOOP.cur?1.5:1)+'"'+(on?'':' stroke-dasharray="2 2"')+' style="cursor:pointer"/>';});
+    /* the dots: rings for laps; in 3D, depth for laps */
+    LOOP.dots.forEach(function(dd){var pz=dpos(dd),x=pz[0]+e*2.6*(STEREO?(dd.lap+(dd.s%4)/4)*.9:0),y=pz[1];
+      s+='<circle cx="'+x.toFixed(1)+'" cy="'+y.toFixed(1)+'" r="2.4" fill="'+col+'"/>';
+      for(var r=1;r<=Math.min(dd.lap,3);r++)s+='<circle cx="'+x.toFixed(1)+'" cy="'+y.toFixed(1)+'" r="'+(2.4+r*2.2)+'" fill="none" stroke="'+col+'" stroke-width=".8" opacity=".8"/>';});
+    return s;}
+  fig.innerHTML=STEREO?'<g style="mix-blend-mode:multiply">'+eye(-1,'#ed0c0c')+'</g><g style="mix-blend-mode:multiply">'+eye(1,'#1666c4')+'</g>':eye(0,'#140509');
+  if(LOOP.cur!==lastStep){lastStep=LOOP.cur;var mv=MOVES[LOOP.cur];setText('fc-n',mv[0]);setText('fc-t',mv[1]);setText('fc-b','Carried by '+(mv[3]?'<a href="'+mv[3]+'">'+mv[2]+'</a>':mv[2]));}
 }
+function loopTick(dt){
+  LOOP.curT+=dt;if(LOOP.curT>3.2){LOOP.curT=0;LOOP.cur=(LOOP.cur+1)%4;}
+  var top=LOOP.dots.filter(function(d){return d.lap>=2;}).length/LOOP.dots.length;
+  var queue=[0,0,0,0];
+  LOOP.dots.forEach(function(d){
+    d.q=0;
+    if(d.wait>0){d.wait-=dt;d.q=queue[Math.floor(d.s)%4]++;return;}
+    var next=Math.ceil(d.s+1e-6)%4,atEdge=Math.ceil(d.s)-d.s;
+    /* the next move is off: stop short of it, and queue up behind the others already stopped */
+    if(!LOOP.on[next]&&atEdge<.1){d.q=queue[next]++;return;}
+    var v=d.v*(1+1.2*top);d.s+=v*dt;
+    if(Math.floor(d.s)!==Math.floor(d.s-v*dt)){d.s=Math.floor(d.s)+.001;d.wait=.5+lrnd()*.9;if(Math.floor(d.s)%4===0){d.lap=Math.min(4,d.lap+1);}}
+    if(d.s>=4)d.s-=4;
+  });
+}
+(function(){
+  var sec=document.getElementById('thesis'),last=0;
+  function step(now){if(!LOOP.run)return;var dt=Math.min(.064,(now-(last||now))/1000);last=now;loopTick(dt);drawFig();LOOP.raf=requestAnimationFrame(step);}
+  function go(on){if(on&&!reduce){if(!LOOP.run){LOOP.run=true;last=0;LOOP.raf=requestAnimationFrame(step);}}else{LOOP.run=false;cancelAnimationFrame(LOOP.raf);}}
+  if('IntersectionObserver' in window)new IntersectionObserver(function(es){es.forEach(function(e){go(e.isIntersecting&&!sec.hidden);});},{threshold:.1}).observe(sec);
+  /* the figure redraws every frame, so hit-test the click by position rather than by element */
+  var fig=document.getElementById('fig');fig.style.cursor='default';
+  function hit(ev){var pt=fig.createSVGPoint();pt.x=ev.clientX;pt.y=ev.clientY;var q=pt.matrixTransform(fig.getScreenCTM().inverse());
+    for(var i=0;i<4;i++){if(Math.abs(q.x-LOOP.st[i][0])<14&&Math.abs(q.y-LOOP.st[i][1])<14)return i;}return -1;}
+  fig.addEventListener('click',function(ev){var i=hit(ev);if(i<0)return;LOOP.on[i]=!LOOP.on[i];drawFig();});
+  fig.addEventListener('mousemove',function(ev){fig.style.cursor=hit(ev)<0?'default':'pointer';});
+  if(reduce){for(var k=0;k<400;k++)loopTick(.05);}
+  drawFig();
+})();
+function figScroll(){}
 /* ---------- the lens ----------
    Out of focus, an element splits into its two printing passes: a red copy and a blue copy, offset in opposite directions
    and blurred. Where they still overlap they multiply back to ink. LENS holds the ratio; the T panel tunes it. */
