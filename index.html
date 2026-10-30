@@ -881,7 +881,7 @@ var ECOS=[
   ['01 · Build','Levy Strategic Design','Brings it together for clients','With you','Built it with a partner','https://withlevy.com'],
   ['02 · See','Synodic Intelligence','Helps groups see how they are connected','For you','Built it',''],
   ['03 · Tell','Folkmark Creative','Helps them tell a true story','For you','Lead strategist','https://folkmark.com'],
-  ['04 · Together','The Upskilling Labs','Where people learn to do it themselves','By you','One of its first designers','']];
+  ['04 · Learn','The Upskilling Labs','Where people learn to do it themselves','By you','One of its first designers','']];
 /* ---------- the ecosystem as a system ---------- */
 var SYS={orgs:[['01 · See','Synodic Studio','Helps groups see how they are connected',''],['02 · Tell','Folkmark Creative','Helps them tell a true story','https://folkmark.com'],['03 · Build','Levy Strategic Design','Builds the structure to carry it','https://withlevy.com'],['04 · Together','The Upskilling Labs','Keeps people learning together','']],on:[true,true,true,true]};
 document.getElementById('sys-orgs').innerHTML=SYS.orgs.map(function(o,i){return '<li class="sub"><p class="t label" style="grid-column:1">'+o[0]+'</p><h3 class="t serif item ti" style="grid-column:2/4">'+(o[3]?'<a href="'+o[3]+'">'+o[1]+'</a>':o[1])+'</h3><p class="t sans grey sys-role" style="grid-column:4">'+o[2]+'</p><button class="sys-sw t label" type="button" data-i="'+i+'" aria-pressed="true" style="grid-column:5" aria-label="'+o[1]+' on or off"><span class="o o1">On</span><span class="o o0">Off</span></button></li>';}).join('');
