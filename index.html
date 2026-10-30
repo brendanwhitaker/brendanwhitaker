@@ -369,7 +369,8 @@ body.stereo .idea.done .w::after{transform:translateX(calc(var(--fs) * .056))}
 .fo{padding-right:9px}
 .flow-svg{position:absolute;inset:0;width:100%;height:100%;overflow:visible;pointer-events:none}
 .flow-svg .rb{mix-blend-mode:multiply;transition:filter .45s,opacity .45s}
-.flow-svg .cb{fill:var(--blue)}.flow-svg .cr{fill:var(--red)}.flow-svg .ck{fill:var(--ink)}.flow-svg .cg{fill:var(--grey)}
+.flow-svg .rb{fill:none;stroke-linecap:round}.flow-svg .rb.cb{stroke:var(--blue)}.flow-svg .rb.cr{stroke:var(--red)}
+.flow-svg .grain.cb{fill:var(--blue)}.flow-svg .grain.cr{fill:var(--red)}
 .flow-svg .grain{mix-blend-mode:multiply}
 .flow[data-f] .fn{filter:blur(2px);opacity:.4}
 .flow[data-f] .rb{filter:blur(3px);opacity:.25}
@@ -757,11 +758,15 @@ function flowLayout(){
   /* in 3D every ribbon prints as a red and a blue pass, parted by its depth: the flow comes toward you as it moves right */
   var ST={inst:0,coal:0,vent:0,res:0,part:0,syn:1,folk:1,levy:2,labs:2,work:3,ppl:3,back:4};
   geo.forEach(function(g){g.z=(ST[g.f]+ST[g.to])/2;});
-  var h='';geo.forEach(function(g){h+=(g.c==='m'||STEREO)?'<path class="rb cr" data-i="'+g.i+'" data-s="-1"/><path class="rb cb" data-i="'+g.i+'" data-s="1"/>':'<path class="rb c'+g.c+'" data-i="'+g.i+'"/>';});
-  h+='<path class="rb cg loop" data-i="loop"/><g id="flow-grains"></g>';
+  /* lines only, in the two inks: Synodic's runs blue, Folkmark's red, and every other run prints as a red and a blue line
+     side by side, nearly in register */
+  var h='';geo.forEach(function(g){h+=(g.c==='b'||g.c==='r')&&!STEREO?'<path class="rb c'+g.c+'" data-i="'+g.i+'"/>':'<path class="rb cr" data-i="'+g.i+'" data-s="-1"/><path class="rb cb" data-i="'+g.i+'" data-s="1"/>';});
+  h+='<path class="rb cr loop" data-i="loop" data-s="-1"/><path class="rb cb loop" data-i="loop" data-s="1"/><g id="flow-grains"></g>';
   svg.innerHTML=h;FLOW.grains=[];flowDraw(0);
 }
 /* one soft band from (x0,y0) to (x1,y1): its width swells slightly mid-run, and it drifts with the breath t */
+function line(g,t,dx,dy){var x0=g.x0+dx,x1=g.x1+dx,y0=g.y0+dy,y1=g.y1+dy,mx=(x0+x1)/2,b=2.5*Math.sin(t*.6+g.ph);
+  return 'M'+x0+' '+y0+'C'+mx+' '+(y0+b)+' '+mx+' '+(y1+b)+' '+x1+' '+y1;}
 function band(g,t,dx){var w=g.w,x0=g.x0+(dx||0),x1=g.x1+(dx||0),y0=g.y0,y1=g.y1,mx=(x0+x1)/2,
   sw=1+.18*Math.sin(t*.9+g.ph),dy=2.5*Math.sin(t*.6+g.ph);
   var a=w/2,b=w/2*sw;
@@ -774,19 +779,24 @@ function loopPath(t){var L=FLOW.loop,w=9,s=2*Math.sin(t*.5);
 function flowDraw(t){
   var svg=document.getElementById('flow-svg');if(!FLOW.geo)return;
   [].forEach.call(svg.querySelectorAll('.rb'),function(p){var i=p.dataset.i;
-    if(i==='loop'){p.setAttribute('d',loopPath(t));p.style.opacity=p.classList.contains('on')||!document.getElementById('flow').dataset.f?.28:'';return;}
-    var g=FLOW.geo[+i],s=+(p.dataset.s||0),mis=STEREO?s*(1.5+g.z*2.2):(g.c==='m'?s*1.5*Math.sin(t*.8):0);
-    p.setAttribute('d',band(g,t,mis));p.style.fillOpacity=STEREO?.7:(g.c==='g'?.28:(g.c==='k'?.62:.55));});
+    var s=+(p.dataset.s||0);
+    if(i==='loop'){var L=FLOW.loop,o=s*(STEREO?4:1.2),w=1.6*Math.sin(t*.5);
+      p.setAttribute('d','M'+(L.x0+o)+' '+L.y0+'C'+(L.x0+70+o)+' '+(L.y0+50)+' '+(L.x0+40+o)+' '+(L.by+w)+' '+(L.x0-80+o)+' '+(L.by+w)+'L'+(L.x1+80+o)+' '+(L.by+w)+'C'+(L.x1-40+o)+' '+(L.by+w)+' '+(L.x1-46+o)+' '+(L.y1+30)+' '+(L.x1-12+o)+' '+L.y1);
+      p.style.strokeWidth=1.5;p.style.opacity=document.getElementById('flow').dataset.f&&!p.classList.contains('on')?'':.6;return;}
+    var g=FLOW.geo[+i],
+      dx=STEREO?s*(1.5+g.z*2.2):0,
+      dy=STEREO?0:s*(1.1+.9*Math.sin(t*.8+g.ph));
+    p.setAttribute('d',line(g,t,dx,dy));p.style.strokeWidth=(1.25+g.w/7).toFixed(2);});
   /* grains: small marks riding the middle of each band */
   var gg=document.getElementById('flow-grains');if(!gg)return;
   if(FLOW.run&&Math.random()<.35){var g=FLOW.geo[Math.floor(Math.random()*FLOW.geo.length)];
     var c=document.createElementNS('http://www.w3.org/2000/svg','circle');c.setAttribute('r',g.c==='g'?1.6:2);
-    c.setAttribute('class','grain c'+(STEREO?(Math.random()<.5?'b':'r'):g.c==='m'?(Math.random()<.5?'b':'r'):g.c==='g'?'g':g.c));gg.appendChild(c);FLOW.grains.push({g:g,s:0,el:c,o:(Math.random()-.5)*g.w*.6});}
+    c.setAttribute('class','grain c'+(g.c==='b'||g.c==='r'?g.c:(Math.random()<.5?'b':'r')));gg.appendChild(c);FLOW.grains.push({g:g,s:0,el:c,o:(Math.random()-.5)*g.w*.6});}
   FLOW.grains=FLOW.grains.filter(function(q){q.s+=.006;if(q.s>=1){q.el.remove();return false;}
     var u=q.s,g=q.g,mx=(g.x0+g.x1)/2,
       x=Math.pow(1-u,3)*g.x0+3*Math.pow(1-u,2)*u*mx+3*(1-u)*u*u*mx+u*u*u*g.x1,
       y=Math.pow(1-u,3)*g.y0+3*Math.pow(1-u,2)*u*g.y0+3*(1-u)*u*u*g.y1+u*u*u*g.y1;
-    q.el.setAttribute('cx',x.toFixed(1));q.el.setAttribute('cy',(y+q.o*(1-Math.abs(.5-u))).toFixed(1));q.el.style.opacity=Math.min(1,Math.min(u,1-u)*8)*.8;return true;});
+    q.el.setAttribute('cx',x.toFixed(1));q.el.setAttribute('cy',(y+q.o*.15).toFixed(1));q.el.style.opacity=Math.min(1,Math.min(u,1-u)*8)*.8;return true;});
 }
 function flowStep(now){if(!FLOW.run)return;FLOW.t=now/1000;flowDraw(FLOW.t);FLOW.raf=requestAnimationFrame(flowStep);}
 (function(){
