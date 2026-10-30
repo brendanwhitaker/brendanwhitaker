@@ -1258,7 +1258,8 @@ function fitIdea(){
   ws.forEach(function(w){w.style.setProperty('--cap','90px');});
   var phone=innerWidth<=720,avail=h.getBoundingClientRect().width;
   /* one line on wide screens; on phones three lines, the longest word set to the width and the others at the same size */
-  function width(){return phone?Math.max.apply(null,ws.map(function(w){return w.getBoundingClientRect().width;})):ws[ws.length-1].getBoundingClientRect().right-ws[0].getBoundingClientRect().left;}
+  function textW(w){var r=document.createRange();r.selectNodeContents(w);return r.getBoundingClientRect().width;}
+  function width(){return phone?Math.max.apply(null,ws.map(textW)):ws[ws.length-1].getBoundingClientRect().right-ws[0].getBoundingClientRect().left;}
   var tw=width();
   var cap=90;for(var k=0;k<3&&tw>0;k++){cap=Math.floor(cap*avail/tw*100)/100;ws.forEach(function(w){w.style.setProperty('--cap',cap+'px');});tw=width();}
   if(tw>avail){cap=Math.floor(cap*avail/tw*100)/100-.5;ws.forEach(function(w){w.style.setProperty('--cap',cap+'px');});}
