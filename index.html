@@ -1323,7 +1323,24 @@ var gb=document.getElementById('gridbtn');
 function toggleGrid(){var on=document.body.classList.toggle('show-grid');gb.setAttribute('aria-pressed',on);gb.textContent=on?'Hide grid':'Show grid';}
 gb.addEventListener('click',toggleGrid);
 addEventListener('keydown',function(e){if((e.key==='g'||e.key==='G')&&!/INPUT|TEXTAREA|SELECT/.test(document.activeElement.tagName)&&!e.metaKey&&!e.ctrlKey&&!e.altKey)toggleGrid();});
-document.getElementById('sub').addEventListener('submit',function(e){e.preventDefault();document.getElementById('formnote').textContent='You’re on the list. This is a study, so nothing was sent.';this.reset();});
+/* subscribe: the address goes straight into the site's list (Supabase). The public key can only add an address;
+   nobody can read the list from the web. Signing up twice is treated as success. */
+(function(){
+  var SB='https://cnihjooemzcanelzzvkt.supabase.co/rest/v1/subscribers',KEY='sb_publishable_RWxNKLL_RMMGyzFHYdpI-g_kUSk0nSP';
+  var form=document.getElementById('sub'),note=document.getElementById('formnote'),orig=note.textContent,btn=form.querySelector('button');
+  form.addEventListener('submit',function(e){e.preventDefault();
+    var email=form.querySelector('#email').value.trim();if(!email)return;
+    btn.disabled=true;note.textContent='Adding you…';
+    fetch(SB,{method:'POST',headers:{'apikey':KEY,'Content-Type':'application/json','Prefer':'return=minimal'},
+      body:JSON.stringify({email:email,source:(location.hash.slice(1)||'home').slice(0,64)})})
+    .then(function(r){
+      if(r.ok||r.status===409){note.textContent='You’re on the list. Build what matters.';form.reset();}
+      else if(r.status===400){note.textContent='That address doesn’t look right. Try again?';}
+      else throw 0;})
+    .catch(function(){note.textContent='Something went wrong on my end. Try again, or write to hello@brendanwhitaker.com.';})
+    .then(function(){btn.disabled=false;});
+  });
+})();
 function tick(){try{var s=new Intl.DateTimeFormat('en-US',{hour:'numeric',minute:'2-digit',timeZone:'America/New_York'}).format(new Date());setText('time','Washington, DC · '+s);setText('tk-time',s);}catch(e){}}
 tick();setInterval(tick,30000);
 /* copy to clipboard: the label above says what happened */
