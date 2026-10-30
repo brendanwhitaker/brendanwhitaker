@@ -379,34 +379,25 @@ body.stereo .idea.done .w::after{transform:translateX(calc(var(--fs) * .056))}
 
 /* indexes */
 .idx{row-gap:9px;align-content:start}
-/* the ecosystem as a deal: one stack, dealt out on scroll onto a sheet where all four lie at once */
-.prints-plate{grid-template-rows:auto auto;row-gap:0}
-.deal{grid-column:1/-1;grid-row:2;height:260vh}
-.dl-stage{grid-column:1/-1;position:sticky;top:0;height:100vh;height:100svh;align-content:center;padding:81px 0 27px;box-sizing:border-box}
-.dl-sheet{grid-column:1/-1;list-style:none;margin:0;padding:0;row-gap:36px;
-  --c:calc((100cqw - 4 * var(--gap)) / 5);--pw:calc(2 * var(--c) + var(--gap));
-  --ph:min(round(down, calc(var(--pw) * .62), var(--u)), round(down, calc((100svh - 108px - 36px - 2 * 171px) / 2), var(--u)))}
-/* two across the top, two staggered a column to the right beneath them: the sheet as a whole sits on the middle column */
-.dl-card{display:grid;align-content:start;row-gap:18px;will-change:transform}
-.dl-sheet{position:relative}
-.dl-card:nth-child(1){grid-column:1/3;grid-row:1}.dl-card:nth-child(2){grid-column:3/5;grid-row:1}
-.dl-card:nth-child(3){grid-column:2/4;grid-row:2}.dl-card:nth-child(4){grid-column:4/6;grid-row:2}
-.dl-fig{margin:0;height:var(--ph)}
-.dl-fig .pr-slot{width:100%;height:100%;border-radius:16px;box-shadow:inset 0 0 0 1px var(--hair);background:var(--paper);overflow:hidden;
-  display:grid;align-content:space-between;justify-items:start;padding:18px;box-sizing:border-box}
-.dl-fig .pr-slot:has(img){padding:0;box-shadow:none}.dl-fig .pr-slot img{width:100%;height:100%;object-fit:cover;display:block;filter:grayscale(1) contrast(1.08)}
-.dl-w{--x:calc(3 * var(--u));margin-bottom:-9px}
-.dl-cap{display:grid}.dl-cap .t+.t{margin-top:0}
-.dl-cap .ti a{text-decoration:none}.dl-cap .ti a:hover{text-decoration:underline;text-decoration-thickness:1px}
-@media (prefers-reduced-motion:reduce){.deal{height:auto}.dl-stage{position:static;height:auto}}
-@media (max-width:720px){
-  .dl-stage{padding:72px 0 18px}
-  .dl-sheet{row-gap:18px;--pw:calc((100cqw - var(--gap)) / 2);--ph:min(round(down, calc(var(--pw) * .75), var(--u)), round(down, calc((100svh - 90px - 18px - 2 * 81px) / 2), var(--u)))}
-  .dl-sheet{grid-template-columns:repeat(2,minmax(0,1fr))}
-  .dl-sheet .dl-card:nth-child(odd){grid-column:1}.dl-sheet .dl-card:nth-child(even){grid-column:2}
-  .dl-sheet .dl-card:nth-child(n+3){grid-row:2}.dl-card{row-gap:9px}
-  .dl-w{--x:calc(2 * var(--u))}.dl-fig .pr-slot{padding:9px 12px;border-radius:12px}
-  .dl-cap .ti{--x:calc(1.5 * var(--u))}.dl-cap .grey,.dl-cap .role{display:none}}
+/* the ecosystem as an index: one organization per row, spaced out. The print takes the right four columns; the first column
+   holds its particulars, number first, as a short table of label and value. */
+.prints-plate{grid-template-rows:auto auto;row-gap:81px}
+.orgs{grid-column:1/-1;grid-row:2;list-style:none;margin:0;padding:0;row-gap:126px}
+.org{grid-column:1/-1;align-items:start}
+.org-meta{grid-column:1;display:grid;align-content:start}
+.org-meta .n{color:var(--ink);margin-bottom:18px}
+.org-meta dl{margin:0;display:grid}
+.org-meta dt{color:var(--grey)}.org-meta dd{margin:0 0 9px}
+.org-meta dd a{color:var(--blue)}
+.org-fig{grid-column:2/-1;margin:0;display:grid;row-gap:18px}
+.org-fig .pr-slot{height:round(down, calc(((100cqw - 4 * var(--gap)) / 5 * 4 + 3 * var(--gap)) * .52), var(--u));border-radius:16px;
+  box-shadow:inset 0 0 0 1px var(--hair);background:var(--paper);overflow:hidden;display:grid;align-content:space-between;justify-items:start;padding:18px}
+.org-fig .pr-slot:has(img){padding:0;box-shadow:none}.org-fig .pr-slot img{width:100%;height:100%;object-fit:cover;display:block;filter:grayscale(1) contrast(1.08)}
+.org-w{--x:calc(4 * var(--u));margin-bottom:-9px}
+.org-fig figcaption{display:grid}.org-fig figcaption .t+.t{margin-top:0}
+@media (max-width:720px){.orgs{row-gap:72px}.org-meta{grid-column:1/-1;grid-row:2;margin-top:18px}.org-fig{grid-column:1/-1;grid-row:1}
+  .org-fig .pr-slot{height:round(down, calc(100cqw * .66), var(--u))}.org-w{--x:calc(3 * var(--u))}
+  .org-meta dl{grid-template-columns:auto 1fr;column-gap:18px}.org-meta dd{margin:0}}
 @media (max-width:720px){.idea .w{display:block;margin-left:calc(var(--sb) * -1em)}.idea .w+.w{margin-left:calc(var(--sb) * -1em)}.eco-print{display:none}.eco-idx{grid-column:1/-1}.eco-idx li>*,.eco-idx li .sub>*{grid-column:1/-1!important}}
 /* the system: dots on the 9px lattice, stacked in five bins that sit on the five columns */
 .sys{grid-column:1/-1;position:relative;height:var(--sys-h,180px)}
@@ -528,12 +519,8 @@ body.show-grid .ov{display:block}
       <p class="t sans measure">Everything I build runs through these four. They are how the ecosystem reaches beyond DC: into neighborhoods, institutions, and movements across the country.</p>
     </div>
   </div>
-  <!-- the deal: the four prints start as one stack in the middle of the screen. Scrolling deals them out, one at a time,
-       onto a contact sheet where all four lie at once: two on top, two staggered under them, each settling into register
-       as it lands, its caption printing under it. -->
-  <div class="deal sub" id="deal">
-    <div class="dl-stage sub"><ol class="dl-sheet sub" id="dl-sheet" aria-label="The organizations"></ol></div>
-  </div>
+  <!-- the four, spaced out as an index: each a large print on the right four columns, its particulars in the first column -->
+  <ol class="orgs sub" id="orgs" aria-label="The organizations"></ol>
 </section>
 
 <!-- 3 · The ecosystem, as a system: a dot histogram of people by how many of the four moves they have been through.
@@ -894,35 +881,16 @@ function setLens(el,L,blur,sep,q){
    and separate toward the top and bottom edges. Body text, captions and controls are never touched. */
 var RACK=[].slice.call(document.querySelectorAll('.figbox,h2.st,#h-close'));
 RACK.forEach(function(el,i){el.classList.add('rackable');el._lens=makeLens('lens-r'+i,true);});
-/* the deal: each card knows how far it lies from the middle of the stage; scroll brings it from the stack to its place */
-var DEAL={sec:document.getElementById('deal'),sheet:document.getElementById('dl-sheet'),lens:[],hov:-1,p:0};
-DEAL.sheet.innerHTML=ECOS.map(function(o,i){var mv=o[0].split(' · ');return '<li class="dl-card" data-i="'+i+'"><figure class="dl-fig"><div class="pr-slot">'
-  +(o[6]?'<img src="'+o[6]+'" alt="">':'<span class="t label">'+o[0]+' · photo to come</span><span class="t serif dl-w">'+mv[1]+'</span>')+'</div></figure>'
-  +'<div class="dl-cap"><p class="t label">'+o[0]+'</p><h3 class="t serif item ti">'+(o[5]?'<a href="'+o[5]+'">'+o[1]+'</a>':o[1])+'</h3><p class="t sans grey">'+o[2]+'</p><p class="t label role">'+o[3]+' · '+o[4]+'</p></div></li>';}).join('');
-var DC=[].slice.call(DEAL.sheet.children),DROT=[-2.4,1.8,-1.2,2.6];
-DC.forEach(function(el,i){el._fig=el.querySelector('.dl-fig');el._cap=el.querySelector('.dl-cap');DEAL.lens.push(makeLens('lens-dl'+i,true));});
-/* where each print lies, measured in layout (transforms do not count), from the middle of the sheet */
-function dealGeo(){var s=DEAL.sheet,cx=s.offsetWidth/2,cy=s.offsetHeight/2;
-  DC.forEach(function(el){var f=el._fig;el._dx=cx-(el.offsetLeft+f.offsetWidth/2);el._dy=cy-(el.offsetTop+f.offsetHeight/2);});}
-function dealScroll(){
-  dealGeo();
-  var r=DEAL.sec.getBoundingClientRect(),run=Math.max(1,r.height-innerHeight),p=reduce?1:Math.max(0,Math.min(1,-r.top/run));DEAL.p=p;
-  var k=STEREO?1.8:1,done=p>.97;
-  DC.forEach(function(el,i){
-    /* each card has its own stretch of the scroll; the first leaves the stack first */
-    var a=Math.max(0,Math.min(1,(p-i*.17)/.32)),e=a<.5?4*a*a*a:1-Math.pow(-2*a+2,3)/2,q=1-e;
-    el.style.transform=q<.001?'':'translate('+(el._dx*q).toFixed(1)+'px,'+(el._dy*q).toFixed(1)+'px) rotate('+(DROT[i]*q).toFixed(2)+'deg) scale('+(1+.04*q*(i===0?1:0)).toFixed(3)+')';
-    el.style.zIndex=4-i;
-    /* in the stack a print is out of register; it comes into register as it lands. Once all four are down,
-       pointing at one puts the other three out again. */
-    var d=(q*1.6+(done&&DEAL.hov>-1&&DEAL.hov!==i?.8:0))*k;
-    if(d<.02){if(el._fig.style.filter)el._fig.style.filter='';}else setLens(el._fig,DEAL.lens[i],d*1.4,d*2.6,Math.min(.85,d*.7));
-    var c=Math.max(0,Math.min(1,(a-.75)/.25));el._cap.style.opacity=c;el._cap.style.filter=c>.99?'':'blur('+((1-c)*3).toFixed(1)+'px)';
-  });
-}
-DC.forEach(function(el,i){el.addEventListener('mouseenter',function(){DEAL.hov=i;dealScroll();});el.addEventListener('mouseleave',function(){DEAL.hov=-1;dealScroll();});});
-addEventListener('scroll',function(){requestAnimationFrame(dealScroll);},{passive:true});
-window.DC=DC;window.dealScroll=dealScroll;requestAnimationFrame(dealScroll);
+/* the four as an index: number, then a short table of particulars; the print carries the name and what it does */
+document.getElementById('orgs').innerHTML=ECOS.map(function(o,i){var mv=o[0].split(' · '),host=o[5]?o[5].replace(/^https?:\/\//,''):'';
+  return '<li class="org sub"><div class="org-meta"><p class="t label n">/'+mv[0]+'</p><dl>'
+  +'<dt class="t label">Move</dt><dd class="t sans">'+mv[1]+'</dd>'
+  +'<dt class="t label">How</dt><dd class="t sans">'+o[3]+'</dd>'
+  +'<dt class="t label">My part</dt><dd class="t sans">'+o[4]+'</dd>'
+  +(host?'<dt class="t label">Site</dt><dd class="t sans"><a href="'+o[5]+'">'+host+'</a></dd>':'')
+  +'</dl></div><figure class="org-fig"><div class="pr-slot">'
+  +(o[6]?'<img src="'+o[6]+'" alt="">':'<span class="t label">Photo to come</span><span class="t serif org-w">'+mv[1]+'</span>')+'</div>'
+  +'<figcaption><h3 class="t serif item">'+o[1]+'</h3><p class="t sans grey">'+o[2]+'</p></figcaption></figure></li>';}).join('');
 function rack(){
   var vh=innerHeight;
   RACK.forEach(function(el){
@@ -958,7 +926,7 @@ function photoWatch(img){if(img._lens)return;img._lens=makeLens('lens-ph'+PHOTOS
   var io=new IntersectionObserver(function(es){es.forEach(function(en){if(!en.isIntersecting)return;io.disconnect();
     if(img.complete&&img.naturalWidth)photoArrive(img);else img.addEventListener('load',function(){photoArrive(img);},{once:true});});},{threshold:.25});
   io.observe(img);}
-[].forEach.call(document.querySelectorAll('img.print,.dl-fig img,.pr-slot img'),photoWatch);
+[].forEach.call(document.querySelectorAll('img.print,.org-fig img'),photoWatch);
 addEventListener('scroll',function(){requestAnimationFrame(function(){figScroll();rack();});},{passive:true});
 
 /* ---------- the ecosystem ---------- */
@@ -1105,7 +1073,7 @@ requestAnimationFrame(spin);
 function probe(el,end){var cls=end?'zb':'za',z=el.querySelector(':scope>.'+cls);
   if(!z){z=document.createElement('span');z.className=cls;z.setAttribute('aria-hidden','true');z.style.cssText='display:inline-block;width:0;height:0;vertical-align:baseline';end?el.appendChild(z):el.insertBefore(z,el.firstChild);}
   return z;}
-function frameOf(el){return el.closest('.card,.btn,.lens,.cue,.loader,.tune,.takeover,.hm-card,.hm-track,.home,.hd,.curtain,.dl-card')||document.body;}
+function frameOf(el){return el.closest('.card,.btn,.lens,.cue,.loader,.tune,.takeover,.hm-card,.hm-track,.home,.hd,.curtain')||document.body;}
 function by(el){return probe(el).getBoundingClientRect().top-frameOf(el).getBoundingClientRect().top;}
 function groupOf(el){var st=el.parentElement;if(!el.classList.contains('ln')||!st||!st.classList.contains('st'))return null;return [].slice.call(st.querySelectorAll(':scope>.ln'));}
 function snapPass(els){
@@ -1191,13 +1159,12 @@ function snap(){
   /* floating cards are measured flat, in their own space; their 3D transform goes back on after */
   cards.forEach(function(c){c.style.transform='none';});
   hmCards.forEach(function(e){e.style.transform='none';});hmTrack.style.transform='none';
-  if(window.DC)DC.forEach(function(e){e.style.transform='none';});
   var els=[].slice.call(document.querySelectorAll('.t'));
   els.forEach(function(el){el.style.paddingTop='0px';el.style.paddingBottom='0px';delete el.dataset.done;});
   for(var k=0;k<2;k++){for(var p=0;p<3;p++)snapPass(els);pins();}
   for(var p2=0;p2<2;p2++)snapPass(els);
   for(var r2=0;r2<2;r2++){rowAlign();snapPass(els);snapPass(els);}
-  placeCards();figScroll();rack();hmCur=-1;hmRender();markNav();glasses();if(window.sysLayout)sysLayout();if(window.dealScroll)dealScroll();
+  placeCards();figScroll();rack();hmCur=-1;hmRender();markNav();glasses();if(window.sysLayout)sysLayout();
 }
 var queued;function later(){cancelAnimationFrame(queued);queued=requestAnimationFrame(snap);}
 var lastW=innerWidth,lastH=innerHeight;
@@ -1211,7 +1178,7 @@ var stereo=document.getElementById('stereo');
 function glasses(){var g=stereo.querySelector('.d3-g'),w=stereo.querySelector(STEREO?'.d3-on':'.d3-off'),br=stereo.getBoundingClientRect(),wr=w.getBoundingClientRect(),
   b=probe(stereo.querySelector('.d3-t')).getBoundingClientRect().top;
   g.style.transform='translate('+(wr.left+wr.width/2-br.left-15).toFixed(1)+'px,'+(b-br.top-9-6-12).toFixed(1)+'px)';}
-function setStereo(on){STEREO=on;document.body.classList.toggle('stereo',on);stereo.setAttribute('aria-pressed',on);drawFig(figP);dealScroll();stereoLines();PHOTOS.forEach(function(i){if(i._in)photoRest(i);});
+function setStereo(on){STEREO=on;document.body.classList.toggle('stereo',on);stereo.setAttribute('aria-pressed',on);drawFig(figP);stereoLines();PHOTOS.forEach(function(i){if(i._in)photoRest(i);});
   stereo.classList.add('moving');clearTimeout(stereo._t);stereo._t=setTimeout(function(){stereo.classList.remove('moving');},450);glasses();try{localStorage.setItem('overprint-3d',on?'1':'0');}catch(e){}}
 stereo.addEventListener('click',function(){setStereo(!STEREO);});
 try{if(localStorage.getItem('overprint-3d')==='1')setStereo(true);}catch(e){}
