@@ -33,7 +33,7 @@ ol{list-style:none}
 a{color:var(--blue);text-decoration:underline;text-decoration-thickness:1px;text-underline-offset:4px}
 a:focus-visible,button:focus-visible,input:focus-visible{outline:2px solid var(--blue);outline-offset:3px}
 
-.page{container-type:inline-size;padding-left:max(var(--m),env(safe-area-inset-left,0px));padding-right:max(var(--m),env(safe-area-inset-right,0px))}
+.page{container-type:inline-size;--pl:max(var(--m),env(safe-area-inset-left,0px));--pr:max(var(--m),env(safe-area-inset-right,0px));padding-left:var(--pl);padding-right:var(--pr)}
 .g{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));column-gap:var(--gap)}
 .g>*,.sub>*{min-width:0}
 .sub{display:grid;grid-template-columns:subgrid;column-gap:var(--gap)}
@@ -73,7 +73,7 @@ a:focus-visible,button:focus-visible,input:focus-visible{outline:2px solid var(-
    never enters, BUILD WHAT MATTERS included (only the loading screen and the page curtain cover it); the five content columns start to its right. The header has no
    background: content scrolls under it. On phones the rail folds away into the menu button. */
 :root{--hdh:0px;--rail:234px;--band:63px}
-html:not(.compact) .page{padding-left:calc(max(var(--m),env(safe-area-inset-left,0px)) + var(--rail) + var(--gap))}
+html:not(.compact) .page{--pl:calc(max(var(--m),env(safe-area-inset-left,0px)) + var(--rail) + var(--gap))}
 .hd{position:fixed;top:0;left:0;right:0;z-index:4;height:var(--band);padding-top:18px;padding-left:inherit;padding-right:inherit;align-items:start}
 .hd>*{grid-row:1}
 /* absolutely placed in the header's first row, so top is measured from the row (already 18px down) */
@@ -154,6 +154,30 @@ html.menu-open .hd{z-index:95}
 .curtain.lift{--co:0px;--cb:0px}
 .curtain.lift .cs{transform:translateY(-100%);transition:transform .8s cubic-bezier(.7,0,.2,1)}
 .curtain.lift .cs-b{transition-delay:.025s}
+/* moving between pages, on the overhead: the lamp comes up warm, the page lifts off the glass as a sheet and slides away,
+   the bare stage shows the next page's name coming into focus, then the next sheet is laid on and the lamp cools.
+   The sheet is the page itself (everything but the header), spanning the full width so its edges read as a sheet's. */
+.ohs{margin-left:calc(var(--pl) * -1);margin-right:calc(var(--pr) * -1);padding-left:var(--pl);padding-right:var(--pr)}
+html.oh .ohs{position:relative;z-index:1;background:var(--paper);will-change:transform}
+html.oh .hd{z-index:5}
+/* the stage: lit glass under the sheet, a hot spot where the bulb is, the fresnel's rings, the frame of the bed */
+.stage{position:fixed;inset:0;z-index:0;pointer-events:none;visibility:hidden;overflow:hidden;
+  background:radial-gradient(ellipse 60% 55% at 50% 48%,#fbf6ec 0%,#f4efe4 38%,#e9e6df 72%,#dedbd4 100%)}
+html.oh .stage{visibility:visible}
+.stage::before{content:'';position:absolute;inset:0;
+  background:repeating-radial-gradient(circle at 50% 48%,rgba(20,5,9,.045) 0 1px,transparent 1px 13px);
+  -webkit-mask:radial-gradient(circle at 50% 48%,#000 0%,rgba(0,0,0,.5) 45%,transparent 75%);mask:radial-gradient(circle at 50% 48%,#000 0%,rgba(0,0,0,.5) 45%,transparent 75%)}
+.stage::after{content:'';position:absolute;inset:max(5vmin,27px);border-radius:18px;box-shadow:inset 0 0 0 1px rgba(20,5,9,.08),inset 0 0 60px rgba(120,80,30,.08)}
+.st-name{position:absolute;inset:0;display:grid;place-items:center}
+.st-name p{grid-area:1/1;margin:0;--x:clamp(calc(4 * var(--u)), round(down, 4.4vw, var(--u)), calc(8 * var(--u)));text-transform:uppercase;letter-spacing:.02em;white-space:nowrap;mix-blend-mode:multiply}
+.st-name .r{color:var(--red)}.st-name .b{color:var(--blue)}
+/* the lamp: light, not ink. It warms whatever it falls on and lets the corners go dim, and it comes up with a tungsten flicker. */
+.lamp{position:fixed;inset:0;z-index:97;pointer-events:none;opacity:0;visibility:hidden}
+html.oh .lamp{visibility:visible}
+.lamp::before{content:'';position:absolute;inset:0;mix-blend-mode:soft-light;
+  background:radial-gradient(ellipse 70% 62% at 50% 46%,rgba(255,206,140,.62) 0%,rgba(255,196,128,.34) 34%,rgba(255,180,110,.1) 64%,transparent 86%)}
+.lamp::after{content:'';position:absolute;inset:0;mix-blend-mode:multiply;
+  background:radial-gradient(ellipse 80% 75% at 50% 46%,transparent 52%,rgba(160,125,85,.12) 82%,rgba(120,88,52,.24) 100%)}
 /* the takeover: a sheet laid down from the top; each place prints in two passes that slide into register */
 @property --tls{syntax:'<number>';inherits:true;initial-value:0}
 @property --tlb{syntax:'<number>';inherits:true;initial-value:0}
@@ -483,6 +507,7 @@ body.show-grid .ov{display:block}
   <p class="t label h-loc" id="time">Washington, DC</p>
   <div class="h-end" data-cells><a class="t sans h-sub" href="#join">Subscribe</a><button class="menu" id="menubtn" type="button" aria-expanded="false" aria-controls="takeover"><span class="t label mb-l" id="mb-l">Menu</span><span class="mb-i" data-base="x" aria-hidden="true"><span class="bar b1"></span><span class="bar b2"></span></span></button></div>
 </header>
+<div class="ohs" id="sheet">
 <main id="top">
 <!-- 1 · Hero. The statement alone, low and left, ending on a cliffhanger the next screen answers. -->
 <section class="plate g" id="home" data-view="home" aria-labelledby="h-hero" style="padding-top:27px">
@@ -733,6 +758,7 @@ body.show-grid .ov{display:block}
   <div class="f-inq"><p class="t label" id="inq-l">For inquiries</p><p><button class="copy t sans" type="button" data-copy="hello@brendanwhitaker.com" data-label="inq-l">hello@brendanwhitaker.com</button></p></div>
   <p class="t label end"><button class="gridbtn" id="introbtn" type="button">Replay intro</button> · <button class="gridbtn" id="tunebtn" type="button" aria-pressed="false">Tune focus</button> · <button class="gridbtn" id="gridbtn" type="button" aria-pressed="false">Show grid</button> · T or G</p>
 </footer>
+</div>
 <div class="takeover" id="takeover" role="dialog" aria-label="Menu">
   <div class="page tk-page">
     <nav class="g" aria-label="Main">
@@ -1002,23 +1028,50 @@ function markNav(){
       b=probe(hl).getBoundingClientRect().top+Math.round((cr.top-document.querySelector('.h-a').getBoundingClientRect().top)/lh)*lh-nb;
     arw.style.transform='translateY('+(b-xh/2-9).toFixed(1)+'px)';}
 }
-/* moving between pages, after huyml.co: the arrow travels first, then an ink sheet rises over the page, the next page's name
-   comes into focus on it, the page changes underneath, and the sheet carries on up and off. Scrolling within home is left alone. */
-var curtain=document.createElement('div');curtain.className='curtain';curtain.setAttribute('aria-hidden','true');
-curtain.innerHTML='<div class="cs cs-r"><p class="t serif ct-t"></p></div><div class="cs cs-b"><p class="t serif ct-t"></p></div>';document.body.appendChild(curtain);
-var NAMES={home:'Ecosystem',thesis:'Thesis',work:'Work',contact:'Contact',colloquia:'Colloquia',reading:'Colloquia',join:'Subscribe',ecosystem:'My ecosystem',idea:'Build what matters'};
+/* moving between pages, on the overhead projector */
+var NAMES={home:'Ecosystem',thesis:'Thesis',work:'Work',contact:'Contact',colloquia:'Colloquia',reading:'Colloquia',join:'Subscribe',ecosystem:'Ecosystem',idea:'Build what matters'};
 function viewOf(h){var el=h?document.getElementById(h):null;return VIEWS.indexOf(h)>=0?h:(el&&el.closest('[data-view]')?el.closest('[data-view]').dataset.view:'home');}
+var OH={sheet:document.getElementById('sheet'),stage:document.createElement('div'),lamp:document.createElement('div'),anims:[]};
+OH.stage.className='stage';OH.stage.setAttribute('aria-hidden','true');
+OH.stage.innerHTML='<div class="st-name"><p class="t serif r"></p><p class="t serif b"></p></div>';
+OH.lamp.className='lamp';OH.lamp.setAttribute('aria-hidden','true');
+document.body.insertBefore(OH.stage,document.body.firstChild);document.body.appendChild(OH.lamp);
 var going=0;
 function go(){
-  var h=location.hash.slice(1),root=document.documentElement;
-  if(reduce||root.classList.contains('intro')||viewOf(h)===root.dataset.view){route();return;}
+  var h=location.hash.slice(1),root=document.documentElement,to=viewOf(h),from=root.dataset.view;
+  if(reduce||root.classList.contains('intro')||to===from){route();return;}
   var my=++going;markNav();
-  [].forEach.call(curtain.querySelectorAll('.ct-t'),function(e){setText2(e,NAMES[h]||NAMES[viewOf(h)]||'');});
-  curtain.className='curtain';void curtain.offsetWidth;
-  setTimeout(function(){if(my!==going)return;curtain.classList.add('cover');},220);
-  setTimeout(function(){if(my!==going)return;route();},220+650);
-  setTimeout(function(){if(my!==going)return;curtain.classList.add('lift');if(root.dataset.view==='home')cueIdea();},220+650+450);
-  setTimeout(function(){if(my!==going)return;curtain.className='curtain';},220+650+450+900);
+  OH.anims.forEach(function(a){a.cancel();});OH.anims=[];
+  /* forward through the menu, the old sheet goes off left and the new one comes in from the right; back, the reverse */
+  var dir=VIEWS.indexOf(to)>=VIEWS.indexOf(from)?1:-1,W=innerWidth*1.15,
+    E={out:'cubic-bezier(.55,0,.75,.35)',land:'cubic-bezier(.2,.75,.25,1)',knob:'cubic-bezier(.3,.6,.2,1)'};
+  [].forEach.call(OH.stage.querySelectorAll('.st-name p'),function(e){setText2(e,NAMES[h]||NAMES[to]||'');});
+  root.classList.add('oh');
+  function A(el,k,o){var an=el.animate(k,o);OH.anims.push(an);return an;}
+  /* 1 · the lamp comes up: a tungsten flicker, then steady */
+  A(OH.lamp,[{opacity:0},{opacity:.55,offset:.12},{opacity:.3,offset:.2},{opacity:.8,offset:.38},{opacity:.68,offset:.48},{opacity:1}],{duration:520,fill:'forwards',easing:'linear'});
+  /* 2 · the sheet lifts off the glass and slides away, its shadow opening as it rises */
+  var lift='0 0 0 0 rgba(60,35,10,0)',high='0 40px 80px -30px rgba(60,35,10,.45),0 0 0 1px rgba(20,5,9,.06)';
+  var off=A(OH.sheet,[{transform:'none',boxShadow:lift},{transform:'translateY(-10px) scale(1.004)',boxShadow:high,offset:.28},
+    {transform:'translate('+(-dir*W)+'px,-10px) rotate('+(-dir*1.6)+'deg) scale(1.004)',boxShadow:high}],{duration:620,delay:220,fill:'forwards',easing:E.out});
+  /* 3 · on the bare stage the next name comes into focus: the knob overshoots and settles; the passes slide into register */
+  var nr=OH.stage.querySelector('.r'),nb=OH.stage.querySelector('.b');
+  [[nr,-1],[nb,1]].forEach(function(x){
+    A(x[0],[{opacity:0,filter:'blur(14px)',transform:'translateX('+(x[1]*22)+'px)'},
+      {opacity:1,filter:'blur(5px)',transform:'translateX('+(x[1]*10)+'px)',offset:.35},
+      {opacity:1,filter:'blur(0px)',transform:'translateX(0px)',offset:.7},
+      {opacity:1,filter:'blur(1.6px)',transform:'translateX(0px)',offset:.82},
+      {opacity:1,filter:'blur(0px)',transform:'translateX(0px)'}],{duration:760,delay:560,fill:'forwards',easing:E.knob});});
+  /* the page changes once the old sheet is off the stage; the stage stays bare a beat, then
+     4 · the next sheet is laid on from the other side, lands, and the lamp cools slowly, the way a bulb does */
+  off.finished.then(function(){if(my!==going)return;route();setTimeout(function(){if(my!==going)return;
+    A(OH.sheet,[{transform:'translate('+(dir*W)+'px,-12px) rotate('+(dir*1.2)+'deg) scale(1.004)',boxShadow:high},
+      {transform:'translateY(-6px) scale(1.003)',boxShadow:high,offset:.78},
+      {transform:'none',boxShadow:lift}],{duration:720,fill:'forwards',easing:E.land});
+    A(OH.lamp,[{opacity:1},{opacity:1,offset:.25},{opacity:0}],{duration:1500,delay:300,fill:'forwards',easing:'cubic-bezier(.4,0,.6,1)'});
+    if(root.dataset.view==='home')setTimeout(function(){if(my===going)cueIdea();},500);
+    setTimeout(function(){if(my!==going)return;root.classList.remove('oh');OH.anims.forEach(function(a){a.cancel();});OH.anims=[];},1800);
+  },520);}).catch(function(){});
 }
 addEventListener('hashchange',go);
 if('scrollRestoration' in history)history.scrollRestoration='manual';
