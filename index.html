@@ -429,8 +429,24 @@ body.stereo .sys-dot::before{transform:translateX(calc(var(--b) * -1.2px))}body.
 .band{--x:max(calc(3 * var(--u)), round(down, calc(100cqw * .51 / 6.53), var(--u)));white-space:nowrap}
 .band.it{font-style:italic;--sb:-.036;--x:max(calc(2 * var(--u)), round(down, calc(100cqw * .51 / 10.85), var(--u)));white-space:normal}
 form{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:18px;align-items:center}
-input[type=email]{font:inherit;font-size:16.49px;line-height:27px;color:var(--ink);background:transparent;border:0;border-radius:999px;box-shadow:inset 0 0 0 1.25px var(--ink);padding:7.5px 20px 10.5px;height:45px;width:100%;min-width:0}
-input[type=email]::placeholder{color:var(--grey)}
+input[type=email],input[type=text],select{font:inherit;font-size:16.49px;line-height:27px;color:var(--ink);background:transparent;border:0;border-radius:999px;box-shadow:inset 0 0 0 1.25px var(--ink);padding:7.5px 20px 10.5px;height:45px;width:100%;min-width:0}
+input[type=email]::placeholder,input[type=text]::placeholder{color:var(--grey)}
+select{appearance:none;-webkit-appearance:none;cursor:pointer;background-image:linear-gradient(45deg,transparent 50%,var(--ink) 50%),linear-gradient(135deg,var(--ink) 50%,transparent 50%);background-position:calc(100% - 26px) 50%,calc(100% - 21px) 50%;background-size:5px 5px;background-repeat:no-repeat}
+/* the colloquia: what an evening is, as a short table high on the right */
+.facts{grid-column:4/-1;margin:0;display:grid;grid-template-columns:auto 1fr;column-gap:18px;align-content:start}
+.facts dd{margin:0}
+/* the season, as a calendar: one row an evening */
+.ssn-head{grid-column:1/-1;padding-bottom:9px;box-shadow:inset 0 -1px 0 var(--hair)}
+.ssn{grid-column:1/-1;list-style:none;margin:0;padding:0}
+.ssn li{grid-column:1/-1;align-items:start;padding-block:18px 27px;box-shadow:inset 0 -1px 0 var(--hair)}
+.ssn .when,.ssn .ev,.ssn .rd,.ssn .ch{display:grid;align-content:start}
+.ssn .when{grid-column:1}.ssn .ev{grid-column:2/4}.ssn .rd{grid-column:4}.ssn .ch{grid-column:5}
+.ssn .t+.t{margin-top:0}
+.ssn .ml{display:none}
+.ssn li.next .when .label:first-child{color:var(--ink)}
+/* asking for a seat: email, what you're building, which evening */
+.a-form{grid-template-columns:1fr;max-width:540px;justify-items:start}
+.a-form input,.a-form select{width:100%}
 .vh{position:absolute;left:-9999px}
 .f-inq{grid-column:2/5}
 .c-note{grid-column:1/3}.c-form{grid-column:4/-1}
@@ -469,6 +485,7 @@ body.show-grid .ov{display:block}
   footer.g>*{grid-column:1/-1}
   .c-note,.c-form{grid-column:1/-1}
   .c-form,.j-form{grid-template-columns:1fr}
+  .facts{grid-column:1/-1}.ssn-head{display:none}.ssn .ml{display:block}.ssn li>*{grid-column:1/-1!important}.ssn li{row-gap:9px}
 }
 @media (prefers-reduced-motion:reduce){*{transition:none!important}html.pre .hero-print .print{transform:none}.cue-line{animation:none}.loader{display:none!important}.idea .w{opacity:1}.idea.in .w,.idea.in .w::after{animation:none}.idea .w::after{opacity:1}}
 </style></head><body>
@@ -684,18 +701,82 @@ body.show-grid .ov{display:block}
 
 <!-- Colloquia. One stream: the sessions and the essays written from them. The stream high, the statement low and right. -->
 <section class="plate g" id="colloquia" data-view="colloquia" aria-labelledby="h-colloquia">
+  <!-- the particulars, high on the right: what an evening is, before anything else -->
   <div class="top sub">
-    <ol class="idx sub" id="stream" style="grid-column:2/5" aria-label="Sessions and essays"></ol>
+    <dl class="facts" aria-label="The evenings">
+      <dt class="t label">Where</dt><dd class="t sans">In person, Washington, DC</dd>
+      <dt class="t label">Who</dt><dd class="t sans">About twelve people who are building something</dd>
+      <dt class="t label">Before</dt><dd class="t sans">Two or three readings, sent ahead</dd>
+      <dt class="t label">During</dt><dd class="t sans">A co-host opens the argument. No slides.</dd>
+      <dt class="t label">After</dt><dd class="t sans">An essay from me. No one is quoted.</dd>
+    </dl>
   </div>
   <div class="low sub">
     <h2 class="st sub" id="h-colloquia">
-      <span class="t label" style="--c:3">Builders’ Colloquia</span>
-      <span class="t serif ln" style="--c:3">Sessions and essays,</span>
-      <span class="t serif ln step" style="--c:4" id="colloquia-last"><svg class="hk" aria-hidden="true"><use href="#hook"/></svg>in one place.</span>
+      <span class="t label" style="--c:1">Builders’ Colloquia</span>
+      <span class="t serif ln" style="--c:1">What I’m reading,</span>
+      <span class="t serif ln step" style="--c:2" id="colloquia-last"><svg class="hk" aria-hidden="true"><use href="#hook"/></svg>and the evenings</span>
+      <span class="t serif ln" style="--c:1">where we argue about it.</span>
+    </h2>
+    <div class="cap" style="--c:1">
+      <p class="t sans measure">A small room, a few readings, and a conversation with a co-host. The first season is planned and seats are by request. What comes out of each evening is written up here.</p>
+      <div class="actions"><a class="btn" href="#ask"><span class="tab"><svg aria-hidden="true"><use href="#arrow"/></svg></span><span class="bl t sans">Ask for a seat</span></a><a class="t sans" href="#essays">Read the essays</a></div>
+    </div>
+  </div>
+</section>
+
+<!-- Colloquia · 2. The season as a calendar index: number and date, the evening and its question, readings, co-host and seats -->
+<section class="plate g" id="season-one" data-view="colloquia" aria-labelledby="h-season">
+  <div class="top sub">
+    <div class="ssn-head sub" aria-hidden="true"><p class="t label" style="grid-column:1">No. · Date</p><p class="t label" style="grid-column:2/4">The evening</p><p class="t label" style="grid-column:4">Readings</p><p class="t label" style="grid-column:5">Co-host · Seats</p></div>
+    <ol class="ssn sub" id="ssn" aria-label="Season one"></ol>
+  </div>
+  <div class="low sub">
+    <h2 class="st sub" id="h-season">
+      <span class="t label" style="--c:3">Season one</span>
+      <span class="t serif ln" style="--c:3">Six evenings,</span>
+      <span class="t serif ln step" style="--c:4" id="season-last"><svg class="hk" aria-hidden="true"><use href="#hook"/></svg>planned.</span>
     </h2>
     <div class="cap" style="--c:3">
-      <p class="t sans measure">Each session assigns two or three essays to read beforehand. What I write afterwards lands here too, linked to the session it came from.</p>
-      <div class="actions"><a class="btn" href="https://lu.ma/brendanwhitaker"><span class="tab"><svg aria-hidden="true"><use href="#arrow"/></svg></span><span class="bl t sans">Save a seat, Nov 5</span></a><a class="t sans" href="#join">Subscribe for the readings</a></div>
+      <p class="t sans measure">Dates are planned, not promised. Readings and co-hosts are announced two weeks before each evening, and the essay follows it.</p>
+    </div>
+  </div>
+</section>
+
+<!-- Colloquia · 3. The writing: essays from the evenings and notes between them -->
+<section class="plate g" id="essays" data-view="colloquia" aria-labelledby="h-essays">
+  <div class="top sub">
+    <ol class="idx sub" id="writing" style="grid-column:2/5" aria-label="Essays and notes"></ol>
+  </div>
+  <div class="low sub">
+    <h2 class="st sub" id="h-essays">
+      <span class="t label" style="--c:1">Essays</span>
+      <span class="t serif ln" style="--c:1">Written from</span>
+      <span class="t serif ln step" style="--c:2" id="essays-last"><svg class="hk" aria-hidden="true"><use href="#hook"/></svg>the room.</span>
+    </h2>
+    <div class="cap" style="--c:1">
+      <p class="t sans measure">What I write after each evening, and notes in between. The ideas leave the room; the names stay in it.</p>
+      <div class="actions"><a class="t sans" href="#join">Get them by email</a></div>
+    </div>
+  </div>
+</section>
+
+<!-- Colloquia · 4. Ask for a seat -->
+<section class="plate g" id="ask" data-view="colloquia" aria-labelledby="h-ask">
+  <div class="low sub">
+    <h2 class="st sub" id="h-ask">
+      <span class="t label" style="--c:3">Seats</span>
+      <span class="t serif ln" style="--c:3">Ask for</span>
+      <span class="t serif ln step" style="--c:4" id="ask-last"><svg class="hk" aria-hidden="true"><use href="#hook"/></svg>a seat.</span>
+    </h2>
+    <div class="cap" style="--c:3">
+      <p class="t sans measure" id="asknote">Tell me what you’re building and which evening you’d like. I keep each room small and mixed, so I’ll write back either way.</p>
+      <form id="askform" class="a-form">
+        <label class="vh" for="a-email">Email</label><input id="a-email" type="email" required placeholder="you@example.com">
+        <label class="vh" for="a-what">What you’re building</label><input id="a-what" type="text" required placeholder="What you’re building">
+        <label class="vh" for="a-when">Which evening</label><select id="a-when"><option value="any">Any evening</option></select>
+        <button class="btn" type="submit"><span class="tab"><svg aria-hidden="true"><use href="#arrow"/></svg></span><span class="bl t sans">Ask</span></button>
+      </form>
     </div>
   </div>
 </section>
@@ -779,8 +860,18 @@ var U=9, reduce=matchMedia('(prefers-reduced-motion: reduce)').matches, STEREO=f
 var SEASON=[['No. 01 · Nov 5','Structure shapes what groups make'],['No. 02 · Nov 19','Where to push a system'],['No. 03 · Dec 3','Translation'],['No. 04 · Dec 17','Spiraling up'],['No. 05 · Jan 14','Collective impact, for and against'],['No. 06 · Jan 28','Coordination without a center']];
 document.getElementById('season').innerHTML=SEASON.map(function(x,i){return '<li class="sub'+(i?'':' next')+'"><p class="t label" style="grid-column:1">'+x[0]+'</p><h3 class="t serif item ti" style="grid-column:2/-1"><a href="#colloquia">'+x[1]+'</a></h3></li>';}).join('');
 /* the colloquia stream: sessions coming up, then what has been written, newest first */
-var STREAM=[['Next session · Nov 5','Structure shapes what groups make'],['Session · Nov 19','Where to push a system'],['Session · Dec 3','Translation'],['Essay · Oct 18','The places between people'],['Field note','Month to month'],['Field note','Say it so they can repeat it']];
-document.getElementById('stream').innerHTML=STREAM.map(function(x,i){return '<li class="sub'+(i?'':' next')+'"><p class="t label" style="grid-column:1">'+x[0]+'</p><h3 class="t serif item ti" style="grid-column:2/-1"><a href="#colloquia">'+x[1]+'</a></h3></li>';}).join('');
+/* the season as a calendar: each evening's number and date, title and question, readings, co-host and seats.
+   Nothing is running yet, so readings and co-hosts are "to come" and every evening is planned. */
+var QS=['Does the shape of a group decide what it can make?','If you could change one thing, where would it matter most?','What gets lost when an idea moves between people, and what gets made?','How does one small win become the next, bigger one?','Does coordinating from the top help, or add a layer?','Can people work together with no one in charge?'];
+document.getElementById('ssn').innerHTML=SEASON.map(function(x,i){var p=x[0].split(' · ');
+  return '<li class="sub'+(i?'':' next')+'"><div class="when"><p class="t label">'+p[0]+'</p><p class="t label">Planned · '+p[1]+'</p></div>'
+  +'<div class="ev"><h3 class="t serif item">'+x[1]+'</h3><p class="t sans grey">'+QS[i]+'</p><p class="t label">Essay after the evening</p></div>'
+  +'<div class="rd"><p class="t label ml">Readings</p><p class="t sans grey">Two weeks before</p></div>'
+  +'<div class="ch"><p class="t label ml">Co-host</p><p class="t sans grey">To be announced</p><p class="t label">About 12 seats · DC</p></div></li>';}).join('');
+var sel=document.getElementById('a-when');SEASON.forEach(function(x){var o=document.createElement('option');o.value=x[0];o.textContent=x[0]+' · '+x[1];sel.appendChild(o);});
+var WRITING=[['Essay · Oct 18','The places between people'],['Note','Month to month'],['Note','Say it so they can repeat it']];
+document.getElementById('writing').innerHTML=WRITING.map(function(x){return '<li class="sub"><p class="t label" style="grid-column:1">'+x[0]+'</p><h3 class="t serif item ti" style="grid-column:2/-1"><a href="#essays">'+x[1]+'</a></h3></li>';}).join('');
+document.getElementById('askform').addEventListener('submit',function(e){e.preventDefault();document.getElementById('asknote').textContent='Thank you. I’ll write back. This is a study, so nothing was sent.';this.reset();});
 /* ---------- the ecosystem prints ---------- */
 /* in the loop's order, so BUILD WHAT MATTERS hands straight into 01 · Build */
 var ECOS=[
@@ -1124,7 +1215,7 @@ function fitNav(){
 /* rows: everything meant to sit in one row shares one baseline. For each row, the first line of every cell is
    brought down to the lowest of them, rounded onto the grid. Whole cells move, so stacks keep their own rhythm and a
    button moves with its label. Icons sit on the row's baseline (data-base="bottom") or centre on its x-height (data-base="x"). */
-var ROWS='.hd,.idx li,.tk-list li,footer.g,.tk-foot,.actions,.hm-f';
+var ROWS='.hd,.idx li,.ssn li,.ssn-head,.tk-list li,footer.g,.tk-foot,.actions,.hm-f';
 function cellsOf(row){var out=[];[].forEach.call(row.children,function(c){if(c.hasAttribute('data-cells'))[].forEach.call(c.children,function(cc){out.push(cc);});else out.push(c);});return out;}
 function shown(el){return el.getClientRects().length>0&&getComputedStyle(el).display!=='none';}
 function firstT(c){if(c.classList.contains('t'))return c;var l=c.querySelectorAll('.t');for(var i=0;i<l.length;i++){if(shown(l[i]))return l[i];}return null;}
