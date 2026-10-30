@@ -360,6 +360,22 @@ body.stereo .idea.done .w::after{transform:translateX(calc(var(--fs) * .056))}
 
 /* indexes */
 .idx{row-gap:9px;align-content:start}
+/* the ecosystem as a flow: who comes in, what they pass through, what comes out, and how it comes back around.
+   Names sit on the grid; only the ribbons are free, and they move like ink: soft, overprinting, never quite still. */
+.flow{grid-column:1/-1;position:relative;row-gap:27px;align-items:center;grid-template-rows:auto repeat(5,minmax(36px,auto));padding-bottom:72px}
+.fh{align-self:start;margin-bottom:9px}
+.fn{position:relative;z-index:1;justify-self:start;max-width:100%;transition:filter .45s,opacity .45s;text-shadow:0 0 3px var(--paper),0 0 7px var(--paper),0 0 12px var(--paper)}
+.fn a{color:inherit;text-decoration:none}.fn a:hover{text-decoration:underline;text-decoration-thickness:1px}
+.fo{padding-right:9px}
+.flow-svg{position:absolute;inset:0;width:100%;height:100%;overflow:visible;pointer-events:none}
+.flow-svg .rb{mix-blend-mode:multiply;transition:filter .45s,opacity .45s}
+.flow-svg .cb{fill:var(--blue)}.flow-svg .cr{fill:var(--red)}.flow-svg .ck{fill:var(--ink)}.flow-svg .cg{fill:var(--grey)}
+.flow-svg .grain{mix-blend-mode:multiply}
+.flow[data-f] .fn{filter:blur(2px);opacity:.4}
+.flow[data-f] .rb{filter:blur(3px);opacity:.25}
+.flow[data-f] .fn.on,.flow[data-f] .rb.on{filter:none;opacity:1}
+.flow[data-f] .fn.on.fh{opacity:1}
+@media (max-width:720px){.flow{grid-template-rows:none}.flow>*{grid-column:1/-1!important;grid-row:auto!important}.flow-svg{display:none}.fh{margin-top:27px}}
 /* the system: dots on the 9px lattice, stacked in five bins that sit on the five columns */
 .sys{grid-column:1/-1;position:relative;height:var(--sys-h,180px)}
 .sys-dot{position:absolute;left:0;top:0;width:9px;height:9px;transition:transform .7s cubic-bezier(.45,0,.2,1)}
@@ -469,9 +485,46 @@ body.show-grid .ov{display:block}
 
 
 
+<!-- 3 · The ecosystem: two done-for-you practices feed the one that brings them together for clients; the Labs is where people
+     learn to do it, and they go on to build their own. Laid on the five columns, done for you on the left, learn to do it on the right. -->
+<section class="plate g" id="ecosystem" data-view="home" aria-labelledby="eco-h">
+  <div class="top sub">
+    <div class="flow sub" id="flow">
+      <svg class="flow-svg" id="flow-svg" aria-hidden="true"></svg>
+      <p class="t label fh" style="grid-column:1;grid-row:1">Who comes in</p>
+      <p class="t label fh" style="grid-column:2;grid-row:1">Done for you</p>
+      <p class="t label fh" style="grid-column:3;grid-row:1">Together</p>
+      <p class="t label fh" style="grid-column:4;grid-row:1">What comes out</p>
+      <p class="t label fh" style="grid-column:5;grid-row:1">And then</p>
+      <p class="t sans fn" data-n="inst" style="grid-column:1;grid-row:2">Institutions</p>
+      <p class="t sans fn" data-n="coal" style="grid-column:1;grid-row:3">Coalitions</p>
+      <p class="t sans fn" data-n="vent" style="grid-column:1;grid-row:4">Ventures</p>
+      <p class="t sans fn" data-n="res" style="grid-column:1;grid-row:5">Residents and learners</p>
+      <p class="t sans fn" data-n="part" style="grid-column:1;grid-row:6">Partners</p>
+      <h3 class="t serif item fn fo" data-n="syn" style="grid-column:2;grid-row:2/4">Synodic Intelligence</h3>
+      <h3 class="t serif item fn fo" data-n="folk" style="grid-column:2;grid-row:4/6"><a href="https://folkmark.com">Folkmark Creative</a></h3>
+      <h3 class="t serif item fn fo" data-n="levy" style="grid-column:3;grid-row:3/5"><a href="https://withlevy.com">Levy Strategic Design</a></h3>
+      <h3 class="t serif item fn fo" data-n="labs" style="grid-column:3;grid-row:5/7">The Upskilling Labs</h3>
+      <p class="t sans fn" data-n="work" style="grid-column:4;grid-row:3/5">Work that is seen, told and built</p>
+      <p class="t sans fn" data-n="ppl" style="grid-column:4;grid-row:5/7">People who can do it themselves</p>
+      <p class="t sans fn grey" data-n="back" style="grid-column:5;grid-row:4/6">They come back as builders, clients and partners</p>
+    </div>
+  </div>
+  <div class="low sub">
+    <h2 class="st sub" id="eco-h">
+      <span class="t label" style="--c:1">My ecosystem</span>
+      <span class="t serif ln" style="--c:1">Four organizations,</span>
+      <span class="t serif ln step" style="--c:2" id="eco-last"><svg class="hk" aria-hidden="true"><use href="#hook"/></svg>one flow.</span>
+    </h2>
+    <div class="cap" style="--c:1">
+      <p class="t sans measure">Synodic Intelligence and Folkmark Creative do the work for you. Levy Strategic Design brings it together for clients. The Upskilling Labs is where people learn to do it themselves, and they come back around as builders.</p>
+    </div>
+  </div>
+</section>
+
 <!-- 3 · The ecosystem, as a system: a dot histogram of people by how many of the four moves they have been through.
      Each organization is a rule that moves people one step; the shape that emerges is the point. -->
-<section class="plate g" id="ecosystem" data-view="home" aria-labelledby="sys-h">
+<section class="plate g" id="system" data-view="parked" aria-labelledby="sys-h">
   <div class="top sub">
     <div class="sys" id="sys" role="img" aria-label="A histogram of dots, each a group of people, across five steps: not yet, see, tell, build and together. Over time the dots move to the right."></div>
     <ol class="sys-bins sub" aria-hidden="true">
@@ -669,6 +722,89 @@ document.getElementById('season').innerHTML=SEASON.map(function(x,i){return '<li
 /* the colloquia stream: sessions coming up, then what has been written, newest first */
 var STREAM=[['Next session · Nov 5','Structure shapes what groups make'],['Session · Nov 19','Where to push a system'],['Session · Dec 3','Translation'],['Essay · Oct 18','The places between people'],['Field note','Month to month'],['Field note','Say it so they can repeat it']];
 document.getElementById('stream').innerHTML=STREAM.map(function(x,i){return '<li class="sub'+(i?'':' next')+'"><p class="t label" style="grid-column:1">'+x[0]+'</p><h3 class="t serif item ti" style="grid-column:2/-1"><a href="#colloquia">'+x[1]+'</a></h3></li>';}).join('');
+/* ---------- the ecosystem flow ----------
+   Ribbons run from who comes in, through the organizations, to what comes out, and around again. Widths show proportion, not
+   counts. Synodic's run prints blue, Folkmark's red; through Levy they overprint to ink. The ribbons breathe, grains of ink
+   stream along them, and pointing at any name keeps its whole path in focus. */
+var FLOW={E:[
+  ['inst','syn','b',10],['inst','levy','k',5],
+  ['coal','syn','b',7],['coal','folk','r',7],
+  ['vent','folk','r',9],['vent','levy','k',4],
+  ['res','labs','k',13],
+  ['part','labs','k',7],['part','levy','k',3],
+  ['syn','levy','b',17],['folk','levy','r',16],
+  ['levy','work','m',26],['labs','ppl','k',20],
+  ['work','back','g',14],['ppl','back','g',14]
+],A:{},raf:0,run:false,t:0,grains:[],geo:null};
+function flowLayout(){
+  var box=document.getElementById('flow'),svg=document.getElementById('flow-svg');
+  if(!box.getClientRects().length||innerWidth<=720){svg.innerHTML='';FLOW.geo=null;return;}
+  var br=box.getBoundingClientRect(),A={};
+  [].forEach.call(box.querySelectorAll('.fn'),function(e){var r=document.createRange();r.selectNodeContents(e);var rs=r.getClientRects(),L=1e9,R=-1e9,T=1e9,B=-1e9;
+    [].forEach.call(rs,function(q){L=Math.min(L,q.left);R=Math.max(R,q.right);T=Math.min(T,q.top);B=Math.max(B,q.bottom);});
+    A[e.dataset.n]={l:L-br.left-12,r:R-br.left+12,m:(T+B)/2-br.top,el:e};});
+  /* stack the ribbons at each end so they leave and arrive side by side */
+  var outT={},inT={},outU={},inU={};
+  FLOW.E.forEach(function(e){outT[e[0]]=(outT[e[0]]||0)+e[3];inT[e[1]]=(inT[e[1]]||0)+e[3];});
+  var geo=FLOW.E.map(function(e,i){var a=A[e[0]],b=A[e[1]],w=e[3];
+    var o=(outU[e[0]]||0),n=(inU[e[1]]||0);outU[e[0]]=o+w;inU[e[1]]=n+w;
+    var y0=a.m-outT[e[0]]/2+o+w/2,y1=b.m-inT[e[1]]/2+n+w/2;
+    return {i:i,f:e[0],to:e[1],c:e[2],w:w,x0:a.r,y0:y0,x1:b.l,y1:y1,ph:i*1.7};});
+  /* and the way back: from "and then" around under the flow, into the left edge */
+  var bk=A.back,last=A.part,top=A.inst,by=Math.max.apply(null,Object.keys(A).map(function(k){return A[k].m;}))+54;
+  FLOW.loop={x0:bk.r-12,y0:bk.m+18,by:by,x1:top.l+12,y1:last.m+18};
+  FLOW.geo=geo;FLOW.A=A;
+  /* in 3D every ribbon prints as a red and a blue pass, parted by its depth: the flow comes toward you as it moves right */
+  var ST={inst:0,coal:0,vent:0,res:0,part:0,syn:1,folk:1,levy:2,labs:2,work:3,ppl:3,back:4};
+  geo.forEach(function(g){g.z=(ST[g.f]+ST[g.to])/2;});
+  var h='';geo.forEach(function(g){h+=(g.c==='m'||STEREO)?'<path class="rb cr" data-i="'+g.i+'" data-s="-1"/><path class="rb cb" data-i="'+g.i+'" data-s="1"/>':'<path class="rb c'+g.c+'" data-i="'+g.i+'"/>';});
+  h+='<path class="rb cg loop" data-i="loop"/><g id="flow-grains"></g>';
+  svg.innerHTML=h;FLOW.grains=[];flowDraw(0);
+}
+/* one soft band from (x0,y0) to (x1,y1): its width swells slightly mid-run, and it drifts with the breath t */
+function band(g,t,dx){var w=g.w,x0=g.x0+(dx||0),x1=g.x1+(dx||0),y0=g.y0,y1=g.y1,mx=(x0+x1)/2,
+  sw=1+.18*Math.sin(t*.9+g.ph),dy=2.5*Math.sin(t*.6+g.ph);
+  var a=w/2,b=w/2*sw;
+  return 'M'+x0+' '+(y0-a)+'C'+mx+' '+(y0-a+dy)+' '+mx+' '+(y1-b+dy)+' '+x1+' '+(y1-a)+'L'+x1+' '+(y1+a)+'C'+mx+' '+(y1+b+dy)+' '+mx+' '+(y0+a+dy)+' '+x0+' '+(y0+a)+'Z';}
+function loopPath(t){var L=FLOW.loop,w=9,s=2*Math.sin(t*.5);
+  return 'M'+L.x0+' '+L.y0+'C'+(L.x0+60)+' '+(L.y0+40)+' '+(L.x0+40)+' '+(L.by+s)+' '+(L.x0-80)+' '+(L.by+s)
+    +'L'+(L.x1+80)+' '+(L.by+s)+'C'+(L.x1-40)+' '+(L.by+s)+' '+(L.x1-50)+' '+(L.y1+30)+' '+(L.x1-12)+' '+L.y1
+    +'L'+(L.x1-12)+' '+(L.y1-w)+'C'+(L.x1-50-w)+' '+(L.y1+30)+' '+(L.x1-40-w)+' '+(L.by+s-w)+' '+(L.x1+80)+' '+(L.by+s-w)
+    +'L'+(L.x0-80)+' '+(L.by+s-w)+'C'+(L.x0+40-w)+' '+(L.by+s-w)+' '+(L.x0+60-w)+' '+(L.y0+40-w)+' '+L.x0+' '+(L.y0-w)+'Z';}
+function flowDraw(t){
+  var svg=document.getElementById('flow-svg');if(!FLOW.geo)return;
+  [].forEach.call(svg.querySelectorAll('.rb'),function(p){var i=p.dataset.i;
+    if(i==='loop'){p.setAttribute('d',loopPath(t));p.style.opacity=p.classList.contains('on')||!document.getElementById('flow').dataset.f?.28:'';return;}
+    var g=FLOW.geo[+i],s=+(p.dataset.s||0),mis=STEREO?s*(1.5+g.z*2.2):(g.c==='m'?s*1.5*Math.sin(t*.8):0);
+    p.setAttribute('d',band(g,t,mis));p.style.fillOpacity=STEREO?.7:(g.c==='g'?.28:(g.c==='k'?.62:.55));});
+  /* grains: small marks riding the middle of each band */
+  var gg=document.getElementById('flow-grains');if(!gg)return;
+  if(FLOW.run&&Math.random()<.35){var g=FLOW.geo[Math.floor(Math.random()*FLOW.geo.length)];
+    var c=document.createElementNS('http://www.w3.org/2000/svg','circle');c.setAttribute('r',g.c==='g'?1.6:2);
+    c.setAttribute('class','grain c'+(STEREO?(Math.random()<.5?'b':'r'):g.c==='m'?(Math.random()<.5?'b':'r'):g.c==='g'?'g':g.c));gg.appendChild(c);FLOW.grains.push({g:g,s:0,el:c,o:(Math.random()-.5)*g.w*.6});}
+  FLOW.grains=FLOW.grains.filter(function(q){q.s+=.006;if(q.s>=1){q.el.remove();return false;}
+    var u=q.s,g=q.g,mx=(g.x0+g.x1)/2,
+      x=Math.pow(1-u,3)*g.x0+3*Math.pow(1-u,2)*u*mx+3*(1-u)*u*u*mx+u*u*u*g.x1,
+      y=Math.pow(1-u,3)*g.y0+3*Math.pow(1-u,2)*u*g.y0+3*(1-u)*u*u*g.y1+u*u*u*g.y1;
+    q.el.setAttribute('cx',x.toFixed(1));q.el.setAttribute('cy',(y+q.o*(1-Math.abs(.5-u))).toFixed(1));q.el.style.opacity=Math.min(1,Math.min(u,1-u)*8)*.8;return true;});
+}
+function flowStep(now){if(!FLOW.run)return;FLOW.t=now/1000;flowDraw(FLOW.t);FLOW.raf=requestAnimationFrame(flowStep);}
+(function(){
+  var box=document.getElementById('flow');
+  function go(on){if(on&&!reduce){if(!FLOW.run){FLOW.run=true;FLOW.raf=requestAnimationFrame(flowStep);}}else{FLOW.run=false;cancelAnimationFrame(FLOW.raf);}}
+  if('IntersectionObserver' in window)new IntersectionObserver(function(es){es.forEach(function(e){go(e.isIntersecting);});},{threshold:.15}).observe(box);
+  /* focus: everything upstream and downstream of the name you point at */
+  function path(n){var on={},q=[n],k;on[n]=1;
+    while((k=q.pop())){FLOW.E.forEach(function(e){if(e[0]===k&&!on[e[1]]){on[e[1]]=1;q.push(e[1]);}});}
+    q=[n];while((k=q.pop())){FLOW.E.forEach(function(e){if(e[1]===k&&!on[e[0]]){on[e[0]]=1;q.push(e[0]);}});}
+    return on;}
+  [].forEach.call(box.querySelectorAll('.fn'),function(el){
+    el.addEventListener('mouseenter',function(){var on=path(el.dataset.n);box.dataset.f=el.dataset.n;
+      [].forEach.call(box.querySelectorAll('.fn'),function(x){x.classList.toggle('on',!!on[x.dataset.n]);});
+      [].forEach.call(box.querySelectorAll('.rb'),function(p){var i=p.dataset.i;if(i==='loop'){p.classList.toggle('on',!!on.back);return;}var g=FLOW.geo[+i];p.classList.toggle('on',!!(on[g.f]&&on[g.to]));});});
+    el.addEventListener('mouseleave',function(){delete box.dataset.f;[].forEach.call(box.querySelectorAll('.on'),function(x){x.classList.remove('on');});});
+  });
+})();
 /* ---------- the ecosystem as a system ---------- */
 var SYS={orgs:[['01 · See','Synodic Studio','Helps groups see how they are connected',''],['02 · Tell','Folkmark Creative','Helps them tell a true story','https://folkmark.com'],['03 · Build','Levy Strategic Design','Builds the structure to carry it','https://withlevy.com'],['04 · Together','The Upskilling Labs','Keeps people learning together','']],on:[true,true,true,true]};
 document.getElementById('sys-orgs').innerHTML=SYS.orgs.map(function(o,i){return '<li class="sub"><p class="t label" style="grid-column:1">'+o[0]+'</p><h3 class="t serif item ti" style="grid-column:2/4">'+(o[3]?'<a href="'+o[3]+'">'+o[1]+'</a>':o[1])+'</h3><p class="t sans grey sys-role" style="grid-column:4">'+o[2]+'</p><button class="sys-sw t label" type="button" data-i="'+i+'" aria-pressed="true" style="grid-column:5" aria-label="'+o[1]+' on or off"><span class="o o1">On</span><span class="o o0">Off</span></button></li>';}).join('');
@@ -984,7 +1120,7 @@ function snap(){
   for(var k=0;k<2;k++){for(var p=0;p<3;p++)snapPass(els);pins();}
   for(var p2=0;p2<2;p2++)snapPass(els);
   for(var r2=0;r2<2;r2++){rowAlign();snapPass(els);snapPass(els);}
-  placeCards();figScroll();rack();hmCur=-1;hmRender();markNav();glasses();if(window.sysLayout)sysLayout();
+  placeCards();figScroll();rack();hmCur=-1;hmRender();markNav();glasses();if(window.sysLayout)sysLayout();flowLayout();
 }
 var queued;function later(){cancelAnimationFrame(queued);queued=requestAnimationFrame(snap);}
 var lastW=innerWidth,lastH=innerHeight;
@@ -998,7 +1134,7 @@ var stereo=document.getElementById('stereo');
 function glasses(){var g=stereo.querySelector('.d3-g'),w=stereo.querySelector(STEREO?'.d3-on':'.d3-off'),br=stereo.getBoundingClientRect(),wr=w.getBoundingClientRect(),
   b=probe(stereo.querySelector('.d3-t')).getBoundingClientRect().top;
   g.style.transform='translate('+(wr.left+wr.width/2-br.left-15).toFixed(1)+'px,'+(b-br.top-9-6-12).toFixed(1)+'px)';}
-function setStereo(on){STEREO=on;document.body.classList.toggle('stereo',on);stereo.setAttribute('aria-pressed',on);drawFig(figP);
+function setStereo(on){STEREO=on;document.body.classList.toggle('stereo',on);stereo.setAttribute('aria-pressed',on);drawFig(figP);flowLayout();
   stereo.classList.add('moving');clearTimeout(stereo._t);stereo._t=setTimeout(function(){stereo.classList.remove('moving');},450);glasses();try{localStorage.setItem('overprint-3d',on?'1':'0');}catch(e){}}
 stereo.addEventListener('click',function(){setStereo(!STEREO);});
 try{if(localStorage.getItem('overprint-3d')==='1')setStereo(true);}catch(e){}
