@@ -592,20 +592,12 @@ html:not(.compact) .eh{margin-left:calc(-1 * (var(--rail) + var(--gap)))}html:no
 .eh.in .eh-w::after{transform:none}
 body.stereo .eh.in .eh-w{transform:translateX(-.02em)}
 body.stereo .eh.in .eh-w::after{transform:translateX(.04em)}
-/* the room: words people might bring, out of focus until the headline is printed, then sharpening one by one */
-.eh-room{position:absolute;inset:81px var(--m) 45% var(--m);pointer-events:none}
-.eh-room span{position:absolute;left:var(--rx);top:var(--ry);color:var(--grey);white-space:nowrap;opacity:0;filter:blur(8px);
-  transition:opacity .9s,filter 1.4s cubic-bezier(.2,.7,.2,1);transition-delay:calc(1.4s + var(--d) * 260ms)}
-.eh-plate.in .eh-room span{opacity:1;filter:blur(1.5px)}
-.eh-plate.in .eh-room span:nth-child(3n+1){filter:none;color:var(--ink)}
 @media (max-width:720px){
   .eh{margin-left:0;white-space:normal}
   .eh-l{display:block;width:max-content}.eh-l+.eh-l{margin-left:0}
-  .eh-room{inset:81px var(--m) 58% var(--m)}
-  .eh-room span:nth-child(n+7){display:none}
   .eh-sub{grid-column:1/-1}
 }
-@media (prefers-reduced-motion:reduce){.eh-w,.eh-w::after,.eh-room span{transition:none!important}}
+@media (prefers-reduced-motion:reduce){.eh-w,.eh-w::after{transition:none!important}}
 </style></head><body>
 
 <svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
@@ -686,18 +678,8 @@ body.stereo .eh.in .eh-w::after{transform:translateX(.04em)}
 
 <!-- Colloquia hero. AN ESSAY CLUB FOR BUILDERS in the big Inter of the home page's idea, printed in two passes. The red pass
      comes in from the left and the blue from the right, out of focus, like two co-hosts starting from different places; they meet
-     in register and multiply to ink. Around it, words from the room come into focus one by one. -->
+     in register and multiply to ink. -->
 <section class="plate g eh-plate" id="essay" data-view="colloquia" aria-labelledby="h-essay">
-  <div class="eh-room" aria-hidden="true">
-    <span class="t sans" style="--rx:8%;--ry:14%;--d:0">motivation</span>
-    <span class="t sans" style="--rx:62%;--ry:9%;--d:1">who decides?</span>
-    <span class="t sans" style="--rx:34%;--ry:31%;--d:2">trust</span>
-    <span class="t sans" style="--rx:74%;--ry:36%;--d:3">incentives</span>
-    <span class="t sans" style="--rx:14%;--ry:48%;--d:4">attention</span>
-    <span class="t sans" style="--rx:52%;--ry:56%;--d:5">the long run</span>
-    <span class="t sans" style="--rx:84%;--ry:66%;--d:6">feedback</span>
-    <span class="t sans" style="--rx:26%;--ry:72%;--d:7">competence</span>
-  </div>
   <div class="low sub">
     <p class="t label eh-lab" style="--c:1">Builders’ Colloquia · Washington, DC</p>
     <h1 class="eh" id="h-essay" aria-label="An essay club for builders">
