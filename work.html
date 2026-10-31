@@ -568,7 +568,8 @@ body.show-grid .ov{display:block}
 
 
 
-/* ---------- colloquia hero: AN ESSAY CLUB for BUILDERS ---------- */
+
+/* ---------- colloquia hero: AN ESSAY CLUB FOR BUILDERS ---------- */
 .eh-plate{position:relative;overflow:hidden}
 .eh-plate>.low{row-gap:18px}
 .eh-lab{grid-column:1/-1}
@@ -578,8 +579,6 @@ body.show-grid .ov{display:block}
 .eh-w{display:inline-block;position:relative;font-family:var(--sans);font-weight:700;text-transform:uppercase;letter-spacing:-.045em;
   color:var(--red);mix-blend-mode:multiply;line-height:.92}
 .eh-w::after{content:attr(data-t);position:absolute;left:0;top:0;color:var(--blue);mix-blend-mode:multiply;pointer-events:none}
-/* "for" is the hinge: Instrument Serif, italic, lower case, about half the height of the capitals, sitting on their baseline */
-.eh-for{font-family:var(--serif);font-weight:400;font-style:italic;text-transform:none;letter-spacing:0;font-size:.5em;margin-inline:.12em .04em}
 .eh-sub{grid-column:var(--c)/span 2}
 /* before: the two passes apart and soft. .in brings them into register. --ep (scroll) pulls them apart again as the line leaves. */
 @property --ep{syntax:'<number>';inherits:true;initial-value:0}
@@ -683,7 +682,7 @@ body.stereo .eh.in .eh-w::after{transform:translateX(.04em)}
   </div>
 </section>
 
-<!-- Colloquia hero. AN ESSAY CLUB for BUILDERS in the big Inter of the home page's idea, printed in two passes. The red pass
+<!-- Colloquia hero. AN ESSAY CLUB FOR BUILDERS in the big Inter of the home page's idea, printed in two passes. The red pass
      comes in from the left and the blue from the right, out of focus, like two co-hosts starting from different places; they meet
      in register and multiply to ink. Around it, words from the room come into focus one by one. -->
 <section class="plate g eh-plate" id="essay" data-view="colloquia" hidden aria-labelledby="h-essay">
@@ -701,7 +700,7 @@ body.stereo .eh.in .eh-w::after{transform:translateX(.04em)}
     <p class="t label eh-lab" style="--c:1">Builders’ Colloquia · Washington, DC</p>
     <h1 class="eh" id="h-essay" aria-label="An essay club for builders">
       <span class="eh-l"><span class="eh-w" data-t="An" aria-hidden="true">An</span> <span class="eh-w" data-t="essay" aria-hidden="true">essay</span></span>
-      <span class="eh-l"><span class="eh-w" data-t="club" aria-hidden="true">club</span> <span class="eh-w eh-for" data-t="for" aria-hidden="true">for</span></span>
+      <span class="eh-l"><span class="eh-w" data-t="club" aria-hidden="true">club</span> <span class="eh-w" data-t="for" aria-hidden="true">for</span></span>
       <span class="eh-l"><span class="eh-w" data-t="builders" aria-hidden="true">builders</span></span>
     </h1>
     <p class="t sans measure eh-sub" style="--c:1">A few essays, read ahead. Two co-hosts open the question, then the whole room takes it up.</p>
@@ -1472,7 +1471,7 @@ addEventListener('keydown',function(e){if((e.key==='g'||e.key==='G')&&!/INPUT|TE
   });
   });
 })();
-/* colloquia hero: fit AN ESSAY CLUB for BUILDERS to the width (one line on wide screens, three on phones), print it once
+/* colloquia hero: fit AN ESSAY CLUB FOR BUILDERS to the width (one line on wide screens, three on phones), print it once
    the fonts are in, and let it slip out of register as it scrolls away */
 (function(){
   var h=document.getElementById('h-essay');if(!h)return;var sec=document.getElementById('essay');
