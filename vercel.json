@@ -2,7 +2,20 @@
   "cleanUrls": true,
   "trailingSlash": false,
   "redirects": [
-    { "source": "/contact", "destination": "/#contact", "permanent": false },
-    { "source": "/subscribe", "destination": "/#subscribe", "permanent": false }
+    {
+      "source": "/thesis",
+      "destination": "/",
+      "permanent": false
+    },
+    {
+      "source": "/contact",
+      "destination": "/#contact",
+      "permanent": false
+    },
+    {
+      "source": "/subscribe",
+      "destination": "/#subscribe",
+      "permanent": false
+    }
   ]
 }

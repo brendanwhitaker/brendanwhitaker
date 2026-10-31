@@ -109,8 +109,10 @@ nav{display:flex;gap:0 27px;flex-wrap:wrap;align-items:flex-start}
 /* each place prints in two passes; hovering one puts the others out of focus, their passes drifting apart */
 .h-a::before,.h-a::after{content:attr(data-t);position:absolute;left:0;top:0;mix-blend-mode:multiply;transition:transform .4s cubic-bezier(.2,.7,.2,1),filter .4s}
 .h-a::before{color:var(--red)}.h-a::after{color:var(--blue)}
-.h-list:hover .h-a:not(:hover)::before,.h-list:focus-within .h-a:not(:focus-visible):not(:hover)::before{transform:translateX(-2.5px);filter:blur(2px)}
-.h-list:hover .h-a:not(:hover)::after,.h-list:focus-within .h-a:not(:focus-visible):not(:hover)::after{transform:translateX(2.5px);filter:blur(2px)}
+@media (hover:hover){.h-list:hover .h-a:not(:hover)::before{transform:translateX(-2.5px);filter:blur(2px)}.h-list:hover .h-a:not(:hover)::after{transform:translateX(2.5px);filter:blur(2px)}}
+/* by keyboard: only while a place has visible focus, so a click never leaves the menu out of focus */
+.h-list:has(.h-a:focus-visible) .h-a:not(:focus-visible)::before{transform:translateX(-2.5px);filter:blur(2px)}
+.h-list:has(.h-a:focus-visible) .h-a:not(:focus-visible)::after{transform:translateX(2.5px);filter:blur(2px)}
 .h-a[aria-current="page"]{transform:translateX(36px)}
 .h-arw{position:absolute;left:0;top:0;width:27px;height:18px;color:var(--ink);opacity:0;transition:transform .55s cubic-bezier(.7,0,.2,1),opacity .3s}
 .h-nav.on .h-arw{opacity:1}.h-loc{grid-column:4/6;white-space:nowrap}
@@ -269,7 +271,7 @@ body.stereo .pop-waffle .sr{transform:translateX(-24px)}body.stereo .pop-waffle 
 }
 @media (prefers-reduced-motion:reduce){.pop[open] .pop-waffle use,.pop[open] .pop-main,.pop[open] .pop-aux,.pop[open] .pp,.pop[open]::backdrop{animation:none}}
 
-/* views: the home page is one screen; everything else is its own page, chosen by the address (#thesis, #colloquia ...) */
+/* views: the home page is one screen; everything else is its own page, chosen by the address (#colloquia, #work ...) */
 [data-view][hidden]{display:none!important}
 
 /* home, after huyml.co's hero: it doesn't scroll. Each scroll gesture turns to the next thing I'm building. The cards
@@ -619,7 +621,7 @@ body.stereo .eh.in .eh-w::after{transform:translateX(.04em)}
 <div class="page">
 <header class="hd g">
   <a class="mark" data-base="bottom" href="/" aria-label="Brendan Whitaker, home"><svg aria-hidden="true"><use href="#waffle"/></svg></a>
-  <nav class="h-nav" aria-label="Main"><p class="t label h-nl">Menu</p><p class="t serif h-list"><a class="h-a" data-t="Ecosystem" href="/">Ecosystem</a><br><a class="h-a" data-t="Thesis" href="/thesis">Thesis</a><br><a class="h-a" data-t="Colloquia" href="/colloquia">Colloquia</a><br><a class="h-a" data-t="Work" href="/work">Work</a><br><a class="h-a" data-t="Contact" href="/#contact" data-pop="contact">Contact</a></p><svg class="h-arw" viewBox="0 0 27 18" aria-hidden="true"><path d="M1 9h24M20 4l5 5-5 5" fill="none" stroke="currentColor" stroke-width="1.25"/></svg></nav>
+  <nav class="h-nav" aria-label="Main"><p class="t label h-nl">Menu</p><p class="t serif h-list"><a class="h-a" data-t="Ecosystem" href="/">Ecosystem</a><br><a class="h-a" data-t="Colloquia" href="/colloquia">Colloquia</a><br><a class="h-a" data-t="Work" href="/work">Work</a><br><a class="h-a" data-t="Contact" href="/#contact" data-pop="contact">Contact</a></p><svg class="h-arw" viewBox="0 0 27 18" aria-hidden="true"><path d="M1 9h24M20 4l5 5-5 5" fill="none" stroke="currentColor" stroke-width="1.25"/></svg></nav>
   <button class="d3" id="stereo" type="button" aria-pressed="false" aria-label="3D mode"><span class="t label d3-t">3D<span class="d3-o d3-off">Off</span><span class="d3-o d3-on">On</span></span><svg class="d3-g" viewBox="0 0 30 12" aria-hidden="true"><circle class="d3-l d3-lr" cx="7" cy="6" r="5"/><circle class="d3-l d3-lb" cx="23" cy="6" r="5"/><path class="d3-f" d="M2 6a5 5 0 1 0 10 0a5 5 0 1 0-10 0M18 6a5 5 0 1 0 10 0a5 5 0 1 0-10 0M12 6h6"/></svg></button>
   <p class="t label h-loc" id="time">Washington, DC</p>
   <div class="h-end" data-cells><a class="t sans h-sub" href="/#subscribe" data-pop="subscribe">Subscribe</a><button class="menu" id="menubtn" type="button" aria-expanded="false" aria-controls="takeover"><span class="t label mb-l" id="mb-l">Menu</span><span class="mb-i" data-base="x" aria-hidden="true"><span class="bar b1"></span><span class="bar b2"></span></span></button></div>
@@ -677,21 +679,6 @@ body.stereo .eh.in .eh-w::after{transform:translateX(.04em)}
     <div class="cap" style="--c:1">
       <p class="t sans measure">Occasional updates on what I’m building, reading, and writing. A few emails a season, and you can leave any time.</p>
       <div class="actions"><a class="btn" href="/#subscribe" data-pop="subscribe"><span class="tab"><svg aria-hidden="true"><use href="#arrow"/></svg></span><span class="bl t sans">Subscribe</span></a></div>
-    </div>
-  </div>
-</section>
-
-<!-- Thesis · 1. The loop high on the centre columns, the statement low. One object, one statement. -->
-<section class="plate g" id="thesis" data-view="thesis" hidden aria-labelledby="h-thesis-wip">
-  <div class="low sub">
-    <h2 class="st sub" id="h-thesis-wip">
-      <span class="t label" style="--c:1">Thesis</span>
-      <span class="t serif ln" style="--c:1">Build what matters,</span>
-      <span class="t serif ln step" style="--c:2" id="thesis-wip-last"><svg class="hk" aria-hidden="true"><use href="#hook"/></svg>in progress.</span>
-    </h2>
-    <div class="cap" style="--c:1">
-      <p class="t sans measure">I’m writing down how I think communities get stronger: people build, see, tell, and build again, together. The full version is on its way; subscribe and you’ll get it when it’s ready.</p>
-      <div class="actions"><a class="btn" href="/#subscribe" data-pop="subscribe"><span class="tab"><svg aria-hidden="true"><use href="#arrow"/></svg></span><span class="bl t sans">Subscribe for updates</span></a></div>
     </div>
   </div>
 </section>
@@ -862,10 +849,9 @@ body.stereo .eh.in .eh-w::after{transform:translateX(.04em)}
     <nav class="g" aria-label="Main">
       <ol class="sub tk-list">
         <li class="sub"><p class="t label tk-n">01</p><a class="t serif tk-l" style="--i:0" data-t="Ecosystem" href="/">Ecosystem</a></li>
-        <li class="sub"><p class="t label tk-n">02</p><a class="t serif tk-l" style="--i:1" data-t="Thesis" href="/thesis">Thesis</a></li>
-        <li class="sub"><p class="t label tk-n">03</p><a class="t serif tk-l" style="--i:2" data-t="Colloquia" href="/colloquia">Colloquia</a></li>
-        <li class="sub"><p class="t label tk-n">04</p><a class="t serif tk-l" style="--i:3" data-t="Work" href="/work">Work</a></li>
-        <li class="sub"><p class="t label tk-n">05</p><a class="t serif tk-l" style="--i:4" data-t="Contact" href="/#contact" data-pop="contact">Contact</a></li>
+        <li class="sub"><p class="t label tk-n">02</p><a class="t serif tk-l" style="--i:1" data-t="Colloquia" href="/colloquia">Colloquia</a></li>
+        <li class="sub"><p class="t label tk-n">03</p><a class="t serif tk-l" style="--i:2" data-t="Work" href="/work">Work</a></li>
+        <li class="sub"><p class="t label tk-n">04</p><a class="t serif tk-l" style="--i:3" data-t="Contact" href="/#contact" data-pop="contact">Contact</a></li>
       </ol>
     </nav>
     <div class="g tk-foot">
@@ -908,8 +894,8 @@ var WRITING=[];
 document.getElementById('writing').innerHTML=WRITING.map(function(x){return '<li class="sub"><p class="t label" style="grid-column:1">'+x[0]+'</p><h3 class="t serif item ti" style="grid-column:2/-1"><a href="/#essays">'+x[1]+'</a></h3></li>';}).join('');
 document.getElementById('askform').addEventListener('submit',function(e){e.preventDefault();document.getElementById('asknote').textContent='';this.reset();});
 /* ---------- addresses ---------- */
-/* on the live site every page has its own address (/thesis, /levy); in the study they are #links. */
-var VIEWS=['home','thesis','colloquia','work','labs','synodic','levy','folkmark'],ORGV=['labs','synodic','levy','folkmark'];
+/* on the live site every page has its own address (/colloquia, /levy); in the study they are #links. */
+var VIEWS=['home','colloquia','work','labs','synodic','levy','folkmark'],ORGV=['labs','synodic','levy','folkmark'];
 var PATHS=document.documentElement.hasAttribute('data-paths');
 function here(){if(PATHS){var p=location.pathname.replace(/^\/+|\/+$/g,'').replace(/\.html$/,'');if(p&&p!=='index')return p;}return location.hash.slice(1);}
 function hrefOf(id){return PATHS?(id==='home'?'/':(VIEWS.indexOf(id)>=0?'/'+id:'/#'+id)):'#'+id;}
@@ -1169,7 +1155,7 @@ function markNav(){
     arw.style.transform='translateY('+(b-xh/2-9).toFixed(1)+'px)';}
 }
 /* moving between pages, on the overhead projector */
-var NAMES={labs:'The Labs',synodic:'Synodic',levy:'Levy',folkmark:'Folkmark',home:'Ecosystem',thesis:'Thesis',work:'Work',colloquia:'Colloquia',reading:'Colloquia',join:'Subscribe',ecosystem:'Ecosystem',idea:'Build what matters'};
+var NAMES={labs:'The Labs',synodic:'Synodic',levy:'Levy',folkmark:'Folkmark',home:'Ecosystem',work:'Work',colloquia:'Colloquia',reading:'Colloquia',join:'Subscribe',ecosystem:'Ecosystem',idea:'Build what matters'};
 function viewOf(h){var el=h?document.getElementById(h):null;return VIEWS.indexOf(h)>=0?h:(el&&el.closest('[data-view]')?el.closest('[data-view]').dataset.view:'home');}
 var curtain=document.createElement('div');curtain.className='curtain';curtain.setAttribute('aria-hidden','true');
 curtain.innerHTML='<div class="cs cs-r"><p class="t serif ct-t"></p></div><div class="cs cs-b"><p class="t serif ct-t"></p></div>';document.body.appendChild(curtain);
