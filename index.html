@@ -240,15 +240,11 @@ body.stereo .pp-r{transform:translateX(-3px)}body.stereo .pp-b{transform:transla
    platform and the pillars fall away behind. With or without glasses the picture turns a little as you move. */
 .pp-gl{position:absolute;inset:0;width:100%;height:100%;display:none}
 .pop-photo.gl .pp-gl{display:block}.pop-photo.gl .pp{display:none}
-/* the waffle, stamped: inked on the card itself, hanging off its corner. Two passes, red and blue, pressed a hair out of
-   register, so where they overlap they print ink and the edges show a fringe; the ink is broken up like a rubber stamp's.
-   It lands after the card, with a press. */
+/* the waffle, stamped on the card itself, hanging off its corner: two passes, red and blue, a hair out of register */
 .stamp{position:absolute;right:-36px;top:-45px;width:153px;height:153px;z-index:3;pointer-events:none;transform:rotate(-9deg);overflow:visible}
 .stamp use{mix-blend-mode:multiply}
 .stamp .sr{fill:var(--red);transform:translate(-14px,8px)}.stamp .sb{fill:var(--blue);transform:translate(14px,-6px)}
 body.stereo .stamp .sr{transform:translate(-26px,8px)}body.stereo .stamp .sb{transform:translate(26px,-6px)}
-.pop[open] .stamp{animation:press .5s cubic-bezier(.3,1.4,.4,1) .45s both}
-@keyframes press{0%{opacity:0;transform:rotate(-14deg) scale(1.35);filter:blur(5px)}60%{opacity:1;filter:none}100%{opacity:1;transform:rotate(-9deg) scale(1)}}
 /* landing */
 .pop[open] .pop-main{animation:pland .6s cubic-bezier(.2,.7,.2,1) both}
 .pop[open] .pop-aux{animation:paux .7s cubic-bezier(.2,.7,.2,1) .08s both}
@@ -266,7 +262,7 @@ body.stereo .stamp .sr{transform:translate(-26px,8px)}body.stereo .stamp .sb{tra
   .pop .j-form{grid-template-columns:1fr}
   .pop-stack{margin-block:126px 27px}
 }
-@media (prefers-reduced-motion:reduce){.pop[open] .pop-main,.pop[open] .pop-aux,.pop[open] .pp,.pop[open] .stamp,.pop[open]::backdrop{animation:none}}
+@media (prefers-reduced-motion:reduce){.pop[open] .pop-main,.pop[open] .pop-aux,.pop[open] .pp,.pop[open]::backdrop{animation:none}}
 
 /* views: the home page is one screen; everything else is its own page, chosen by the address (#thesis, #colloquia ...) */
 [data-view][hidden]{display:none!important}
@@ -750,7 +746,7 @@ body.show-grid .ov{display:block}
      falls out of focus. After huyml.co's "Come say hi": a small stack of cards, a little askew, closed from the corner. -->
 <dialog class="pop" id="pop-subscribe" aria-labelledby="ps-h">
   <div class="pop-stack">
-    <div class="pop-card pop-main"><svg class="stamp" viewBox="16 16 1168 1168" aria-hidden="true"><defs><filter id="stamp-ink1" x="-10%" y="-10%" width="120%" height="120%"><feTurbulence type="fractalNoise" baseFrequency=".035" numOctaves="3" seed="11" result="n"/><feColorMatrix in="n" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 -16 0 0 0 11.8" result="m"/><feComposite in="SourceGraphic" in2="m" operator="in"/></filter><filter id="stamp-ink2" x="-10%" y="-10%" width="120%" height="120%"><feTurbulence type="fractalNoise" baseFrequency=".035" numOctaves="3" seed="29" result="n"/><feColorMatrix in="n" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 -16 0 0 0 11.8" result="m"/><feComposite in="SourceGraphic" in2="m" operator="in"/></filter></defs><use class="sb" href="#waffle" x="16" y="16" width="1168" height="1168" filter="url(#stamp-ink2)"/><use class="sr" href="#waffle" x="16" y="16" width="1168" height="1168" filter="url(#stamp-ink1)"/></svg><div class="pop-body">
+    <div class="pop-card pop-main"><svg class="stamp" viewBox="16 16 1168 1168" aria-hidden="true"><use class="sb" href="#waffle" x="16" y="16" width="1168" height="1168"/><use class="sr" href="#waffle" x="16" y="16" width="1168" height="1168"/></svg><div class="pop-body">
       <h2 class="st pop-st" id="ps-h">
         <span class="t serif ln">Follow along</span>
         <span class="t serif ln step"><svg class="hk" aria-hidden="true"><use href="#hook"/></svg>as it grows.</span>
