@@ -3,13 +3,13 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="description" content="Evenings for builders in DC, in progress. Subscribe to hear when seats open.">
+<meta name="description" content="A reading and conversation series for builders in DC. Join the waitlist for a seat.">
 <link rel="canonical" href="https://www.brendanwhitaker.com/colloquia">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://www.brendanwhitaker.com/colloquia">
 <meta property="og:site_name" content="Brendan Whitaker">
 <meta property="og:title" content="Builders’ Colloquia — Brendan Whitaker">
-<meta property="og:description" content="Evenings for builders in DC, in progress. Subscribe to hear when seats open.">
+<meta property="og:description" content="A reading and conversation series for builders in DC. Join the waitlist for a seat.">
 <meta property="og:image" content="https://www.brendanwhitaker.com/assets/images/og.jpg">
 <meta property="og:image:width" content="1200"><meta property="og:image:height" content="630">
 <meta property="og:image:alt" content="Architecting an ecosystem to help folks: BUILD WHAT MATTERS, printed in red and blue.">
@@ -642,17 +642,29 @@ body.show-grid .ov{display:block}
   </div>
 </section>
 
-<!-- Colloquia. One stream: the sessions and the essays written from them. The stream high, the statement low and right. -->
+<!-- Colloquia. The landing page: what an evening is, as a short table high on the right; the statement and the waitlist low. -->
 <section class="plate g" id="colloquia" data-view="colloquia" aria-labelledby="h-colloquia">
+  <div class="top sub">
+    <dl class="facts" aria-label="What an evening is">
+      <dt class="t label">Where</dt><dd class="t sans">Washington, DC, in person</dd>
+      <dt class="t label">When</dt><dd class="t sans">Evenings, every other week</dd>
+      <dt class="t label">Before</dt><dd class="t sans">Two or three short readings, sent ahead</dd>
+      <dt class="t label">In the room</dt><dd class="t sans">Two co-hosts open the question, then the whole room takes it up</dd>
+      <dt class="t label">Who</dt><dd class="t sans">Builders of every kind, new and seasoned</dd>
+    </dl>
+  </div>
   <div class="low sub">
     <h2 class="st sub" id="h-colloquia">
       <span class="t label" style="--c:1">Builders’ Colloquia</span>
       <span class="t serif ln" style="--c:1">Evenings for builders,</span>
-      <span class="t serif ln step" style="--c:2" id="colloquia-last"><svg class="hk" aria-hidden="true"><use href="#hook"/></svg>in progress.</span>
+      <span class="t serif ln step" style="--c:2" id="colloquia-last"><svg class="hk" aria-hidden="true"><use href="#hook"/></svg>in DC.</span>
     </h2>
     <div class="cap" style="--c:1">
-      <p class="t sans measure">A small room in DC, a few readings sent ahead, and a co-host to start the argument. No slides, and no one is quoted after. The first season is being planned; subscribe and you’ll hear when seats open.</p>
-      <div class="actions"><a class="btn" href="/#subscribe" data-pop="subscribe"><span class="tab"><svg aria-hidden="true"><use href="#arrow"/></svg></span><span class="bl t sans">Subscribe for updates</span></a></div>
+      <p class="t sans measure">Each evening takes up one big question about how people and systems work: what makes people want to do something, how far ahead anyone can really see, who gains when things stay stuck. You don’t need to know the ideas already. Bring a question, or something you’ve seen in your own work.</p>
+      <p class="t sans measure">No slides, and nothing said in the room is quoted by name. The first season is being planned. Join the waitlist and I’ll write when seats open.</p>
+      <form id="wait" class="a-form"><label class="vh" for="wait-name">Name</label><input id="wait-name" type="text" required maxlength="120" placeholder="Your name" autocomplete="name"><label class="vh" for="wait-email">Email</label><input id="wait-email" type="email" required placeholder="you@example.com" autocomplete="email"><button class="btn" type="submit"><span class="tab"><svg aria-hidden="true"><use href="#arrow"/></svg></span><span class="bl t sans">Join the waitlist</span></button></form>
+      <p class="t sans measure" id="waitnote" aria-live="polite">I’ll only use this to invite you to sessions, and never share it.</p>
+      <div class="actions"><a class="t sans" href="/#subscribe" data-pop="subscribe">Or subscribe for occasional updates</a></div>
     </div>
   </div>
 </section>
@@ -1392,6 +1404,26 @@ addEventListener('keydown',function(e){if((e.key==='g'||e.key==='G')&&!/INPUT|TE
     .catch(function(){note.textContent='Something went wrong on my end. Try again, or write to hello@brendanwhitaker.com.';})
     .then(function(){btn.disabled=false;});
   });
+  });
+})();
+/* waitlist: a name and an address for a seat at the colloquia, into its own list (Supabase), separate from the
+   subscribers. Insert-only with the public key; joining twice is treated as success. */
+(function(){
+  var form=document.getElementById('wait');if(!form)return;
+  var SB='https://cnihjooemzcanelzzvkt.supabase.co/rest/v1/colloquia_waitlist',KEY='sb_publishable_RWxNKLL_RMMGyzFHYdpI-g_kUSk0nSP';
+  var note=document.getElementById('waitnote'),btn=form.querySelector('button');
+  form.addEventListener('submit',function(e){e.preventDefault();
+    var name=document.getElementById('wait-name').value.trim(),email=document.getElementById('wait-email').value.trim();
+    if(!name||!email)return;
+    btn.disabled=true;note.textContent='Adding you…';
+    fetch(SB,{method:'POST',headers:{'apikey':KEY,'Content-Type':'application/json','Prefer':'return=minimal'},
+      body:JSON.stringify({name:name.slice(0,120),email:email,source:'colloquia'})})
+    .then(function(r){
+      if(r.ok||r.status===409){note.textContent='You’re on the waitlist. I’ll write when seats open.';form.reset();}
+      else if(r.status===400){note.textContent='That doesn’t look quite right. Check your name and address and try again?';}
+      else throw 0;})
+    .catch(function(){note.textContent='Something went wrong on my end. Try again, or write to hello@brendanwhitaker.com.';})
+    .then(function(){btn.disabled=false;});
   });
 })();
 function tick(){try{var s=new Intl.DateTimeFormat('en-US',{hour:'numeric',minute:'2-digit',timeZone:'America/New_York'}).format(new Date());setText('time','Washington, DC · '+s);setText('tk-time',s);setText('pop-time','Washington, DC · '+s);}catch(e){}}
