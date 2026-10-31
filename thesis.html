@@ -570,7 +570,7 @@ body.show-grid .ov{display:block}
 
 
 /* ---------- colloquia hero: AN ESSAY CLUB FOR BUILDERS ---------- */
-.eh-plate{position:relative;overflow:hidden}
+.eh-plate{position:relative}
 .eh-plate>.low{row-gap:18px}
 .eh-lab{grid-column:1/-1}
 .eh{grid-column:1/-1;margin:0;font-weight:inherit;white-space:nowrap;line-height:1;--fs:96px;font-size:var(--fs)}
@@ -581,7 +581,7 @@ body.show-grid .ov{display:block}
 .eh-w::after{content:attr(data-t);position:absolute;left:0;top:0;color:var(--blue);mix-blend-mode:multiply;pointer-events:none}
 .eh-sub{grid-column:var(--c)/span 2}
 /* like BUILD WHAT MATTERS on the home page: the big line runs the full width of the page, under the rail */
-html:not(.compact) .eh{margin-left:calc(-1 * (var(--rail) + var(--gap)))}html:not(.compact) .eh-plate{overflow:visible}
+html:not(.compact) .eh{margin-left:calc(-1 * (var(--rail) + var(--gap)))}
 /* before: the two passes apart and soft. .in brings them into register. --ep (scroll) pulls them apart again as the line leaves. */
 @property --ep{syntax:'<number>';inherits:true;initial-value:0}
 .eh{--ep:0;filter:blur(calc(var(--ep) * var(--ep) * 14px))}
