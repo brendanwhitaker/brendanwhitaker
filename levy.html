@@ -240,17 +240,15 @@ body.stereo .pp-r{transform:translateX(-3px)}body.stereo .pp-b{transform:transla
    platform and the pillars fall away behind. With or without glasses the picture turns a little as you move. */
 .pp-gl{position:absolute;inset:0;width:100%;height:100%;display:none}
 .pop-photo.gl .pp-gl{display:block}.pop-photo.gl .pp{display:none}
-/* the waffle, printed the way it is in the intro: woven in strips, blue across then red down, the passes sliding into register */
-.pop-mark{--ar:-72px;--ov:99px;--rot:4deg;width:216px;height:216px}
-.pw{position:absolute;left:50%;top:calc(50% - 18px);width:90px;height:90px;margin:-45px 0 0 -45px;overflow:visible}
-.pw .pb{fill:var(--blue);mix-blend-mode:multiply}.pw .pr{fill:var(--red);mix-blend-mode:multiply}
-.pw .sh{transform-box:fill-box;transform-origin:0 50%}.pw .sv{transform-box:fill-box;transform-origin:50% 0}
-.pop[open] .pw .pb{animation:pb 1.25s cubic-bezier(.3,.6,.2,1) .15s both}
-.pop[open] .pw .pr{animation:pr 1.25s cubic-bezier(.3,.6,.2,1) .15s both}
-.pop[open] .pw .sh{animation:th0 .34s cubic-bezier(.5,0,.2,1) both;animation-delay:calc(.15s + var(--i) * 50ms)}
-.pop[open] .pw .sv{animation:tv0 .34s cubic-bezier(.5,0,.2,1) both;animation-delay:calc(.39s + var(--i) * 50ms)}
-@keyframes th0{from{transform:scaleX(0)}}@keyframes tv0{from{transform:scaleY(0)}}
-body.stereo .pw .pb{transform:translateX(2px)}body.stereo .pw .pr{transform:translateX(-2px)}
+/* the waffle, stamped: inked on the card itself, hanging off its corner. Two passes, red and blue, pressed a hair out of
+   register, so where they overlap they print ink and the edges show a fringe; the ink is broken up like a rubber stamp's.
+   It lands after the card, with a press. */
+.stamp{position:absolute;right:-36px;top:-45px;width:153px;height:153px;z-index:3;pointer-events:none;transform:rotate(-9deg);overflow:visible}
+.stamp use{mix-blend-mode:multiply}
+.stamp .sr{fill:var(--red);transform:translate(-14px,8px)}.stamp .sb{fill:var(--blue);transform:translate(14px,-6px)}
+body.stereo .stamp .sr{transform:translate(-26px,8px)}body.stereo .stamp .sb{transform:translate(26px,-6px)}
+.pop[open] .stamp{animation:press .5s cubic-bezier(.3,1.4,.4,1) .45s both}
+@keyframes press{0%{opacity:0;transform:rotate(-14deg) scale(1.35);filter:blur(5px)}60%{opacity:1;filter:none}100%{opacity:1;transform:rotate(-9deg) scale(1)}}
 /* landing */
 .pop[open] .pop-main{animation:pland .6s cubic-bezier(.2,.7,.2,1) both}
 .pop[open] .pop-aux{animation:paux .7s cubic-bezier(.2,.7,.2,1) .08s both}
@@ -263,12 +261,12 @@ body.stereo .pw .pb{transform:translateX(2px)}body.stereo .pw .pr{transform:tran
   .pop-main{--rot:-.8deg}.pop-body{padding:18px 18px 9px;row-gap:18px}
   .pop-st .ln{white-space:normal}
   .pop-photo{--ar:9px;--ov:36px;width:135px;height:171px}
-  .pop-mark{--ar:9px;--ov:36px;width:117px;height:117px}.pw{width:54px;height:54px;margin:-27px 0 0 -27px;top:calc(50% - 9px)}
+  .stamp{width:99px;height:99px;right:-9px;top:-54px}
   .pop-st .ln{--x:calc(1.5 * var(--u));text-wrap:balance}
   .pop .j-form{grid-template-columns:1fr}
   .pop-stack{margin-block:126px 27px}
 }
-@media (prefers-reduced-motion:reduce){.pop[open] .pop-main,.pop[open] .pop-aux,.pop[open] .pp,.pop[open] .pw *,.pop[open]::backdrop{animation:none}}
+@media (prefers-reduced-motion:reduce){.pop[open] .pop-main,.pop[open] .pop-aux,.pop[open] .pp,.pop[open] .stamp,.pop[open]::backdrop{animation:none}}
 
 /* views: the home page is one screen; everything else is its own page, chosen by the address (#thesis, #colloquia ...) */
 [data-view][hidden]{display:none!important}
@@ -752,8 +750,7 @@ body.show-grid .ov{display:block}
      falls out of focus. After huyml.co's "Come say hi": a small stack of cards, a little askew, closed from the corner. -->
 <dialog class="pop" id="pop-subscribe" aria-labelledby="ps-h">
   <div class="pop-stack">
-    <div class="pop-card pop-aux pop-mark" aria-hidden="true"><svg class="pw" viewBox="16 16 1168 1168"><defs><mask id="pw-mh" maskUnits="userSpaceOnUse" x="-600" y="-600" width="2400" height="2400"><rect class="sh" style="--i:0" x="16" y="16" width="1168" height="147" fill="#fff"/><rect class="sh" style="--i:1" x="16" y="162" width="1168" height="147" fill="#fff"/><rect class="sh" style="--i:2" x="16" y="308" width="1168" height="147" fill="#fff"/><rect class="sh" style="--i:3" x="16" y="454" width="1168" height="147" fill="#fff"/><rect class="sh" style="--i:4" x="16" y="600" width="1168" height="147" fill="#fff"/><rect class="sh" style="--i:5" x="16" y="746" width="1168" height="147" fill="#fff"/><rect class="sh" style="--i:6" x="16" y="892" width="1168" height="147" fill="#fff"/><rect class="sh" style="--i:7" x="16" y="1038" width="1168" height="147" fill="#fff"/></mask><mask id="pw-mv" maskUnits="userSpaceOnUse" x="-600" y="-600" width="2400" height="2400"><rect class="sv" style="--i:0" x="16" y="16" width="147" height="1168" fill="#fff"/><rect class="sv" style="--i:1" x="162" y="16" width="147" height="1168" fill="#fff"/><rect class="sv" style="--i:2" x="308" y="16" width="147" height="1168" fill="#fff"/><rect class="sv" style="--i:3" x="454" y="16" width="147" height="1168" fill="#fff"/><rect class="sv" style="--i:4" x="600" y="16" width="147" height="1168" fill="#fff"/><rect class="sv" style="--i:5" x="746" y="16" width="147" height="1168" fill="#fff"/><rect class="sv" style="--i:6" x="892" y="16" width="147" height="1168" fill="#fff"/><rect class="sv" style="--i:7" x="1038" y="16" width="147" height="1168" fill="#fff"/></mask></defs><g class="pb"><g mask="url(#pw-mh)"><use href="#waffle" x="16" y="16" width="1168" height="1168"/></g></g><g class="pr"><g mask="url(#pw-mv)"><use href="#waffle" x="16" y="16" width="1168" height="1168"/></g></g></svg></div>
-    <div class="pop-card pop-main"><div class="pop-body">
+    <div class="pop-card pop-main"><svg class="stamp" viewBox="16 16 1168 1168" aria-hidden="true"><defs><filter id="stamp-ink1" x="-10%" y="-10%" width="120%" height="120%"><feTurbulence type="fractalNoise" baseFrequency=".035" numOctaves="3" seed="11" result="n"/><feColorMatrix in="n" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 -16 0 0 0 11.8" result="m"/><feComposite in="SourceGraphic" in2="m" operator="in"/></filter><filter id="stamp-ink2" x="-10%" y="-10%" width="120%" height="120%"><feTurbulence type="fractalNoise" baseFrequency=".035" numOctaves="3" seed="29" result="n"/><feColorMatrix in="n" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 -16 0 0 0 11.8" result="m"/><feComposite in="SourceGraphic" in2="m" operator="in"/></filter></defs><use class="sb" href="#waffle" x="16" y="16" width="1168" height="1168" filter="url(#stamp-ink2)"/><use class="sr" href="#waffle" x="16" y="16" width="1168" height="1168" filter="url(#stamp-ink1)"/></svg><div class="pop-body">
       <h2 class="st pop-st" id="ps-h">
         <span class="t serif ln">Follow along</span>
         <span class="t serif ln step"><svg class="hk" aria-hidden="true"><use href="#hook"/></svg>as it grows.</span>
