@@ -240,29 +240,34 @@ body.stereo .pp-r{transform:translateX(-3px)}body.stereo .pp-b{transform:transla
    platform and the pillars fall away behind. With or without glasses the picture turns a little as you move. */
 .pp-gl{position:absolute;inset:0;width:100%;height:100%;display:none}
 .pop-photo.gl .pp-gl{display:block}.pop-photo.gl .pp{display:none}
-/* the waffle, stamped on the card itself, hanging off its corner: two passes, red and blue, a hair out of register */
-.stamp{position:absolute;right:-36px;top:-45px;width:153px;height:153px;z-index:3;pointer-events:none;transform:rotate(-9deg);overflow:visible}
-.stamp use{mix-blend-mode:multiply}
-.stamp .sr{fill:var(--red);transform:translate(-14px,8px)}.stamp .sb{fill:var(--blue);transform:translate(14px,-6px)}
-body.stereo .stamp .sr{transform:translate(-26px,8px)}body.stereo .stamp .sb{transform:translate(26px,-6px)}
+/* the waffle: its own piece, over the popup's corner. The red and blue passes come in from either side and meet in
+   register, printing ink. In 3D they stop a little apart. */
+.pop-waffle{position:absolute;right:-27px;top:-90px;width:144px;height:144px;z-index:3;pointer-events:none;overflow:visible}
+.pop-waffle use{mix-blend-mode:multiply}
+.pop-waffle .sr{fill:var(--red)}.pop-waffle .sb{fill:var(--blue)}
+body.stereo .pop-waffle .sr{transform:translateX(-24px)}body.stereo .pop-waffle .sb{transform:translateX(24px)}
+.pop[open] .pop-waffle .sr{animation:pwr .9s cubic-bezier(.2,.7,.2,1) .2s both}
+.pop[open] .pop-waffle .sb{animation:pwb .9s cubic-bezier(.2,.7,.2,1) .2s both}
+@keyframes pwr{from{transform:translateX(-520px);opacity:0}}
+@keyframes pwb{from{transform:translateX(520px);opacity:0}}
 /* landing */
 .pop[open] .pop-main{animation:pland .6s cubic-bezier(.2,.7,.2,1) both}
 .pop[open] .pop-aux{animation:paux .7s cubic-bezier(.2,.7,.2,1) .08s both}
 @keyframes pland{from{opacity:0;filter:blur(6px);transform:translateY(27px) rotate(calc(var(--rot) * 3))}to{opacity:1;filter:none;transform:rotate(var(--rot))}}
 @keyframes paux{from{opacity:0;filter:blur(6px);transform:translateY(36px) rotate(calc(var(--rot) * 3))}}
-.pop.out .pop-main,.pop.out .pop-aux{animation:pout .26s cubic-bezier(.7,0,.2,1) both}
+.pop.out .pop-waffle,.pop.out .pop-main,.pop.out .pop-aux{animation:pout .26s cubic-bezier(.7,0,.2,1) both}
 @keyframes pout{to{opacity:0;filter:blur(6px);translate:0 18px}}
 .pop.flat .pop-main,.pop.flat .pop-aux{animation:none!important;transform:none!important}
 @media (max-width:720px){
   .pop-main{--rot:-.8deg}.pop-body{padding:18px 18px 9px;row-gap:18px}
   .pop-st .ln{white-space:normal}
   .pop-photo{--ar:9px;--ov:36px;width:135px;height:171px}
-  .stamp{width:99px;height:99px;right:-9px;top:-54px}
+  .pop-waffle{width:90px;height:90px;right:0;top:-63px}
   .pop-st .ln{--x:calc(1.5 * var(--u));text-wrap:balance}
   .pop .j-form{grid-template-columns:1fr}
   .pop-stack{margin-block:126px 27px}
 }
-@media (prefers-reduced-motion:reduce){.pop[open] .pop-main,.pop[open] .pop-aux,.pop[open] .pp,.pop[open]::backdrop{animation:none}}
+@media (prefers-reduced-motion:reduce){.pop[open] .pop-waffle use,.pop[open] .pop-main,.pop[open] .pop-aux,.pop[open] .pp,.pop[open]::backdrop{animation:none}}
 
 /* views: the home page is one screen; everything else is its own page, chosen by the address (#thesis, #colloquia ...) */
 [data-view][hidden]{display:none!important}
@@ -807,7 +812,7 @@ body.stereo .eh.in .eh-w::after{transform:translateX(.04em)}
      falls out of focus. After huyml.co's "Come say hi": a small stack of cards, a little askew, closed from the corner. -->
 <dialog class="pop" id="pop-subscribe" aria-labelledby="ps-h">
   <div class="pop-stack">
-    <div class="pop-card pop-main"><svg class="stamp" viewBox="16 16 1168 1168" aria-hidden="true"><use class="sb" href="#waffle" x="16" y="16" width="1168" height="1168"/><use class="sr" href="#waffle" x="16" y="16" width="1168" height="1168"/></svg><div class="pop-body">
+    <div class="pop-card pop-main"><div class="pop-body">
       <h2 class="st pop-st" id="ps-h">
         <span class="t serif ln">Follow along</span>
         <span class="t serif ln step"><svg class="hk" aria-hidden="true"><use href="#hook"/></svg>as it grows.</span>
@@ -818,6 +823,7 @@ body.stereo .eh.in .eh-w::after{transform:translateX(.04em)}
       <div class="pop-foot"><button class="pop-close t label" type="button">Close<svg class="pop-x" viewBox="0 0 12 12" aria-hidden="true"><path d="M1 1l10 10M11 1 1 11" fill="none" stroke="currentColor" stroke-width="1.25"/></svg></button></div>
     </div>
     </div>
+    <svg class="pop-waffle" viewBox="16 16 1168 1168" aria-hidden="true"><use class="sb" href="#waffle" x="16" y="16" width="1168" height="1168"/><use class="sr" href="#waffle" x="16" y="16" width="1168" height="1168"/></svg>
   </div>
 </dialog>
 <dialog class="pop" id="pop-contact" aria-labelledby="pc-h">
