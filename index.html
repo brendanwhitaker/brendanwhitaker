@@ -577,19 +577,19 @@ body.show-grid .ov{display:block}
 
 
 /* ---------- colloquia: one question, many lenses ----------
-   Each lens is printed in two passes. The one in use is in register, sharp; the others are soft, their passes apart.
-   Picking a lens racks focus: the question drifts out of register and blurs, changes, and is pulled back into focus. */
-.dm-list{grid-column:1/-1;margin-bottom:9px;display:flex;flex-wrap:wrap;gap:9px 36px;align-items:flex-start}
-.dm-b{appearance:none;-webkit-appearance:none;background:none;border:0;border-radius:0;margin-top:0;margin-bottom:0;padding-left:0;padding-right:0;cursor:pointer;position:relative;color:transparent;white-space:nowrap;--x:calc(2 * var(--u));font-family:var(--serif)}
-.dm-b::before,.dm-b::after{content:attr(data-t);position:absolute;left:0;top:0;padding-top:inherit;mix-blend-mode:multiply;transition:transform .5s cubic-bezier(.2,.7,.2,1),filter .5s}
-.dm-b::before{color:var(--red)}.dm-b::after{color:var(--blue)}
-.dm-b[aria-selected="false"]::before{transform:translateX(-2.5px);filter:blur(.9px)}
-.dm-b[aria-selected="false"]::after{transform:translateX(2.5px);filter:blur(.9px)}
-@media (hover:hover){.dm-b[aria-selected="false"]:hover::before,.dm-b[aria-selected="false"]:hover::after{transform:none;filter:none}}
-.dm-b:focus-visible{outline:2px solid var(--ink);outline-offset:3px}
+   The lenses are a plain list, like the menu: grey, blue on hover, and the one in use in ink with an arrow. The question
+   carries the focus: picking a lens pulls it out of register and back, sharp, on the new question. */
 .dm-p{grid-column:1/-1;row-gap:27px;align-content:start}
-.dm-p>*{grid-column:var(--c,1)/-1}
-.dm-q{grid-column:1/5;--x:clamp(calc(3 * var(--u)), round(down, 3.75cqw, var(--u)), calc(6 * var(--u)));min-height:calc(var(--x) * 4);position:relative;color:transparent;text-wrap:balance}
+.dm-p>.label{grid-column:1/-1;grid-row:1}
+.dm-list{grid-column:1;grid-row:2;display:grid;row-gap:0;justify-items:start;align-content:start}
+.dm-b{appearance:none;-webkit-appearance:none;background:none;border:0;border-radius:0;margin-top:0;margin-bottom:0;padding-left:0;padding-right:0;
+  cursor:pointer;color:var(--grey);white-space:nowrap;min-height:36px;text-align:left;transition:color .2s}
+.dm-b .dm-a{display:inline-block;width:0;opacity:0;transition:width .35s cubic-bezier(.2,.7,.2,1),opacity .2s}
+.dm-b[aria-selected="true"]{color:var(--ink)}
+.dm-b[aria-selected="true"] .dm-a{width:1.6em;opacity:1}
+@media (hover:hover){.dm-b[aria-selected="false"]:hover{color:var(--blue)}}
+.dm-b:focus-visible{outline:2px solid var(--ink);outline-offset:3px}
+.dm-q{grid-column:2/-1;grid-row:2;--x:clamp(calc(3 * var(--u)), round(down, 3.75cqw, var(--u)), calc(6 * var(--u)));min-height:calc(var(--x) * 4);position:relative;color:transparent;text-wrap:balance;max-width:16em}
 .dm-q::before,.dm-q::after{content:attr(data-t);position:absolute;left:0;top:0;right:0;padding-top:inherit;mix-blend-mode:multiply;text-wrap:balance}
 .dm-q::before{color:var(--red)}.dm-q::after{color:var(--blue)}
 body.stereo .dm-q::before{transform:translateX(-2px)}body.stereo .dm-q::after{transform:translateX(2px)}
@@ -597,9 +597,13 @@ body.stereo .dm-q::before{transform:translateX(-2px)}body.stereo .dm-q::after{tr
 .dm-q.out::after{transform:translateX(14px);filter:blur(8px);transition:transform .26s ease-in,filter .26s ease-in}
 .dm-q.pull::before{animation:dmr .7s cubic-bezier(.3,.6,.2,1) both}.dm-q.pull::after{animation:dmb .7s cubic-bezier(.3,.6,.2,1) both}
 @keyframes dmr{from{transform:translateX(-14px);filter:blur(8px)}}@keyframes dmb{from{transform:translateX(14px);filter:blur(8px)}}
-.dm-n{grid-column:1/3}
-@media (max-width:720px){.dm-list{gap:9px 27px}.dm-q{grid-column:1/-1}.dm-n{grid-column:1/-1}}
-@media (prefers-reduced-motion:reduce){.dm-b::before,.dm-b::after{transition:none}.dm-q.pull::before,.dm-q.pull::after{animation:none}}
+.dm-n{grid-column:2/4;grid-row:3}
+@media (max-width:720px){
+  .dm-list{grid-column:1/-1;grid-row:3;grid-template-columns:1fr 1fr;column-gap:var(--gap);justify-items:stretch}
+  .dm-q{grid-column:1/-1;grid-row:2;min-height:calc(var(--x) * 6)}
+  .dm-n{grid-column:1/-1;grid-row:4}
+}
+@media (prefers-reduced-motion:reduce){.dm-b,.dm-b .dm-a{transition:none}.dm-q.pull::before,.dm-q.pull::after{animation:none}}
 /* ---------- colloquia hero: AN ESSAY CLUB FOR BUILDERS ---------- */
 .eh-plate{position:relative}
 .eh-plate>.low{row-gap:18px}
@@ -728,9 +732,9 @@ body.stereo .eh.in .eh-w::after{transform:translateX(.04em)}
   <div class="low sub">
     <div class="dm-p sub" id="dm-p" role="tabpanel" aria-labelledby="dm-t0">
       <p class="t label" id="dm-l" style="--c:1">One question, many lenses</p>
-      <div class="dm-list" role="tablist" aria-labelledby="dm-l"><button class="dm-b t serif" type="button" role="tab" id="dm-t0" aria-selected="true" aria-controls="dm-p" data-q="What makes people want to do something?" data-t="Motivation">Motivation</button><button class="dm-b t serif" type="button" role="tab" id="dm-t1" aria-selected="false" aria-controls="dm-p" data-q="Is it skill that’s missing, or confidence?" data-t="Competence" tabindex="-1">Competence</button><button class="dm-b t serif" type="button" role="tab" id="dm-t2" aria-selected="false" aria-controls="dm-p" data-q="How far ahead can anyone really see?" data-t="Foresight" tabindex="-1">Foresight</button><button class="dm-b t serif" type="button" role="tab" id="dm-t3" aria-selected="false" aria-controls="dm-p" data-q="Who gains when things stay stuck?" data-t="Power" tabindex="-1">Power</button><button class="dm-b t serif" type="button" role="tab" id="dm-t4" aria-selected="false" aria-controls="dm-p" data-q="How do small changes add up, or cancel out?" data-t="Systems" tabindex="-1">Systems</button><button class="dm-b t serif" type="button" role="tab" id="dm-t5" aria-selected="false" aria-controls="dm-p" data-q="What holds an effort together: people, tools or rules?" data-t="Networks" tabindex="-1">Networks</button><button class="dm-b t serif" type="button" role="tab" id="dm-t6" aria-selected="false" aria-controls="dm-p" data-q="What does a neighborhood need to own to thrive?" data-t="Place" tabindex="-1">Place</button><button class="dm-b t serif" type="button" role="tab" id="dm-t7" aria-selected="false" aria-controls="dm-p" data-q="What does it take to make something real?" data-t="Matter" tabindex="-1">Matter</button></div>
+      <div class="dm-list" role="tablist" aria-labelledby="dm-l"><button class="dm-b t sans" type="button" role="tab" id="dm-t0" aria-selected="true" aria-controls="dm-p" data-q="What makes people want to do something?"><span class="dm-a" aria-hidden="true">→</span>Motivation</button><button class="dm-b t sans" type="button" role="tab" id="dm-t1" aria-selected="false" aria-controls="dm-p" data-q="Is it skill that’s missing, or confidence?" tabindex="-1"><span class="dm-a" aria-hidden="true">→</span>Competence</button><button class="dm-b t sans" type="button" role="tab" id="dm-t2" aria-selected="false" aria-controls="dm-p" data-q="How far ahead can anyone really see?" tabindex="-1"><span class="dm-a" aria-hidden="true">→</span>Foresight</button><button class="dm-b t sans" type="button" role="tab" id="dm-t3" aria-selected="false" aria-controls="dm-p" data-q="Who gains when things stay stuck?" tabindex="-1"><span class="dm-a" aria-hidden="true">→</span>Power</button><button class="dm-b t sans" type="button" role="tab" id="dm-t4" aria-selected="false" aria-controls="dm-p" data-q="How do small changes add up, or cancel out?" tabindex="-1"><span class="dm-a" aria-hidden="true">→</span>Systems</button><button class="dm-b t sans" type="button" role="tab" id="dm-t5" aria-selected="false" aria-controls="dm-p" data-q="What holds an effort together: people, tools or rules?" tabindex="-1"><span class="dm-a" aria-hidden="true">→</span>Networks</button><button class="dm-b t sans" type="button" role="tab" id="dm-t6" aria-selected="false" aria-controls="dm-p" data-q="What does a neighborhood need to own to thrive?" tabindex="-1"><span class="dm-a" aria-hidden="true">→</span>Place</button><button class="dm-b t sans" type="button" role="tab" id="dm-t7" aria-selected="false" aria-controls="dm-p" data-q="What does it take to make something real?" tabindex="-1"><span class="dm-a" aria-hidden="true">→</span>Matter</button></div>
       <p class="t serif dm-q" id="dm-q" aria-live="polite" data-t="What makes people want to do something?">What makes people want to do something?</p>
-      <p class="t sans measure dm-n">A few of the lenses the first season might take up. Each evening looks through one.</p>
+      <p class="t sans measure dm-n">Pick a lens. These are a few the first season might take up; each evening looks through one.</p>
     </div>
   </div>
 </section>
