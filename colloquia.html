@@ -564,6 +564,47 @@ body.show-grid .ov{display:block}
   .facts{grid-column:1/-1}.ssn-head{display:none}.ssn .ml{display:block}.ssn li>*{grid-column:1/-1!important}.ssn li{row-gap:9px}
 }
 @media (prefers-reduced-motion:reduce){*{transition:none!important}html.pre .hero-print .print{transform:none}.cue-line{animation:none}.loader{display:none!important}.idea .w{opacity:1}.idea.in .w,.idea.in .w::after{animation:none}.idea .w::after{opacity:1}}
+
+
+
+
+/* ---------- colloquia hero: AN ESSAY CLUB for BUILDERS ---------- */
+.eh-plate{position:relative;overflow:hidden}
+.eh-plate>.low{row-gap:18px}
+.eh-lab{grid-column:1/-1}
+.eh{grid-column:1/-1;margin:0;font-weight:inherit;white-space:nowrap;line-height:1;--fs:96px;font-size:var(--fs)}
+.eh-l{display:inline;white-space:nowrap}
+.eh-l+.eh-l{margin-left:0}
+.eh-w{display:inline-block;position:relative;font-family:var(--sans);font-weight:700;text-transform:uppercase;letter-spacing:-.045em;
+  color:var(--red);mix-blend-mode:multiply;line-height:.92}
+.eh-w::after{content:attr(data-t);position:absolute;left:0;top:0;color:var(--blue);mix-blend-mode:multiply;pointer-events:none}
+/* "for" is the hinge: Instrument Serif, italic, lower case, about half the height of the capitals, sitting on their baseline */
+.eh-for{font-family:var(--serif);font-weight:400;font-style:italic;text-transform:none;letter-spacing:0;font-size:.5em;margin-inline:.12em .04em}
+.eh-sub{grid-column:var(--c)/span 2}
+/* before: the two passes apart and soft. .in brings them into register. --ep (scroll) pulls them apart again as the line leaves. */
+@property --ep{syntax:'<number>';inherits:true;initial-value:0}
+.eh{--ep:0;filter:blur(calc(var(--ep) * var(--ep) * 14px))}
+.eh-w{opacity:0;transform:translateX(-.09em);filter:blur(10px);transition:opacity .5s,transform 1.6s cubic-bezier(.25,.6,.25,1),filter 1.6s cubic-bezier(.25,.6,.25,1);
+  transition-delay:calc(var(--i,0) * 160ms);translate:calc(var(--fs) * -.06 * var(--ep)) 0}
+.eh-w::after{transform:translateX(.18em);transition:transform 2.2s cubic-bezier(.25,.6,.25,1);transition-delay:calc(var(--i,0) * 160ms);translate:calc(var(--fs) * .12 * var(--ep)) 0}
+.eh.in .eh-w{opacity:1;transform:none;filter:none}
+.eh.in .eh-w::after{transform:none}
+body.stereo .eh.in .eh-w{transform:translateX(-.02em)}
+body.stereo .eh.in .eh-w::after{transform:translateX(.04em)}
+/* the room: words people might bring, out of focus until the headline is printed, then sharpening one by one */
+.eh-room{position:absolute;inset:81px var(--m) 45% var(--m);pointer-events:none}
+.eh-room span{position:absolute;left:var(--rx);top:var(--ry);color:var(--grey);white-space:nowrap;opacity:0;filter:blur(8px);
+  transition:opacity .9s,filter 1.4s cubic-bezier(.2,.7,.2,1);transition-delay:calc(1.4s + var(--d) * 260ms)}
+.eh-plate.in .eh-room span{opacity:1;filter:blur(1.5px)}
+.eh-plate.in .eh-room span:nth-child(3n+1){filter:none;color:var(--ink)}
+@media (max-width:720px){
+  .eh{margin-left:0;white-space:normal}
+  .eh-l{display:block;width:max-content}.eh-l+.eh-l{margin-left:0}
+  .eh-room{inset:81px var(--m) 58% var(--m)}
+  .eh-room span:nth-child(n+7){display:none}
+  .eh-sub{grid-column:1/-1}
+}
+@media (prefers-reduced-motion:reduce){.eh-w,.eh-w::after,.eh-room span{transition:none!important}}
 </style></head><body>
 
 <svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
@@ -639,6 +680,31 @@ body.show-grid .ov{display:block}
       <p class="t sans measure">I’m writing down how I think communities get stronger: people build, see, tell, and build again, together. The full version is on its way; subscribe and you’ll get it when it’s ready.</p>
       <div class="actions"><a class="btn" href="/#subscribe" data-pop="subscribe"><span class="tab"><svg aria-hidden="true"><use href="#arrow"/></svg></span><span class="bl t sans">Subscribe for updates</span></a></div>
     </div>
+  </div>
+</section>
+
+<!-- Colloquia hero. AN ESSAY CLUB for BUILDERS in the big Inter of the home page's idea, printed in two passes. The red pass
+     comes in from the left and the blue from the right, out of focus, like two co-hosts starting from different places; they meet
+     in register and multiply to ink. Around it, words from the room come into focus one by one. -->
+<section class="plate g eh-plate" id="essay" data-view="colloquia" aria-labelledby="h-essay">
+  <div class="eh-room" aria-hidden="true">
+    <span class="t sans" style="--rx:8%;--ry:14%;--d:0">motivation</span>
+    <span class="t sans" style="--rx:62%;--ry:9%;--d:1">who decides?</span>
+    <span class="t sans" style="--rx:34%;--ry:31%;--d:2">trust</span>
+    <span class="t sans" style="--rx:74%;--ry:36%;--d:3">incentives</span>
+    <span class="t sans" style="--rx:14%;--ry:48%;--d:4">attention</span>
+    <span class="t sans" style="--rx:52%;--ry:56%;--d:5">the long run</span>
+    <span class="t sans" style="--rx:84%;--ry:66%;--d:6">feedback</span>
+    <span class="t sans" style="--rx:26%;--ry:72%;--d:7">competence</span>
+  </div>
+  <div class="low sub">
+    <p class="t label eh-lab" style="--c:1">Builders’ Colloquia · Washington, DC</p>
+    <h1 class="eh" id="h-essay" aria-label="An essay club for builders">
+      <span class="eh-l"><span class="eh-w" data-t="An" aria-hidden="true">An</span> <span class="eh-w" data-t="essay" aria-hidden="true">essay</span></span>
+      <span class="eh-l"><span class="eh-w" data-t="club" aria-hidden="true">club</span> <span class="eh-w eh-for" data-t="for" aria-hidden="true">for</span></span>
+      <span class="eh-l"><span class="eh-w" data-t="builders" aria-hidden="true">builders</span></span>
+    </h1>
+    <p class="t sans measure eh-sub" style="--c:1">A few essays, read ahead. Two co-hosts open the question, then the whole room takes it up.</p>
   </div>
 </section>
 
@@ -1405,6 +1471,25 @@ addEventListener('keydown',function(e){if((e.key==='g'||e.key==='G')&&!/INPUT|TE
     .then(function(){btn.disabled=false;});
   });
   });
+})();
+/* colloquia hero: fit AN ESSAY CLUB for BUILDERS to the width (one line on wide screens, three on phones), print it once
+   the fonts are in, and let it slip out of register as it scrolls away */
+(function(){
+  var h=document.getElementById('h-essay');if(!h)return;var sec=document.getElementById('essay');
+  [].forEach.call(h.querySelectorAll('.eh-w'),function(w,i){w.style.setProperty('--i',i);});
+  function fit(){if(!h.getClientRects().length)return;h.style.setProperty('--fs','100px');
+    var phone=innerWidth<=720,avail=sec.querySelector('.low').getBoundingClientRect().width+(phone?0:(h.getBoundingClientRect().left<sec.querySelector('.low').getBoundingClientRect().left?0:0));
+    var lines=[].slice.call(h.querySelectorAll('.eh-l')),wide;
+    if(phone){wide=Math.max.apply(null,lines.map(function(l){return l.getBoundingClientRect().width;}));}
+    else{wide=lines.reduce(function(a,l){return a+l.getBoundingClientRect().width;},0)+(lines.length-1)*28;}
+    var fs=Math.floor(100*avail/wide*.98);h.style.setProperty('--fs',Math.max(40,Math.min(fs,phone?140:260))+'px');}
+  var shown=false;
+  function show(){if(shown||sec.hidden||!h.getClientRects().length)return;shown=true;fit();
+    requestAnimationFrame(function(){h.classList.add('in');sec.classList.add('in');});}
+  function scroll(){if(sec.hidden)return;var r=sec.getBoundingClientRect();var p=Math.min(1,Math.max(0,-r.top/(r.height*.7)));h.style.setProperty('--ep',p.toFixed(3));}
+  addEventListener('resize',fit);addEventListener('scroll',scroll,{passive:true});
+  (document.fonts&&document.fonts.ready?document.fonts.ready:Promise.resolve()).then(function(){setTimeout(show,250);});
+  new MutationObserver(function(){if(!sec.hidden){fit();setTimeout(show,700);}}).observe(sec,{attributes:true,attributeFilter:['hidden']});
 })();
 /* waitlist: a name and an address for a seat at the colloquia, into its own list (Supabase), separate from the
    subscribers. Insert-only with the public key; joining twice is treated as success. */
