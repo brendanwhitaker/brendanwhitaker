@@ -623,20 +623,7 @@ body.show-grid .ov{display:block}
 </section>
 
 <!-- 5 · Join. The bottom of the home page: the one thing to sign up for. -->
-<section class="plate g" id="join" data-view="home" aria-labelledby="h-join">
-  <div class="low sub">
-    <h2 class="st sub" id="h-join">
-      <span class="t label" style="--c:1">Subscribe</span>
-      <span class="t serif ln" style="--c:1">Follow along</span>
-      <span class="t serif ln step" style="--c:2"><svg class="hk" aria-hidden="true"><use href="#hook"/></svg>as it grows.</span>
-    </h2>
-    <div class="cap" style="--c:1">
-      <p class="t sans measure" id="formnote">Occasional updates on what I’m building, reading, and writing. A few emails a season, and you can leave any time.</p>
-      <form id="sub" class="j-form"><label class="vh" for="email">Email</label><input id="email" type="email" required placeholder="you@example.com"><button class="btn" type="submit"><span class="tab"><svg aria-hidden="true"><use href="#arrow"/></svg></span><span class="bl t sans">Subscribe</span></button></form>
-      <p class="t label">I’ll only use your email for these updates, and never share it.</p>
-    </div>
-  </div>
-</section>
+
 
 
 
@@ -1086,6 +1073,7 @@ function route(){
   root.dataset.view=v;viewSecs.forEach(function(s){s.hidden=s.dataset.view!==v;});foot.hidden=false;
   markNav();
   later();
+  if(h==='join')h='subscribe';
   if(h==='contact'||h==='subscribe'){setTimeout(function(){openPop(h);},reduce?0:400);}
   requestAnimationFrame(function(){requestAnimationFrame(function(){
     if(v==='home'&&el&&h!=='home')el.scrollIntoView({behavior:'auto'});else scrollTo(0,0);cueCheck();
@@ -1332,7 +1320,7 @@ addEventListener('keydown',function(e){if((e.key==='g'||e.key==='G')&&!/INPUT|TE
    nobody can read the list from the web. Signing up twice is treated as success. */
 (function(){
   var SB='https://cnihjooemzcanelzzvkt.supabase.co/rest/v1/subscribers',KEY='sb_publishable_RWxNKLL_RMMGyzFHYdpI-g_kUSk0nSP';
-  [['sub','formnote','email'],['sub2','formnote2','email2']].forEach(function(ids){
+  [['sub2','formnote2','email2']].forEach(function(ids){
   var form=document.getElementById(ids[0]),note=document.getElementById(ids[1]),orig=note.textContent,btn=form.querySelector('button');
   form.addEventListener('submit',function(e){e.preventDefault();
     var email=form.querySelector('#'+ids[2]).value.trim();if(!email)return;
