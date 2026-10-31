@@ -569,7 +569,10 @@ body.show-grid .ov{display:block}
 
 
 
-/* ---------- colloquia hero: AN ESSAY CLUB FOR BUILDERS ---------- */
+
+
+
+/* ---------- colloquia hero: A MULTIDIMENSIONAL ESSAY CLUB ---------- */
 .eh-plate{position:relative;overflow:hidden}
 .eh-plate>.low{row-gap:18px}
 .eh-lab{grid-column:1/-1}
@@ -682,7 +685,7 @@ body.stereo .eh.in .eh-w::after{transform:translateX(.04em)}
   </div>
 </section>
 
-<!-- Colloquia hero. AN ESSAY CLUB FOR BUILDERS in the big Inter of the home page's idea, printed in two passes. The red pass
+<!-- Colloquia hero. A MULTIDIMENSIONAL ESSAY CLUB in the big Inter of the home page's idea, printed in two passes. The red pass
      comes in from the left and the blue from the right, out of focus, like two co-hosts starting from different places; they meet
      in register and multiply to ink. Around it, words from the room come into focus one by one. -->
 <section class="plate g eh-plate" id="essay" data-view="colloquia" aria-labelledby="h-essay">
@@ -698,10 +701,10 @@ body.stereo .eh.in .eh-w::after{transform:translateX(.04em)}
   </div>
   <div class="low sub">
     <p class="t label eh-lab" style="--c:1">Builders’ Colloquia · Washington, DC</p>
-    <h1 class="eh" id="h-essay" aria-label="An essay club for builders">
-      <span class="eh-l"><span class="eh-w" data-t="An" aria-hidden="true">An</span> <span class="eh-w" data-t="essay" aria-hidden="true">essay</span></span>
-      <span class="eh-l"><span class="eh-w" data-t="club" aria-hidden="true">club</span> <span class="eh-w" data-t="for" aria-hidden="true">for</span></span>
-      <span class="eh-l"><span class="eh-w" data-t="builders" aria-hidden="true">builders</span></span>
+    <h1 class="eh" id="h-essay" aria-label="A multidimensional essay club">
+      <span class="eh-l"><span class="eh-w" data-t="A" aria-hidden="true">A</span></span>
+      <span class="eh-l"><span class="eh-w" data-t="multidimensional" aria-hidden="true">multidimensional</span></span>
+      <span class="eh-l"><span class="eh-w" data-t="essay" aria-hidden="true">essay</span> <span class="eh-w" data-t="club" aria-hidden="true">club</span></span>
     </h1>
     <p class="t sans measure eh-sub" style="--c:1">A few essays, read ahead. Two co-hosts open the question, then the whole room takes it up.</p>
   </div>
@@ -1471,7 +1474,7 @@ addEventListener('keydown',function(e){if((e.key==='g'||e.key==='G')&&!/INPUT|TE
   });
   });
 })();
-/* colloquia hero: fit AN ESSAY CLUB FOR BUILDERS to the width (one line on wide screens, three on phones), print it once
+/* colloquia hero: fit A MULTIDIMENSIONAL ESSAY CLUB to the width (one line on wide screens, three on phones), print it once
    the fonts are in, and let it slip out of register as it scrolls away */
 (function(){
   var h=document.getElementById('h-essay');if(!h)return;var sec=document.getElementById('essay');
@@ -1481,7 +1484,7 @@ addEventListener('keydown',function(e){if((e.key==='g'||e.key==='G')&&!/INPUT|TE
     var lines=[].slice.call(h.querySelectorAll('.eh-l')),wide;
     if(phone){wide=Math.max.apply(null,lines.map(function(l){return l.getBoundingClientRect().width;}));}
     else{wide=lines.reduce(function(a,l){return a+l.getBoundingClientRect().width;},0)+(lines.length-1)*28;}
-    var fs=Math.floor(100*avail/wide*.98);h.style.setProperty('--fs',Math.max(40,Math.min(fs,phone?140:260))+'px');}
+    var fs=Math.floor(100*avail/wide*.95);h.style.setProperty('--fs',Math.max(24,Math.min(fs,phone?140:260))+'px');}
   var shown=false;
   function show(){if(shown||sec.hidden||!h.getClientRects().length)return;shown=true;fit();
     requestAnimationFrame(function(){h.classList.add('in');sec.classList.add('in');});}
