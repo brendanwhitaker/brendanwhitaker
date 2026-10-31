@@ -1086,7 +1086,7 @@ function route(){
 }
 function markNav(){
   /* the place you're in: anywhere on the home page is Ecosystem (Join has no place of its own); the other pages by their view */
-  var h=here(),nv=document.querySelector('.h-nav'),cur=null,v=viewOf(h),want=popOpen&&popOpen.id==='pop-contact'?'contact':(h==='join'?h:(ORGV.indexOf(v)>=0?'home':v));
+  var h=here(),nv=document.querySelector('.h-nav'),cur=null,v=viewOf(h),want=ORGV.indexOf(v)>=0?'home':v;
   [].forEach.call(document.querySelectorAll('.h-a,.tk-l'),function(a){var on=(a.getAttribute('href').replace(/^\/#?|^#/,'')||'home')===want;a.setAttribute('aria-current',on?'page':'false');if(on&&a.classList.contains('h-a'))cur=a;});
   nv.classList.toggle('on',!!cur);
   if(cur){var arw=nv.querySelector('.h-arw'),nb=nv.getBoundingClientRect().top,cr=cur.getBoundingClientRect(),hl=document.querySelector('.h-list'),lh=parseFloat(getComputedStyle(hl).lineHeight),xh=parseFloat(getComputedStyle(hl).fontSize)*.72,
@@ -1176,7 +1176,7 @@ var photo3d=(function(){
 })();
 /* ---------- popups ---------- */
 (function(){var s=document.querySelector('.pp-r img'),b=document.getElementById('pp-b');if(s&&b){var i=s.cloneNode();i.alt='';b.appendChild(i);}})();
-var popOpen=null,popFrom=null;
+var popOpen=null,popFrom=null,popKey=false;
 function openPop(name){
   var d=document.getElementById('pop-'+name);if(!d||popOpen===d)return;
   if(popOpen)popOpen.close();
@@ -1188,7 +1188,7 @@ function openPop(name){
 }
 function closePop(){
   var d=popOpen;if(!d)return;popOpen=null;markNav();if(photo3d&&d.id==='pop-contact')setTimeout(photo3d.stop,300);
-  var done=function(){d.classList.remove('out');d.close();var to=popFrom&&popFrom.isConnected&&popFrom.getClientRects().length?popFrom:null;if(to)to.focus({preventScroll:true});};
+  var done=function(){d.classList.remove('out');d.close();var to=popFrom&&popFrom.isConnected&&popFrom.getClientRects().length?popFrom:null;/* back to where you were: by keyboard, focus returns to the link; by pointer, nothing is left focused, so the menu looks as it did */if(to&&popKey)to.focus({preventScroll:true});else if(document.activeElement&&document.activeElement.blur)document.activeElement.blur();};
   if(reduce){done();return;}d.classList.add('out');setTimeout(done,260);
 }
 [].forEach.call(document.querySelectorAll('.pop'),function(d){
@@ -1198,7 +1198,7 @@ function closePop(){
 });
 document.addEventListener('click',function(e){
   var a=e.target.closest&&e.target.closest('[data-pop]');if(!a||e.metaKey||e.ctrlKey||e.shiftKey)return;
-  e.preventDefault();e.stopPropagation();var name=a.dataset.pop;
+  e.preventDefault();e.stopPropagation();var name=a.dataset.pop;popKey=e.detail===0;
   if(document.documentElement.classList.contains('menu-open')){setMenu(false);setTimeout(function(){openPop(name);},300);}else openPop(name);
 },true);
 /* ---------- hero orbit ---------- */
