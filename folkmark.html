@@ -580,6 +580,8 @@ body.show-grid .ov{display:block}
   color:var(--red);mix-blend-mode:multiply;line-height:.92}
 .eh-w::after{content:attr(data-t);position:absolute;left:0;top:0;color:var(--blue);mix-blend-mode:multiply;pointer-events:none}
 .eh-sub{grid-column:var(--c)/span 2}
+/* like BUILD WHAT MATTERS on the home page: the big line runs the full width of the page, under the rail */
+html:not(.compact) .eh{margin-left:calc(-1 * (var(--rail) + var(--gap)))}html:not(.compact) .eh-plate{overflow:visible}
 /* before: the two passes apart and soft. .in brings them into register. --ep (scroll) pulls them apart again as the line leaves. */
 @property --ep{syntax:'<number>';inherits:true;initial-value:0}
 .eh{--ep:0;filter:blur(calc(var(--ep) * var(--ep) * 14px))}
@@ -1477,11 +1479,11 @@ addEventListener('keydown',function(e){if((e.key==='g'||e.key==='G')&&!/INPUT|TE
   var h=document.getElementById('h-essay');if(!h)return;var sec=document.getElementById('essay');
   [].forEach.call(h.querySelectorAll('.eh-w'),function(w,i){w.style.setProperty('--i',i);});
   function fit(){if(!h.getClientRects().length)return;h.style.setProperty('--fs','100px');
-    var phone=innerWidth<=720,avail=sec.querySelector('.low').getBoundingClientRect().width+(phone?0:(h.getBoundingClientRect().left<sec.querySelector('.low').getBoundingClientRect().left?0:0));
+    var phone=innerWidth<=720,low=sec.querySelector('.low').getBoundingClientRect(),avail=low.right-h.getBoundingClientRect().left;
     var lines=[].slice.call(h.querySelectorAll('.eh-l')),wide;
     if(phone){wide=Math.max.apply(null,lines.map(function(l){return l.getBoundingClientRect().width;}));}
     else{wide=lines.reduce(function(a,l){return a+l.getBoundingClientRect().width;},0)+(lines.length-1)*28;}
-    var fs=Math.floor(100*avail/wide*.98);h.style.setProperty('--fs',Math.max(40,Math.min(fs,phone?140:260))+'px');}
+    var fs=Math.floor(100*avail/wide*.995);h.style.setProperty('--fs',Math.max(40,Math.min(fs,phone?140:260))+'px');}
   var shown=false;
   function show(){if(shown||sec.hidden||!h.getClientRects().length)return;shown=true;fit();
     requestAnimationFrame(function(){h.classList.add('in');sec.classList.add('in');});}
