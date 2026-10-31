@@ -576,6 +576,30 @@ body.show-grid .ov{display:block}
 
 
 
+/* ---------- colloquia: one question, many lenses ----------
+   Each lens is printed in two passes. The one in use is in register, sharp; the others are soft, their passes apart.
+   Picking a lens racks focus: the question drifts out of register and blurs, changes, and is pulled back into focus. */
+.dm-list{grid-column:1/-1;margin-bottom:9px;display:flex;flex-wrap:wrap;gap:9px 36px;align-items:flex-start}
+.dm-b{appearance:none;-webkit-appearance:none;background:none;border:0;border-radius:0;margin-top:0;margin-bottom:0;padding-left:0;padding-right:0;cursor:pointer;position:relative;color:transparent;white-space:nowrap;--x:calc(2 * var(--u));font-family:var(--serif)}
+.dm-b::before,.dm-b::after{content:attr(data-t);position:absolute;left:0;top:0;padding-top:inherit;mix-blend-mode:multiply;transition:transform .5s cubic-bezier(.2,.7,.2,1),filter .5s}
+.dm-b::before{color:var(--red)}.dm-b::after{color:var(--blue)}
+.dm-b[aria-selected="false"]::before{transform:translateX(-2.5px);filter:blur(.9px)}
+.dm-b[aria-selected="false"]::after{transform:translateX(2.5px);filter:blur(.9px)}
+@media (hover:hover){.dm-b[aria-selected="false"]:hover::before,.dm-b[aria-selected="false"]:hover::after{transform:none;filter:none}}
+.dm-b:focus-visible{outline:2px solid var(--ink);outline-offset:3px}
+.dm-p{grid-column:1/-1;row-gap:27px;align-content:start}
+.dm-p>*{grid-column:var(--c,1)/-1}
+.dm-q{grid-column:1/5;--x:clamp(calc(3 * var(--u)), round(down, 3.75cqw, var(--u)), calc(6 * var(--u)));min-height:calc(var(--x) * 4);position:relative;color:transparent;text-wrap:balance}
+.dm-q::before,.dm-q::after{content:attr(data-t);position:absolute;left:0;top:0;right:0;padding-top:inherit;mix-blend-mode:multiply;text-wrap:balance}
+.dm-q::before{color:var(--red)}.dm-q::after{color:var(--blue)}
+body.stereo .dm-q::before{transform:translateX(-2px)}body.stereo .dm-q::after{transform:translateX(2px)}
+.dm-q.out::before{transform:translateX(-14px);filter:blur(8px);transition:transform .26s ease-in,filter .26s ease-in}
+.dm-q.out::after{transform:translateX(14px);filter:blur(8px);transition:transform .26s ease-in,filter .26s ease-in}
+.dm-q.pull::before{animation:dmr .7s cubic-bezier(.3,.6,.2,1) both}.dm-q.pull::after{animation:dmb .7s cubic-bezier(.3,.6,.2,1) both}
+@keyframes dmr{from{transform:translateX(-14px);filter:blur(8px)}}@keyframes dmb{from{transform:translateX(14px);filter:blur(8px)}}
+.dm-n{grid-column:1/3}
+@media (max-width:720px){.dm-list{gap:9px 27px}.dm-q{grid-column:1/-1}.dm-n{grid-column:1/-1}}
+@media (prefers-reduced-motion:reduce){.dm-b::before,.dm-b::after{transition:none}.dm-q.pull::before,.dm-q.pull::after{animation:none}}
 /* ---------- colloquia hero: AN ESSAY CLUB FOR BUILDERS ---------- */
 .eh-plate{position:relative}
 .eh-plate>.low{row-gap:18px}
@@ -694,30 +718,48 @@ body.stereo .eh.in .eh-w::after{transform:translateX(.04em)}
       <span class="eh-l"><span class="eh-w" data-t="club" aria-hidden="true">club</span> <span class="eh-w" data-t="for" aria-hidden="true">for</span></span>
       <span class="eh-l"><span class="eh-w" data-t="builders" aria-hidden="true">builders</span></span>
     </h1>
-    <p class="t sans measure eh-sub" style="--c:1">A few essays, read ahead. Two co-hosts open the question, then the whole room takes it up.</p>
+    <p class="t sans measure eh-sub" style="--c:1">Building is never one thing. Each evening, builders of every kind bring one question into focus and turn it until it has depth.</p>
   </div>
 </section>
 
-<!-- Colloquia. The landing page: what an evening is, as a short table high on the right; the statement and the waitlist low. -->
-<section class="plate g" id="colloquia" data-view="colloquia" hidden aria-labelledby="h-colloquia">
-  <div class="top sub">
-    <dl class="facts" aria-label="What an evening is">
-      <dt class="t label">Where</dt><dd class="t sans">Washington, DC, in person</dd>
-      <dt class="t label">When</dt><dd class="t sans">Evenings, every other week</dd>
-      <dt class="t label">Before</dt><dd class="t sans">Two or three short readings, sent ahead</dd>
-      <dt class="t label">In the room</dt><dd class="t sans">Two co-hosts open the question, then the whole room takes it up</dd>
-      <dt class="t label">Who</dt><dd class="t sans">Builders of every kind, new and seasoned</dd>
-    </dl>
-  </div>
+<!-- Colloquia · lenses. One question at a time: pick a lens and the page brings it into focus; the others stay soft,
+     their two passes apart. -->
+<section class="plate g" id="dims" data-view="colloquia" hidden aria-labelledby="dm-l">
   <div class="low sub">
-    <h2 class="st sub" id="h-colloquia">
-      <span class="t label" style="--c:1">Builders’ Colloquia</span>
-      <span class="t serif ln" style="--c:1">Evenings for builders,</span>
-      <span class="t serif ln step" style="--c:2" id="colloquia-last"><svg class="hk" aria-hidden="true"><use href="#hook"/></svg>in DC.</span>
+    <div class="dm-p sub" id="dm-p" role="tabpanel" aria-labelledby="dm-t0">
+      <p class="t label" id="dm-l" style="--c:1">One question, many lenses</p>
+      <div class="dm-list" role="tablist" aria-labelledby="dm-l"><button class="dm-b t serif" type="button" role="tab" id="dm-t0" aria-selected="true" aria-controls="dm-p" data-q="What makes people want to do something?" data-t="Motivation">Motivation</button><button class="dm-b t serif" type="button" role="tab" id="dm-t1" aria-selected="false" aria-controls="dm-p" data-q="Is it skill that’s missing, or confidence?" data-t="Competence" tabindex="-1">Competence</button><button class="dm-b t serif" type="button" role="tab" id="dm-t2" aria-selected="false" aria-controls="dm-p" data-q="How far ahead can anyone really see?" data-t="Foresight" tabindex="-1">Foresight</button><button class="dm-b t serif" type="button" role="tab" id="dm-t3" aria-selected="false" aria-controls="dm-p" data-q="Who gains when things stay stuck?" data-t="Power" tabindex="-1">Power</button><button class="dm-b t serif" type="button" role="tab" id="dm-t4" aria-selected="false" aria-controls="dm-p" data-q="How do small changes add up, or cancel out?" data-t="Systems" tabindex="-1">Systems</button><button class="dm-b t serif" type="button" role="tab" id="dm-t5" aria-selected="false" aria-controls="dm-p" data-q="What holds an effort together: people, tools or rules?" data-t="Networks" tabindex="-1">Networks</button><button class="dm-b t serif" type="button" role="tab" id="dm-t6" aria-selected="false" aria-controls="dm-p" data-q="What does a neighborhood need to own to thrive?" data-t="Place" tabindex="-1">Place</button><button class="dm-b t serif" type="button" role="tab" id="dm-t7" aria-selected="false" aria-controls="dm-p" data-q="What does it take to make something real?" data-t="Matter" tabindex="-1">Matter</button></div>
+      <p class="t serif dm-q" id="dm-q" aria-live="polite" data-t="What makes people want to do something?">What makes people want to do something?</p>
+      <p class="t sans measure dm-n">A few of the lenses the first season might take up. Each evening looks through one.</p>
+    </div>
+  </div>
+</section>
+
+<!-- Colloquia · depth. Two co-hosts are two views; the depth is in the gap between them. -->
+<section class="plate g" id="depth" data-view="colloquia" hidden aria-labelledby="h-depth">
+  <div class="low sub">
+    <h2 class="st sub" id="h-depth">
+      <span class="t label" style="--c:1">Two co-hosts, one room</span>
+      <span class="t serif ln" style="--c:1">One view is flat.</span>
+      <span class="t serif ln step" style="--c:2" id="depth-last"><svg class="hk" aria-hidden="true"><use href="#hook"/></svg>Two make depth.</span>
     </h2>
     <div class="cap" style="--c:1">
-      <p class="t sans measure">Each evening takes up one big question about how people and systems work: what makes people want to do something, how far ahead anyone can really see, who gains when things stay stuck. You don’t need to know the ideas already. Bring a question, or something you’ve seen in your own work.</p>
-      <p class="t sans measure">No slides, and nothing said in the room is quoted by name. I’m lining up co-hosts for the first season now. Join the waitlist and I’ll write when seats open.</p>
+      <p class="t sans measure">Your eyes see in depth because each sees from a slightly different place. The evenings work the same way. Two co-hosts read the same essays from different places and open the question. Then the room takes it up: people running programs, shaping policy, starting ventures and organizing neighborhoods, some new to the ideas and some who have built for decades.</p>
+      <p class="t sans measure">Two or three short readings, sent ahead. In person in DC, every other week. No slides, and nothing said in the room is quoted by name.</p>
+    </div>
+  </div>
+</section>
+
+<!-- Colloquia · a seat. The waitlist. -->
+<section class="plate g" id="colloquia" data-view="colloquia" hidden aria-labelledby="h-colloquia">
+  <div class="low sub">
+    <h2 class="st sub" id="h-colloquia">
+      <span class="t label" style="--c:1">The first season</span>
+      <span class="t serif ln" style="--c:1">Save a seat</span>
+      <span class="t serif ln step" style="--c:2" id="colloquia-last"><svg class="hk" aria-hidden="true"><use href="#hook"/></svg>in the room.</span>
+    </h2>
+    <div class="cap" style="--c:1">
+      <p class="t sans measure">I’m lining up co-hosts for the first season now. You don’t need to know the ideas already; bring a question, or something you’ve seen in your own work. Join the waitlist and I’ll write when seats open.</p>
       <form id="wait" class="a-form"><label class="vh" for="wait-name">Name</label><input id="wait-name" type="text" required maxlength="120" placeholder="Your name" autocomplete="name"><label class="vh" for="wait-email">Email</label><input id="wait-email" type="email" required placeholder="you@example.com" autocomplete="email"><button class="btn" type="submit"><span class="tab"><svg aria-hidden="true"><use href="#arrow"/></svg></span><span class="bl t sans">Join the waitlist</span></button></form>
       <p class="t sans measure" id="waitnote" aria-live="polite">I’ll only use this to invite you to sessions, and never share it.</p>
       <div class="actions"><a class="t sans" href="/#subscribe" data-pop="subscribe">Or subscribe for occasional updates</a></div>
@@ -1234,6 +1276,23 @@ var photo3d=(function(){
   addEventListener('pointermove',function(e){if(!run||e.pointerType!=='mouse')return;ptr=[(e.clientX/innerWidth-.5)*2,(e.clientY/innerHeight-.5)*2];});
   return {start:function(){if(!load())return;size();run=true;t0=0;cancelAnimationFrame(raf);raf=requestAnimationFrame(frame);},
           stop:function(){run=false;cancelAnimationFrame(raf);}};
+})();
+/* ---------- colloquia: pick a lens ---------- */
+(function(){
+  var list=document.querySelector('.dm-list');if(!list)return;
+  var q=document.getElementById('dm-q'),p=document.getElementById('dm-p'),bs=[].slice.call(list.querySelectorAll('.dm-b')),cur=0,tm=0;
+  function set(b){q.textContent=b.dataset.q;q.dataset.t=b.dataset.q;later();}
+  function pick(i,focus){
+    if(i===cur){if(focus)bs[i].focus();return;}
+    bs[cur].setAttribute('aria-selected','false');bs[cur].tabIndex=-1;cur=i;
+    var b=bs[i];b.setAttribute('aria-selected','true');b.tabIndex=0;if(focus)b.focus();p.setAttribute('aria-labelledby',b.id);
+    if(reduce){set(b);return;}
+    clearTimeout(tm);q.classList.remove('pull');q.classList.add('out');
+    tm=setTimeout(function(){set(b);q.classList.remove('out');void q.offsetWidth;q.classList.add('pull');tm=setTimeout(function(){q.classList.remove('pull');},750);},260);
+  }
+  bs.forEach(function(b,i){b.addEventListener('click',function(){pick(i,false);});});
+  list.addEventListener('keydown',function(e){var k={ArrowRight:1,ArrowDown:1,ArrowLeft:-1,ArrowUp:-1}[e.key];
+    if(k){e.preventDefault();pick((cur+k+bs.length)%bs.length,true);}else if(e.key==='Home'){e.preventDefault();pick(0,true);}else if(e.key==='End'){e.preventDefault();pick(bs.length-1,true);}});
 })();
 /* ---------- popups ---------- */
 (function(){var s=document.querySelector('.pp-r img'),b=document.getElementById('pp-b');if(s&&b){var i=s.cloneNode();i.alt='';b.appendChild(i);}})();
