@@ -26,6 +26,14 @@
     {
       "source": "/vote/:path*",
       "destination": "https://dipsgiving.brendanwhitaker.com/vote/:path*"
+    },
+    {
+      "source": "/diplomacy",
+      "destination": "https://diplomacy-steel.vercel.app/diplomacy"
+    },
+    {
+      "source": "/diplomacy/:path*",
+      "destination": "https://diplomacy-steel.vercel.app/diplomacy/:path*"
     }
   ]
 }
