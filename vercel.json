@@ -17,5 +17,15 @@
       "destination": "/#subscribe",
       "permanent": false
     }
+  ],
+  "rewrites": [
+    {
+      "source": "/vote",
+      "destination": "https://dipsgiving.brendanwhitaker.com/vote"
+    },
+    {
+      "source": "/vote/:path*",
+      "destination": "https://dipsgiving.brendanwhitaker.com/vote/:path*"
+    }
   ]
 }
