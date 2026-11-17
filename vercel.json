@@ -16,6 +16,16 @@
       "source": "/subscribe",
       "destination": "/#subscribe",
       "permanent": false
+    },
+    {
+      "source": "/diplomacy",
+      "destination": "/entente",
+      "permanent": true
+    },
+    {
+      "source": "/diplomacy/:path*",
+      "destination": "/entente/:path*",
+      "permanent": true
     }
   ],
   "rewrites": [
@@ -28,12 +38,12 @@
       "destination": "https://dipsgiving.brendanwhitaker.com/vote/:path*"
     },
     {
-      "source": "/diplomacy",
-      "destination": "https://diplomacy-steel.vercel.app/diplomacy"
+      "source": "/entente",
+      "destination": "https://diplomacy-steel.vercel.app/entente"
     },
     {
-      "source": "/diplomacy/:path*",
-      "destination": "https://diplomacy-steel.vercel.app/diplomacy/:path*"
+      "source": "/entente/:path*",
+      "destination": "https://diplomacy-steel.vercel.app/entente/:path*"
     }
   ]
 }
