@@ -135,7 +135,7 @@ html.compact .d3{grid-column:2/4}.h-end{grid-column:5;display:flex;justify-conte
    Its two bars are each printed in two passes; they separate as they move and land back in register as ink. */
 .menu{all:unset;box-sizing:border-box;cursor:pointer;display:none;align-items:flex-start;gap:12px;position:relative;z-index:96}
 html.compact .menu{display:inline-flex}
-html.compact .h-nav,html.compact .h-loc,html.compact .h-sub{display:none}
+html.compact .h-nav,html.compact .h-loc,html.compact .h-sub,html.compact .h-acct{display:none}
 html.compact .h-end{grid-column:2/-1}
 .menu .mb-l{margin-left:0;color:var(--ink)}
 .mb-i{position:relative;display:block;width:27px;height:18px}
@@ -190,11 +190,11 @@ html.menu-open .tk-l{opacity:1;animation:conv .9s cubic-bezier(.2,.7,.2,1) both;
 @keyframes conv{from{--tls:30;--tlb:8;opacity:0}20%{opacity:1}to{--tls:0;--tlb:0;opacity:1}}
 .tk-l:hover::before,.tk-l:focus-visible::before{opacity:0}
 .tk-foot>div{display:grid;align-content:start}
-.tk-c1{grid-column:2/4}.tk-c2{grid-column:4/-1}
+.tk-c1{grid-column:2/4}.tk-c2{grid-column:4/5}.tk-c3{grid-column:5/-1}
 @media (max-width:720px){
   .tk-n{display:none}
   .tk-l{grid-column:1/-1;--x:clamp(calc(3 * var(--u)), round(down, 11cqw, var(--u)), calc(5 * var(--u)))}
-  .tk-c1,.tk-c2{grid-column:1/-1}
+  .tk-c1,.tk-c2,.tk-c3{grid-column:1/-1}
   .tk-page{padding-block:99px 72px}
 }
 @media (prefers-reduced-motion:reduce){html.menu-open .tk-l{animation:none}.takeover{clip-path:none!important}}
@@ -652,7 +652,7 @@ body.stereo .eh.in .eh-w::after{transform:translateX(.04em)}
   <nav class="h-nav" aria-label="Main"><p class="t label h-nl">Menu</p><p class="t serif h-list"><a class="h-a" data-t="Ecosystem" href="/">Ecosystem</a><br><a class="h-a" data-t="Colloquia" href="/colloquia">Colloquia</a><br><a class="h-a" data-t="Work" href="/work">Work</a><br><a class="h-a" data-t="Contact" href="/#contact" data-pop="contact">Contact</a></p><svg class="h-arw" viewBox="0 0 27 18" aria-hidden="true"><path d="M1 9h24M20 4l5 5-5 5" fill="none" stroke="currentColor" stroke-width="1.25"/></svg></nav>
   <button class="d3" id="stereo" type="button" aria-pressed="false" aria-label="3D mode"><span class="t label d3-t">3D<span class="d3-o d3-off">Off</span><span class="d3-o d3-on">On</span></span><svg class="d3-g" viewBox="0 0 30 12" aria-hidden="true"><circle class="d3-l d3-lr" cx="7" cy="6" r="5"/><circle class="d3-l d3-lb" cx="23" cy="6" r="5"/><path class="d3-f" d="M2 6a5 5 0 1 0 10 0a5 5 0 1 0-10 0M18 6a5 5 0 1 0 10 0a5 5 0 1 0-10 0M12 6h6"/></svg></button>
   <p class="t label h-loc" id="time">Washington, DC</p>
-  <div class="h-end" data-cells><a class="t sans h-sub" href="/#subscribe" data-pop="subscribe">Subscribe</a><button class="menu" id="menubtn" type="button" aria-expanded="false" aria-controls="takeover"><span class="t label mb-l" id="mb-l">Menu</span><span class="mb-i" data-base="x" aria-hidden="true"><span class="bar b1"></span><span class="bar b2"></span></span></button></div>
+  <div class="h-end" data-cells><a class="t sans h-sub" href="/#subscribe" data-pop="subscribe">Subscribe</a><a class="t sans h-acct" href="/account" data-acct>Sign in</a><button class="menu" id="menubtn" type="button" aria-expanded="false" aria-controls="takeover"><span class="t label mb-l" id="mb-l">Menu</span><span class="mb-i" data-base="x" aria-hidden="true"><span class="bar b1"></span><span class="bar b2"></span></span></button></div>
 </header>
 <main id="top">
 <!-- 1 · Hero. The statement alone, low and left, ending on a cliffhanger the next screen answers. -->
@@ -903,6 +903,7 @@ body.stereo .eh.in .eh-w::after{transform:translateX(.04em)}
     <div class="g tk-foot">
       <div class="tk-c1"><p class="t label" id="tk-inq-l">For inquiries</p><p><button class="copy t sans" type="button" data-copy="hello@brendanwhitaker.com" data-label="tk-inq-l">hello@brendanwhitaker.com</button></p></div>
       <div class="tk-c2"><p class="t label">Washington, DC</p><p class="t sans" id="tk-time">Local time</p></div>
+      <div class="tk-c3"><p class="t label">Your account</p><p class="t sans"><a href="/account" data-acct>Sign in</a></p></div>
     </div>
   </div>
 </div>
@@ -1733,4 +1734,12 @@ function fireIdea(){clearTimeout(ideaT);if(document.documentElement.dataset.view
 ['wheel','touchmove','keydown'].forEach(function(ev){addEventListener(ev,function(){if(!document.documentElement.classList.contains('intro')&&document.documentElement.dataset.view==='home'&&!idea.classList.contains('in'))fireIdea();},{passive:true});});
 if(!document.documentElement.classList.contains('intro')&&document.documentElement.dataset.view==='home')(document.fonts&&document.fonts.ready?document.fonts.ready:Promise.resolve()).then(cueIdea);
 })();
+</script>
+<script>
+/* account: the site, Entente and Vote share one sign-in in this browser, so the header can greet a signed-in
+   person by name without loading anything. Signed out, it reads "Sign in"; both go to /account. */
+(function(){try{var s=JSON.parse(localStorage.getItem('sb-cnihjooemzcanelzzvkt-auth-token')||'null'),u=s&&(s.user||(s.currentSession&&s.currentSession.user));
+  if(!u)return;var n=(u.user_metadata&&u.user_metadata.display_name||'').trim();
+  [].forEach.call(document.querySelectorAll('[data-acct]'),function(a){a.textContent=n?n.split(/\s+/)[0]:'Your account';a.setAttribute('aria-label','Your account');});
+}catch(e){}})();
 </script>
