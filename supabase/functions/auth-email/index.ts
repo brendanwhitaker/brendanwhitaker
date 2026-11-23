@@ -25,7 +25,7 @@ export function appFor(redirectTo: string | undefined): string | undefined {
     const u = new URL(redirectTo);
     if (!/(^|\.)brendanwhitaker\.com$/.test(u.hostname) && !u.hostname.startsWith("dipsgiving")) return undefined;
     if (u.hostname.startsWith("dipsgiving") || /^\/vote\/dipsgiving(\/|$)/.test(u.pathname)) return "Dipsgiving";
-    if (/^\/(entente|diplomacy)(\/|$)/.test(u.pathname)) return "Entente";
+    if (/^\/(games\/entente|entente|diplomacy)(\/|$)/.test(u.pathname)) return "Entente";
     if (/^\/vote(\/|$)/.test(u.pathname)) return "Vote";
     return undefined;
   } catch {

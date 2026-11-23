@@ -18,13 +18,28 @@
       "permanent": false
     },
     {
+      "source": "/games",
+      "destination": "/games/entente",
+      "permanent": false
+    },
+    {
+      "source": "/entente",
+      "destination": "/games/entente",
+      "permanent": true
+    },
+    {
+      "source": "/entente/:path*",
+      "destination": "/games/entente/:path*",
+      "permanent": true
+    },
+    {
       "source": "/diplomacy",
-      "destination": "/entente",
+      "destination": "/games/entente",
       "permanent": true
     },
     {
       "source": "/diplomacy/:path*",
-      "destination": "/entente/:path*",
+      "destination": "/games/entente/:path*",
       "permanent": true
     }
   ],
@@ -38,12 +53,12 @@
       "destination": "https://dipsgiving.brendanwhitaker.com/vote/:path*"
     },
     {
-      "source": "/entente",
-      "destination": "https://diplomacy-steel.vercel.app/entente"
+      "source": "/games/entente",
+      "destination": "https://diplomacy-steel.vercel.app/games/entente"
     },
     {
-      "source": "/entente/:path*",
-      "destination": "https://diplomacy-steel.vercel.app/entente/:path*"
+      "source": "/games/entente/:path*",
+      "destination": "https://diplomacy-steel.vercel.app/games/entente/:path*"
     }
   ]
 }
