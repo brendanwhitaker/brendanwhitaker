@@ -43,9 +43,14 @@ input:focus-visible{box-shadow:inset 0 0 0 1.25px var(--ink);outline:0}
 .row{display:flex;flex-wrap:wrap;gap:9px}
 .note{font-size:13.74px;line-height:18px;margin:9px 0 0;min-height:18px}
 .note.bad{color:var(--red)}
-.places{list-style:none;margin:0;padding:0}
-.places li{display:flex;justify-content:space-between;gap:18px;padding:9px 0;border-top:1px solid var(--hair)}
-.places li:first-child{border-top:0}
+.list{list-style:none;margin:0 0 18px;padding:0}
+.list li{display:flex;justify-content:space-between;align-items:baseline;gap:18px;padding:9px 0;border-top:1px solid var(--hair)}
+.list li:first-child{border-top:0}
+.list .link{all:unset;cursor:pointer;color:var(--blue);text-decoration:underline;text-decoration-thickness:1px;text-underline-offset:4px;font-size:13.74px}
+fieldset{border:0;margin:0 0 18px;padding:0}
+legend{color:var(--grey);font-size:13.74px;line-height:18px;margin:0 0 9px;padding:0}
+fieldset .check{margin:0;padding:9px 0;border-top:1px solid var(--hair)}
+fieldset .check:first-of-type{border-top:0}
 [hidden]{display:none!important}
 @media (max-width:720px){h1{font-size:45px;line-height:54px}main{margin-top:45px}}
 </style>
@@ -71,18 +76,32 @@ input:focus-visible{box-shadow:inset 0 0 0 1.25px var(--ink);outline:0}
     <p class="muted" id="who"></p>
 
     <section>
-      <h2>Where you’ve been</h2>
-      <ul class="places" id="places"></ul>
-      <p class="small muted" id="no-places" hidden>Nothing yet. Your account is ready when you are.</p>
-    </section>
-
-    <section>
       <h2>Your name</h2>
       <form id="f-name">
         <label><span>What other people see across the site</span><input type="text" id="name" maxlength="40" autocomplete="name"></label>
         <label class="check small" id="name-games-row" hidden><input type="checkbox" id="name-games" checked> Also use it in Entente games I’m already in</label>
         <button class="btn">Save name</button>
         <p class="note" id="name-note" role="status"></p>
+      </form>
+    </section>
+
+    <section>
+      <h2>Contacts</h2>
+      <p class="small muted">Everyone you’ve played a game or voted with here. Hosts can invite contacts without needing their email address, and nobody sees yours.</p>
+      <ul class="list" id="contacts"></ul>
+      <p class="small muted" id="no-contacts" hidden>None yet. People show up here once you’ve shared a game or a vote.</p>
+    </section>
+
+    <section>
+      <h2>Groups</h2>
+      <p class="small muted">Your own lists of contacts, for inviting the same people together. Only you can see them.</p>
+      <ul class="list" id="groups"></ul>
+      <button class="btn" id="g-new" hidden>New group</button>
+      <form id="f-group" hidden>
+        <label><span>Group name</span><input type="text" id="g-name" maxlength="60" placeholder="Thursday game night"></label>
+        <fieldset id="g-pick"><legend>Who’s in it</legend></fieldset>
+        <div class="row"><button class="btn solid" id="g-save">Save group</button><button class="btn" type="button" id="g-cancel">Cancel</button><button class="btn bad" type="button" id="g-del" hidden>Delete group</button></div>
+        <p class="note" id="g-note" role="status"></p>
       </form>
     </section>
 
@@ -130,21 +149,30 @@ input:focus-visible{box-shadow:inset 0 0 0 1.25px var(--ink);outline:0}
   if(h.get('error')||h.get('error_code')){linkErr='That sign-in link has expired or was already used. Send yourself a fresh one.';history.replaceState(null,'',location.pathname);}
   // Same project and storage key as Entente and Vote, so one sign-in covers them all.
   var sb=supabase.createClient(URL_,KEY,{auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:true,flowType:'implicit'}});
-  var PLACES={entente:{name:'Entente',href:'/games/entente',what:'A Diplomacy-style game'},vote:{name:'Vote',href:'/vote',what:'Ranked-choice voting'}};
   var say=function(id,text,bad){var n=$(id);n.textContent=text||'';n.className='note'+(bad?' bad':'');};
   var msg=function(e){return (e&&(e.message||e.error_description))||'Something went wrong. Try again.';};
-  var since=function(d){try{return new Date(d).toLocaleDateString(undefined,{month:'short',year:'numeric'})}catch(_){return ''}};
   function busy(form,on){var b=form.querySelector('button');if(b)b.disabled=on;}
 
-  async function places(uid){
-    var out=[];
-    var e=await sb.from('dip_players').select('joined_at').eq('user_id',uid).order('joined_at').limit(1);
-    var eh=await sb.from('dip_games').select('created_at').eq('host_id',uid).order('created_at').limit(1);
-    var t=[e.data&&e.data[0]&&e.data[0].joined_at,eh.data&&eh.data[0]&&eh.data[0].created_at].filter(Boolean).sort()[0];
-    if(t)out.push({k:'entente',t:t});
-    var v=await sb.from('dipsgiving_members').select('joined_at').eq('user_id',uid).order('joined_at').limit(1);
-    if(v.data&&v.data[0])out.push({k:'vote',t:v.data[0].joined_at});
-    return out;
+  var contacts=[],groups=[],editing=null;
+  var nameOf=function(id){var c=contacts.find(function(c){return c.user_id===id});return c?c.name:'Someone'};
+  function li(left,sub,right){var l=document.createElement('li');l.innerHTML='<span><span class="t"></span><br><span class="small muted"></span></span>';
+    l.querySelector('.t').textContent=left;l.querySelector('.muted').textContent=sub;if(right)l.appendChild(right);return l;}
+  function drawContacts(){var ul=$('contacts');ul.innerHTML='';
+    contacts.forEach(function(c){ul.appendChild(li(c.name,c.shared===1?'Played or voted together once':'Played or voted together '+c.shared+' times'));});
+    $('no-contacts').hidden=contacts.length>0;$('g-new').hidden=!contacts.length||!$('f-group').hidden;}
+  function drawGroups(){var ul=$('groups');ul.innerHTML='';
+    groups.forEach(function(g){var b=document.createElement('button');b.className='link';b.textContent='Edit';b.onclick=function(){openGroup(g)};
+      ul.appendChild(li(g.name,g.members.length?g.members.map(nameOf).join(', '):'Nobody yet',b));});}
+  function openGroup(g){editing=g;$('f-group').hidden=false;$('g-new').hidden=true;$('g-del').hidden=!g;say('g-note','');
+    $('g-name').value=g?g.name:'';var fs=$('g-pick');fs.querySelectorAll('label').forEach(function(n){n.remove()});
+    contacts.forEach(function(c){var l=document.createElement('label');l.className='check';l.innerHTML='<input type="checkbox"> <span></span>';
+      l.querySelector('input').value=c.user_id;l.querySelector('input').checked=!!g&&g.members.indexOf(c.user_id)>=0;l.querySelector('span').textContent=c.name;fs.appendChild(l);});
+    $('g-name').focus();}
+  function closeGroup(){editing=null;$('f-group').hidden=true;drawContacts();}
+  async function loadPeople(){
+    var c=await sb.rpc('site_contacts');contacts=c.data||[];
+    var g=await sb.rpc('site_groups_list');groups=g.data||[];
+    drawContacts();drawGroups();
   }
 
   async function show(session){
@@ -156,15 +184,9 @@ input:focus-visible{box-shadow:inset 0 0 0 1.25px var(--ink);outline:0}
     $('name').value=meta.display_name||'';
     $('email').placeholder=u.email||'';
     if(meta.has_password){$('pw-h').textContent='Change password';$('pw-why').hidden=true;$('pw-btn').textContent='Change password';}
-    var list=$('places');list.innerHTML='';
-    var ps=[];try{ps=await places(u.id);}catch(_){}
-    ps.forEach(function(p){var P=PLACES[p.k],li=document.createElement('li');
-      li.innerHTML='<span><a></a><br><span class="small muted"></span></span><span class="small muted"></span>';
-      var a=li.querySelector('a');a.href=P.href;a.textContent=P.name;
-      li.querySelectorAll('.muted')[0].textContent=P.what;li.querySelectorAll('.muted')[1].textContent='Since '+since(p.t);
-      list.appendChild(li);});
-    $('no-places').hidden=ps.length>0;
-    $('name-games-row').hidden=!ps.some(function(p){return p.k==='entente'});
+    loadPeople();
+    var inGames=await sb.from('dip_players').select('game_id').eq('user_id',u.id).limit(1);
+    $('name-games-row').hidden=!(inGames.data&&inGames.data.length);
   }
 
   $('f-in').addEventListener('submit',async function(e){e.preventDefault();var f=this;busy(f,true);say('in-note','Sending…');
@@ -189,6 +211,15 @@ input:focus-visible{box-shadow:inset 0 0 0 1.25px var(--ink);outline:0}
     if(r.error)return say('pw-note',/reauth|recent/i.test(r.error.message)?'For safety, sign out and back in with an emailed link, then set your password.':msg(r.error),true);
     f.reset();say('pw-note','Password saved. You can sign in with it or with an emailed link.');});
 
+  $('g-new').onclick=function(){openGroup(null)};
+  $('g-cancel').onclick=closeGroup;
+  $('f-group').addEventListener('submit',async function(e){e.preventDefault();var f=this;
+    var ids=Array.prototype.map.call(f.querySelectorAll('fieldset input:checked'),function(i){return i.value});
+    var n=$('g-name').value.trim();if(!n)return say('g-note','Give the group a name.',true);
+    busy(f,true);var r=await sb.rpc('site_group_save',{gid:editing?editing.id:null,gname:n,members:ids});busy(f,false);
+    if(r.error)return say('g-note',msg(r.error),true);closeGroup();loadPeople();});
+  $('g-del').onclick=async function(){if(!editing)return;var r=await sb.rpc('site_group_delete',{gid:editing.id});
+    if(r.error)return say('g-note',msg(r.error),true);closeGroup();loadPeople();};
   $('out-here').onclick=async function(){await sb.auth.signOut({scope:'local'});location.reload();};
   $('out-all').onclick=async function(){await sb.auth.signOut({scope:'global'});location.reload();};
   $('del').addEventListener('input',function(){$('del-btn').disabled=this.value!=='DELETE';});
