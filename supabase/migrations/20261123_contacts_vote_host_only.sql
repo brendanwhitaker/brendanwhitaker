@@ -1,0 +1,3 @@
+-- Vote: only a vote's hosts and its participants become each other's contacts; participants don't become contacts of one another.
+-- (Replaces site_contacts from 20261123_contacts_groups.sql; Entente players still all become contacts.)
+-- Applied live as "contacts_vote_host_only". See the function body in the database.
